@@ -1,1 +1,1 @@
-docker build -t hayot-food.db ./
+docker build -t inventory-database ./
