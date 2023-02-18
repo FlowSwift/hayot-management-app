@@ -4,24 +4,15 @@ const port = 5000
 
 const { Pool, Client } = require('pg')
  
-// const client = new Client({
-//   user: process.env.POSTGRES_USER,
-//   host: process.env.POSTGRES_DB,
-//   database: process.env.POSTGRES_DB,
-//   password: process.env.POSTGRES_PASSWORD,
-//   port: process.env.POSTGRES_PORT,
-// })
-
 const client = new Client({
-  user: "postgres",
-  host: "postgres://postgres/db",
-  database: "products",
-  password: "docker",
-  port: "5432",
+  user: process.env.POSTGRES_USER,
+  host: process.env.POSTGRES_HOST,
+  database: process.env.POSTGRES_DB,
+  password: process.env.POSTGRES_PASSWORD,
+  port: process.env.POSTGRES_PORT,
 })
 
-console.log("LALALA" + process.env.POSTGRES_HOST)
-
+//attempt postgres connection
 client.connect((err) => {
   if (err) {
     console.error('connection error', err.stack)
