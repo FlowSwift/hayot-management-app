@@ -1,5 +1,5 @@
 FROM node:19
-ENV POSTGRES_HOST postgres://postgres/products-db
+ENV POSTGRES_HOST products-db
 ENV POSTGRES_USER postgres
 ENV POSTGRES_PASSWORD docker
 ENV POSTGRES_DB products
