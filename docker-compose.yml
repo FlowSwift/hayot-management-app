@@ -20,15 +20,16 @@ services:
       context: ./inventory-manager
       dockerfile: Dockerfile
     ports:
-      - 3000:3000
+      - 5000:5000
     volumes:
+      - /app/node_modules
       - ./inventory-manager/:/app
     environment:
       POSTGRES_HOST: products-db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: docker
       POSTGRES_DB: products
-      POSTGRES_PORT: 5432S
+      POSTGRES_PORT: 5432
     networks:
       hayot-management:
         aliases:
