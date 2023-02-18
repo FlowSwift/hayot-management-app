@@ -1,0 +1,45 @@
+services:
+  inventory-database:
+    image: postgres
+    volumes:
+      - products-db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: products
+    networks:
+      hayot-management:
+        aliases:
+          - products-db
+    build: 
+      context: ./inventory-database
+      dockerfile: Dockerfile
+
+  inventory-manager:
+    image: node:19
+    build: 
+      context: ./inventory-manager
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    volumes:
+      - ./inventory-manager/:/app
+    environment:
+      POSTGRES_HOST: products-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: products
+      POSTGRES_PORT: 5432S
+    networks:
+      hayot-management:
+        aliases:
+          - inventory-manager-api
+    command: node index.js
+
+networks:
+  hayot-management:
+    name: hayot-management
+
+
+
+volumes:
+  products-db:
