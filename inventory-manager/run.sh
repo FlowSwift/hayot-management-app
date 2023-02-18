@@ -1,0 +1,1 @@
+docker run -dp 5000:5000 --name inventory-manager --network hayot-management --mount type=volume,src=inventory-manager,target=/app/data inventory-manager
