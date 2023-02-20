@@ -34,7 +34,8 @@ services:
       hayot-management:
         aliases:
           - inventory-manager-api
-    command: node index.js
+    command: npm run dev
+#    command: tail -f #debugging option to keep container running
 
 networks:
   hayot-management:
