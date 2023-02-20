@@ -2,27 +2,16 @@ const express = require('express')
 const app = express()
 const port = 5000
 
-const { Pool, Client } = require('pg')
- 
-const client = new Client({
-  user: process.env.POSTGRES_USER,
-  host: process.env.POSTGRES_HOST,
-  database: process.env.POSTGRES_DB,
-  password: process.env.POSTGRES_PASSWORD,
-  port: process.env.POSTGRES_PORT,
-})
+const db = require("./db/queries")
 
-//attempt postgres connection
-client.connect((err) => {
-  if (err) {
-    console.error('connection error', err.stack)
-  } else {
-    console.log('connected')
+app.get('/', async (req, res) => {
+  try {
+    results = await db.query("SELECT * FROM brfands")
+    res.send(results.rows)
+  } catch (error) {
+    console.error(`ERROR: ${error}`)
+    res.status(500).send("Error")
   }
-})
-
-app.get('/', (req, res) => {
-  res.send('Hello World!')
 })
 
 app.listen(port, () => {
