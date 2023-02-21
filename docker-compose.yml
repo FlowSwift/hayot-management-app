@@ -37,6 +37,21 @@ services:
     command: npm run dev
 #    command: tail -f #debugging option to keep container running
 
+  client:
+    image: node:19
+    build: 
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    volumes:
+      - /app/node_modules
+      - ./client/:/app
+    networks:
+      hayot-management:
+    command: npm run start
+#    command: tail -f #debugging option to keep container running
+
 networks:
   hayot-management:
     name: hayot-management
