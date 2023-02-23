@@ -2,6 +2,7 @@ CREATE TABLE "products" (
   "id" SERIAL PRIMARY KEY,
   "name" text NOT NULL,
   "price" integer NOT NULL,
+  "weight" integer NOT NULL,
   "ean" char(13),
   "category_id" integer NOT NULL
 );
