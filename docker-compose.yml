@@ -1,6 +1,6 @@
 services:
   inventory-database:
-    image: postgres
+    image: postgres-db
     container_name: inventory-database
     volumes:
       - products-db:/var/lib/postgresql/data
@@ -16,7 +16,7 @@ services:
       dockerfile: Dockerfile
 
   inventory-manager:
-    image: node:19
+    image: inventory-manager
     container_name: inventory-manager
     build: 
       context: ./inventory-manager
@@ -40,7 +40,7 @@ services:
 #    command: tail -f #debugging option to keep container running
 
   client:
-    image: node:19
+    image: client
     container_name: client
     build: 
       context: ./client
