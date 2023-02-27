@@ -1,9 +1,9 @@
 CREATE TABLE "products" (
   "id" SERIAL PRIMARY KEY,
   "name" text NOT NULL,
-  "price" integer NOT NULL,
-  "weight" integer NOT NULL,
-  "ean" char(13),
+  "price" float NOT NULL,
+  "weight" integer NOT NULL, -- in grams
+  "ean" char(13), -- 13 chars barcode
   "category_id" integer NOT NULL
 );
 
