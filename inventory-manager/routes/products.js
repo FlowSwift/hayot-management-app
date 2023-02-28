@@ -19,17 +19,22 @@ router.get('/products', async (req, res) => {
 
 
 router.get('/products/:id', async (req, res, next) => {
-    let results, products
-    let id = Number(req.params.id)
-    if (isNaN(id)) {
-        return res.status(404)
+    try {
+        let results, products
+        let id = Number(req.params.id)
+        if (isNaN(id)) {
+            return res.status(404)
+        }
+        results = await productsQuery.getProductByID([id])
+        products = results.rows
+        if (products.length == 0) {
+            return res.status(404)
+        }
+        return res.send(products[0])
+    } catch (error) {
+        console.error(`ERROR: ${error}`)
+        res.status(500).send("Error")
     }
-    results = await productsQuery.getProductByID([id])
-    products = results.rows
-    if (products.length == 0) {
-        return res.status(404)
-    }
-    return res.send(products[0])
 })
 
 router.get('/products/name/:name', async (req, res) => {
