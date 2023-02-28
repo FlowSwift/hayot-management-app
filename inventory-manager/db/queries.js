@@ -13,19 +13,18 @@ const pool = new Pool({
  * 
  * @param {*} text db query string
  * @param {Array} params optional paramaters for the query string inside an array
- * @returns object results - pg.Result object of the query
+ * @returns the query results object or undefined upon error
  */
 async function queryDB(text, params) {
     let results
     try {
         results = await pool.query(text,params)
     } catch (error) {
-        console.error(`ERROR: ${error}`)
-        throw new Error(error)
+        console.error(`ERROR in queryDB: ${error}`)
+        console.trace(error)
+        results = undefined
     }
-    finally {
-        return results
-    }
+    return results
 }
   
 module.exports = {
