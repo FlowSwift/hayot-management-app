@@ -2,35 +2,11 @@
 const express = require("express");
 const db = require("../db/queries")
 const productsQuery = require("../db/products")
-
+const util = require("../helper/util")
 
 let router = express.Router();
 
-function setStatus (results, res) {
-    let status = 200
-    if (results === undefined) {
-        status = 500
-    }
-    else if(results === null) {
-        status = 404
-    }
-    return res.status(status)
-}
 
-function sendStatusMessage (res) {
-    let status = res.statusCode
-    switch (status) {
-        case 404:
-            res.send("Product not found")
-            break;
-        case 500:
-            res.send("Internal server error")
-            break;
-        default:
-            res.send(`Unkown error. Status: ${status}`)
-            break;
-    }
-}
 // fetch all products. NOTE pagination need to be added
 router.get('/products', async (req, res) => {
     let results = await db.queryDB("SELECT * FROM products")
@@ -51,9 +27,9 @@ router.get('/products/:id', async (req, res) => {
     // request handling
     product = await productsQuery.getProductByID([id])
     // response handling
-    setStatus(product, res)
+    util.setStatus(res,product)
     if (res.statusCode != 200) {
-        return sendStatusMessage(res)
+        return util.sendStatusMessage(res, "Product")
     }
     return res.send(product)
 })
