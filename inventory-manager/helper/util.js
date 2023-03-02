@@ -19,13 +19,12 @@ function setStatus (res, results) {
 /**
  * send a status message based on the current res status code
  * @param {*} res - http request res object
- * @param {*} itemType - type of item that was searched for in the DB
  */
-function sendStatusMessage (res, itemType="Item") {
+function sendStatusMessage (res) {
     let status = res.statusCode
     switch (status) {
         case 404:
-            res.send(itemType + " not found")
+            res.send("No results found")
             break;
         case 500:
             res.send("Internal server error")

@@ -14,7 +14,7 @@ router.get('/products', async (req, res) => {
     //response handling
     util.setStatus(res, results)
     if (res.statusCode != 200) {
-        return util.sendStatusMessage(res, "Products")
+        return util.sendStatusMessage(res)
     }
     return res.send(results.rows)
 })
@@ -32,7 +32,7 @@ router.get('/products/:id', async (req, res) => {
     // response handling
     util.setStatus(res,product)
     if (res.statusCode != 200) {
-        return util.sendStatusMessage(res, "Product")
+        return util.sendStatusMessage(res)
     }
     return res.send(product)
 })
