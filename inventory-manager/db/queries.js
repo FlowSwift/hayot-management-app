@@ -13,7 +13,9 @@ const pool = new Pool({
 /**
  * 
  * @param {*} text db query string
- * @param {Array} params optional paramaters for the query string inside an array, use undefined if there is no params
+ * @param {Array} params optional paramaters for the query string as an array. use undefined if there is no params
+ * @param {Number} limit max amount of results from the query
+ * @param {Number} offset offset to fetch results from in the DB
  * @returns the query results object or undefined upon error
  */
 async function queryDB(text, params, limit=25, offset=0) {
