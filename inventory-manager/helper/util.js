@@ -42,10 +42,10 @@ function sendStatusMessage (res) {
  * @returns Array of validated limit and object
  */
 function checkPagination(limit, offset) {
-    if (limit > 200 || limit < 1 || isNaN(limit)) {
+    if (limit > 200 || limit < 1 || isNaN(Number(limit))) {
         limit = 25
     }
-    if (offset < 0 || isNaN(limit)) {
+    if (offset < 0 || isNaN(Number(limit))) {
         offset = 0
     }
     return [limit, offset]
