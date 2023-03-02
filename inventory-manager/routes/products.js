@@ -9,11 +9,14 @@ let router = express.Router();
 
 // fetch all products. NOTE pagination need to be added
 router.get('/products', async (req, res) => {
+    // request handling
     let results = await db.queryDB("SELECT * FROM products")
-    if (results === undefined) {
-        return res.status(500).send("Error")
+    //response handling
+    util.setStatus(res, results)
+    if (res.statusCode != 200) {
+        return util.sendStatusMessage(res, "Products")
     }
-    res.send(results.rows)
+    return res.send(results.rows)
 })
 
 // fetch a product by ID
