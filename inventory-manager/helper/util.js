@@ -42,13 +42,18 @@ function sendStatusMessage (res) {
  * @returns Array of validated limit and object
  */
 function checkPagination(limit, offset) {
-    if (limit > 200 || limit < 1 || isNaN(Number(limit))) {
+    if (isNaN(Number(limit)) || limit > 200 || limit < 1) {
         limit = 25
     }
-    if (offset < 0 || isNaN(Number(limit))) {
+    if (isNaN(Number(offset)) || offset < 0) {
         offset = 0
     }
     return [limit, offset]
+}
+
+function addPagination(query, limit, offset) {
+    limit, offset = checkPagination(limit,offset);
+    return query + " LIMIT " + limit + " OFFSET " + offset;
 }
 
 module.exports = {
