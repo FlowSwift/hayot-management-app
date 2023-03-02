@@ -35,7 +35,24 @@ function sendStatusMessage (res) {
     }
 }
 
+/**
+ * validate limit and offset and set default values in the case of bad input
+ * @param {*} limit 
+ * @param {*} offset 
+ * @returns Array of validated limit and object
+ */
+function checkPagination(limit, offset) {
+    if (limit > 200 || limit < 1 || isNaN(limit)) {
+        limit = 25
+    }
+    if (offset < 0 || isNaN(limit)) {
+        offset = 0
+    }
+    return [limit, offset]
+}
+
 module.exports = {
     setStatus,
-    sendStatusMessage
+    sendStatusMessage,
+    checkPagination
 }

@@ -7,10 +7,10 @@ const util = require("../helper/util")
 let router = express.Router();
 
 
-// fetch all products. NOTE pagination need to be added
+// fetch all products. add limit and offset url queries params for pagination otherwise default would apply
 router.get('/products', async (req, res) => {
     // request handling
-    let results = await db.queryDB("SELECT * FROM products")
+    let results = await db.queryDB("SELECT * FROM products", undefined, req.query.limit, req.query.offset)
     //response handling
     util.setStatus(res, results)
     if (res.statusCode != 200) {

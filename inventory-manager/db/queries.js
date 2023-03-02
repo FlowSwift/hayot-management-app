@@ -1,5 +1,6 @@
 "use strict";
 const { Pool } = require('pg')
+const util = require("../helper/util")
  
 const pool = new Pool({
     user: process.env.POSTGRES_USER,
@@ -12,11 +13,14 @@ const pool = new Pool({
 /**
  * 
  * @param {*} text db query string
- * @param {Array} params optional paramaters for the query string inside an array
+ * @param {Array} params optional paramaters for the query string inside an array, use undefined if there is no params
  * @returns the query results object or undefined upon error
  */
-async function queryDB(text, params) {
+async function queryDB(text, params, limit=25, offset=0) {
     let results
+    [limit, offset] = util.checkPagination(limit, offset)
+    text = text + " LIMIT " + limit
+    text = text + " OFFSET " + offset
     try {
         results = await pool.query(text,params)
     } catch (error) {
