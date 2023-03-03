@@ -2,8 +2,7 @@
 const { query } = require("express");
 const db = require("../db/queries")
 const util = require("./util")
-
-const baseQuery = "SELECT * FROM products"; // base query to append on if needed
+const baseQuery = "SELECT products.id, products.name, products.price, categories.name AS category_name, brands.name AS brand_name, products.ean FROM products JOIN categories ON products.category_id = categories.id JOIN brands ON categories.brand_id = brands.id"; // base query to append on
 
 /**
  * get a list of products
