@@ -35,29 +35,8 @@ function sendStatusMessage (res) {
     }
 }
 
-/**
- * validate limit and offset and set default values in the case of bad input
- * @param {*} limit 
- * @param {*} offset 
- * @returns Array of validated limit and object
- */
-function checkPagination(limit, offset) {
-    if (isNaN(Number(limit)) || limit > 200 || limit < 1) {
-        limit = 25
-    }
-    if (isNaN(Number(offset)) || offset < 0) {
-        offset = 0
-    }
-    return [limit, offset]
-}
-
-function addPagination(query, limit, offset) {
-    limit, offset = checkPagination(limit,offset);
-    return query + " LIMIT " + limit + " OFFSET " + offset;
-}
 
 module.exports = {
     setStatus,
     sendStatusMessage,
-    checkPagination
 }
