@@ -39,7 +39,7 @@ router.get('/products/:id', async (req, res) => {
 
 /**
  * fetch products by name
- * use strict query paramater for substring search
+ * use strict query paramater for substring search //false by default
  * add limit and offset url queries params for pagination otherwise default would apply
  */
 router.get('/products/name/:name', async (req, res) => {
