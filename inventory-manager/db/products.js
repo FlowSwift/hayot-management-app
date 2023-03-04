@@ -76,9 +76,27 @@ async function getProductsBySubstring(substring, limit, offset) {
     return results.rows
 }
 
+/**
+ * fetch a product by EAN from the DB
+ * @param {Number} ean 
+ * @returns the product with a given EAN or undefined upon error/ null if no product was found
+ */ 
+async function getProductByEAN(ean) {
+    let query = baseQuery + " WHERE ean = $1";
+    let results = await db.queryDB(query, [ean])
+    if (results === undefined) {
+        return undefined
+    }
+    if (results.rowCount == 0) {
+        return null
+    }
+    return results.rows[0]
+}
+
 module.exports = {
     getProducts,
     getProductByID,
     getProductByName,
-    getProductsBySubstring
+    getProductsBySubstring,
+    getProductByEAN
 }

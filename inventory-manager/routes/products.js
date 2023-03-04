@@ -73,14 +73,31 @@ router.get('/products/name/:name', async (req, res) => {
     return res.send(results)
 })
 
+// fetch a product by EAN
 router.get('/products/ean/:ean', async (req, res) => {
-    try {
-        let results = await db.queryDB("SELECT * FROM products WHERE ean = $1", [req.params.ean])
-        res.send(results.rows)
-    } catch (error) {
-        console.error(`ERROR: ${error}`)
-        res.status(500).send("Error")
+    // parameter check
+    let valid = true
+    let results
+    let ean = Number(req.params.ean)
+    if (isNaN(ean) || ean.toString().length != 13) {
+        valid = false
     }
+    // request handling
+    if (valid) {
+        results = await productsQuery.getProductByEAN(ean)
+    }
+    else {
+        results = "invalid"
+    }
+    //response handling
+    if (results == "invalid") {
+        return res.status(400).send("Bad Request")
+    }
+    util.setStatus(res, results)
+    if (res.statusCode != 200) {
+        return util.sendStatusMessage(res)
+    }
+    return res.send(results)
 })
 
 module.exports = router;

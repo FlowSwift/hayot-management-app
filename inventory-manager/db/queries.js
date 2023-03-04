@@ -19,7 +19,6 @@ async function queryDB(text, params) {
     let results
     try {
         results = await pool.query(text,params)
-        console.log(results)
     } catch (error) {
         console.error(`ERROR in queryDB: ${error}`)
         console.trace(error)
