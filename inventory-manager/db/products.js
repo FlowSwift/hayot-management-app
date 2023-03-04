@@ -45,7 +45,7 @@ async function getProductByID (id) {
  * @returns Array of results or undefined upon error/ null if no products were found
  */
 async function getProductByName(name) {
-    let query = baseQuery + " WHERE name = $1"
+    let query = baseQuery + " WHERE products.name = $1"
     let results = await db.queryDB(query, [name]);
     if (results === undefined) {
         return undefined
@@ -65,7 +65,7 @@ async function getProductByName(name) {
  */
 async function getProductsBySubstring(substring, limit, offset) {
     //add conditions to base query and match name to a substring with any prefix and suffix
-    let query = baseQuery + " WHERE name iLIKE REPLACE('%?%', '?', $1)";
+    let query = baseQuery + " WHERE products.name iLIKE REPLACE('%?%', '?', $1)";
     query = util.addPagination(query, limit, offset);
     let results = await db.queryDB(query, [substring]);
     if (results === undefined) {
@@ -83,7 +83,7 @@ async function getProductsBySubstring(substring, limit, offset) {
  * @returns the product with a given EAN or undefined upon error/ null if no product was found
  */ 
 async function getProductByEAN(ean) {
-    let query = baseQuery + " WHERE ean = $1";
+    let query = baseQuery + " WHERE products.ean = $1";
     let results = await db.queryDB(query, [ean])
     if (results === undefined) {
         return undefined
