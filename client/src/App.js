@@ -1,4 +1,5 @@
 import './App.css';
+import ProductList from './ProductList';
 
 function App() {
   return (
@@ -7,15 +8,10 @@ function App() {
         <p>
           Hayot Management
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
       </header>
+      <main>
+        <ProductList />
+      </main>
     </div>
   );
 }
