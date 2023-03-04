@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import ProductCard from './ProductCard';
 
 export default class ProductList extends React.Component {
   state = {
@@ -8,10 +9,10 @@ export default class ProductList extends React.Component {
 
   componentDidMount() {
     axios.get(`http://localhost:5000/products/`)
-      .then(res => {
-        const products = res.data;
-        this.setState({ products });
-      })
+    .then(res => {
+      const products = res.data;
+      this.setState({ products });
+    })
   }
 
   render() {
@@ -20,7 +21,7 @@ export default class ProductList extends React.Component {
         {
           this.state.products
             .map(product =>
-              <li key={product.id}>{product.name}</li>
+              <ProductCard key={product.id} product={product} />
             )
         }
       </ul>
