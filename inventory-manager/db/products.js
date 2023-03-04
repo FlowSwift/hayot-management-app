@@ -28,7 +28,8 @@ async function getProducts(limit, offset) {
  * @returns the product with a given id or undefined upon error/ null if no product was found
  */
 async function getProductByID (id) {
-    let results = await db.queryDB("SELECT * FROM products WHERE id = $1", [id]);
+    let query = baseQuery + " WHERE products.id = $1"
+    let results = await db.queryDB(query, [id]);
     if (results === undefined) {
         return undefined
     }

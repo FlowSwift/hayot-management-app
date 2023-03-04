@@ -25,7 +25,7 @@ router.get('/products/:id', async (req, res) => {
     // parameter check
     let id = Number(req.params.id)
     if (isNaN(id)) {
-        return res.status(404)
+        return res.status(400).send("Bad Request")
     }
     // request handling
     product = await productsQuery.getProductByID(id)
