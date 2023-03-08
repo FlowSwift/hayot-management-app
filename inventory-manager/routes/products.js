@@ -100,4 +100,16 @@ router.get('/products/ean/:ean', async (req, res) => {
     return res.send(results)
 })
 
+// fetch list of products by brand
+router.get('/products/brand/:brand', async (req, res) => {
+    // request handling
+    let results = await productsQuery.getProductsByBrand(req.params.brand, req.query.limit, req.query.offset)
+    //response handling
+    util.setStatus(res, results)
+    if (res.statusCode != 200) {
+        return util.sendStatusMessage(res)
+    }
+    return res.send(results)
+})
+
 module.exports = router;

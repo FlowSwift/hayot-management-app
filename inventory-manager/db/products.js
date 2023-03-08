@@ -67,7 +67,9 @@ async function getProductsBySubstring(substring, limit, offset) {
     //add conditions to base query and match name to a substring with any prefix and suffix
     let query = baseQuery + " WHERE products.name iLIKE REPLACE('%?%', '?', $1)";
     query = util.addPagination(query, limit, offset);
+    //query
     let results = await db.queryDB(query, [substring]);
+    //error checking
     if (results === undefined) {
         return undefined
     }
@@ -94,10 +96,33 @@ async function getProductByEAN(ean) {
     return results.rows[0]
 }
 
+/**
+ * 
+ * @param {*} brand string of brand to query
+ * @param {*} limit maximum amount of results returned
+ * @param {*} offset offset of results
+ * @returns a list of products based on the given brand. returns undefined up error/ null for no results
+ */
+async function getProductsByBrand(brand, limit, offset) {
+    let query = baseQuery + " WHERE brands.name = $1";
+    query = util.addPagination(query, limit, offset);
+    //query
+    let results = await db.queryDB(query, [brand]);
+    //error checking
+    if (results === undefined) {
+        return undefined
+    }
+    if (results.rowCount == 0) {
+        return null
+    }
+    return results.rows
+}
+
 module.exports = {
     getProducts,
     getProductByID,
     getProductByName,
     getProductsBySubstring,
-    getProductByEAN
+    getProductByEAN,
+    getProductsByBrand
 }
