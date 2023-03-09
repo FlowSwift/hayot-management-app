@@ -1,5 +1,5 @@
 import './App.css';
-import ProductList from './products/ProductList';
+import ProductTable from './products/ProductTable';
 
 function App() {
   return (
@@ -10,7 +10,7 @@ function App() {
         </p>
       </header>
       <main>
-        <ProductList />
+        <ProductTable />
       </main>
     </div>
   );
