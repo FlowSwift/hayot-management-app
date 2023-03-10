@@ -103,7 +103,13 @@ router.get('/products/ean/:ean', async (req, res) => {
 // fetch list of products by brand
 router.get('/products/brand/:brand', async (req, res) => {
     // request handling
-    let results = await productsQuery.getProductsByBrand(req.params.brand, req.query.limit, req.query.offset)
+    let results
+    if (req.query.category) {
+        results = await productsQuery.getProductsByBrandCategory(req.params.brand, req.query.category, req.query.limit, req.query.offset)
+    }
+    else {
+        results = await productsQuery.getProductsByBrand(req.params.brand, req.query.limit, req.query.offset)
+    }
     //response handling
     util.setStatus(res, results)
     if (res.statusCode != 200) {

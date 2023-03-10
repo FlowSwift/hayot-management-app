@@ -118,11 +118,27 @@ async function getProductsByBrand(brand, limit, offset) {
     return results.rows
 }
 
+async function getProductsByBrandCategory(brand, category, limit, offset) {
+    let query = baseQuery + " WHERE brands.name = $1 and categories.name = $2";
+    query = util.addPagination(query, limit, offset);
+    //query
+    let results = await db.queryDB(query, [brand, category]);
+    //error checking
+    if (results === undefined) {
+        return undefined
+    }
+    if (results.rowCount == 0) {
+        return null
+    }
+    return results.rows
+}
+
 module.exports = {
     getProducts,
     getProductByID,
     getProductByName,
     getProductsBySubstring,
     getProductByEAN,
-    getProductsByBrand
+    getProductsByBrand,
+    getProductsByBrandCategory
 }
