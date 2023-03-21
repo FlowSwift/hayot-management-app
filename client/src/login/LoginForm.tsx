@@ -1,4 +1,7 @@
 import { FC, FormEvent, useState } from "react";
+import { Message } from '../styles/Message';
+import { Link } from 'react-router-dom';
+import { Form, Button } from "react-bootstrap";
 
 type LoginFormProps = {
   onSubmit: (username: string, password: string) => void;
@@ -14,25 +17,32 @@ const LoginForm: FC<LoginFormProps> = ({ onSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Username:
-        <input
+<Form onSubmit={handleSubmit}>
+      <Form.Group controlId="formBasicEmail">
+        <Form.Label>Username</Form.Label>
+        <Form.Control
           type="text"
+          placeholder="Enter username"
           value={username}
           onChange={(event) => setUsername(event.target.value)}
         />
-      </label>
-      <label>
-        Password:
-        <input
+      </Form.Group>
+
+      <Form.Group controlId="formBasicPassword">
+        <Form.Label>Password</Form.Label>
+        <Form.Control
           type="password"
+          placeholder="Password"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
         />
-      </label>
-      <button type="submit">Login</button>
-    </form>
+      </Form.Group>
+
+      <Button variant="primary" type="submit">
+        Submit
+      </Button>
+      <Message color="#007bff">New to us? <Link to="/signup">Sign Up</Link></Message>
+    </Form>
   );
 };
 
