@@ -4,15 +4,14 @@ import LoginPage from './login/LoginPage';
 import Navbar from './navbar/Navbar';
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import GlobalStyles from './styles/GlobalStyles';
 
 const App: React.FC = () => {
   return (
     <Router>
       <div className="App">
+        <GlobalStyles />
         <header className="App-header">
-          <p>
-            Hayot Management
-          </p>
           <Navbar />
         </header>
         <main>
