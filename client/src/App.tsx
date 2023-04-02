@@ -1,5 +1,8 @@
 import './App.css';
 import ProductTable from './products/ProductTable';
+import CategoryTable from './categories/CategoryTable';
+import BrandTable from './brands/BrandTable';
+import DashboardPage from './dashboard/DashboardPage';
 import LoginPage from './login/LoginPage';
 import Navbar from './navbar/Navbar';
 import React from "react";
@@ -17,9 +20,12 @@ const App: React.FC = () => {
         </header>
         <main>
           <Routes>
-            <Route path="/dashboard" element={<ProductTable />}></Route>
+            <Route path="/dashboard" element={<DashboardPage manageType="products" />}></Route>
+            <Route path="/categories" element={<DashboardPage manageType="categories" />}></Route>
+            <Route path="/brands" element={<DashboardPage manageType="brands" />}></Route>
             <Route path="/" element={<LoginPage />}></Route>
             <Route path="/signup" element={<SignUpPage />}></Route>
+            <Route path="/login" element={<LoginPage />}></Route>
           </Routes>
         </main>
       </div>

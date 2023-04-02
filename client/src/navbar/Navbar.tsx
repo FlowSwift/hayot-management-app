@@ -9,11 +9,11 @@ const Navbar: FC = () => {
     return (
         <NavbarContainer>
             <NavTitle>
-                {logo} Hayot Management
+                {logo} חיות במושבה
             </NavTitle>
             <NavLinks>
                 <NavLink>
-                    <Link to="/">Login</Link>
+                    <Link to="/login">Login</Link>
                 </NavLink>
                 <NavLink>
                     <Link to="/dashboard">Dashboard</Link>
