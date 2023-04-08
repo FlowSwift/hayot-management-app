@@ -1,18 +1,42 @@
 import styled from "styled-components";
 
 export const NavbarContainer = styled.div`
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
-  background-color: #f0f0f0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  padding: 5px 1rem;
+  background-color: var(--theme-primary);
+  color: var(--theme-background);
+
+  a {
+    color: var(--theme-background);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--bs-white);
+    }
+  }
 `;
 
 export const NavTitle = styled.h1`
   margin: 0;
   font-size: 18px;
-  color: #333;
+  color: var(--theme-background);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-grow: 1;
+
+  span {
+    display: block;
+    white-space: nowrap;
+  }
+
+  img {
+    max-width: 44px;
+    height: auto;
+  }
 `;
 
 export const NavLinks = styled.ul`
