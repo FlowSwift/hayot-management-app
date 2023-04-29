@@ -4,6 +4,7 @@ import ProductTable from "../products/ProductTable";
 import { Link } from "react-router-dom";
 import CategoryTable from "../categories/CategoryTable";
 import BrandTable from "../brands/BrandTable";
+import ProductActions from '../products/ProductActions';
 
 type User = {
   username: string;
@@ -44,6 +45,7 @@ const DashboardPage: FC<Props> = ({ manageType }) => {
       {user == null ? ( // TODO Check for user
         <div>
           <Subnavbar />
+          <ProductActions manageType={manageType} />
           {dataTable()}
         </div>
       ) : (

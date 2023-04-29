@@ -6,7 +6,10 @@ import Table from 'react-bootstrap/Table';
 interface Product {
   id: string;
   name: string;
+  category_name: string;
   brand_name: string;
+  ean: string;
+  price: number;
 }
 
 const ProductTable: FC = () => {
@@ -39,12 +42,15 @@ const ProductTable: FC = () => {
   } else {
     if (typeof (products) !== 'undefined' && products != null) {
       return (
-          <Table striped bordered hover>
+          <Table striped bordered hover size="sm">
             <thead>
               <tr>
-                <th>ID</th>
                 <th>Name</th>
                 <th>Brand</th>
+                <th>Quantity</th>
+                <th>ean</th>
+                <th>category_name</th>
+                <th>price</th>
               </tr>
             </thead>
             <tbody>
