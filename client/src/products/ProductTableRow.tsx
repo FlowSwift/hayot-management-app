@@ -26,23 +26,44 @@ interface Props {
 const ProductTableRow: FC<Props> = ({ product }) => {
     const editIcon = <FontAwesomeIcon icon={faPencil} />
     const [showModal, setShowModal] = useState(false);
-    const [name, setName] = useState(product.name);
-    const [brand_name, setBrand] = useState(product.brand_name);
+    const [id, setId]               = useState(product.id);
+    const [name, setName]           = useState(product.name);
+    const [category_name, setCategory]    = useState(product.category_name);
+    const [brand_name, setBrand]    = useState(product.brand_name);
+    const [ean, setEan]             = useState(product.ean);
+    // const [price, setPrice]         = useState(Number(product.price).toFixed(2));
+    const [price, setPrice]         = useState(product.price);
+    const [weight, setWeight]        = useState(product.weight);
 
     const handleClose = () => setShowModal(false);
     const handleOpen = () => setShowModal(true);
 
+    /*
+    const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+        const value = evt.target.value;
+        setState({
+          ...state,
+          [evt.target.name]: value
+        });
+    }
+    */
+
     const handleSave = async () => {
+        const prod = {
+            id: id,
+            name: name, 
+            price: 1337, 
+            weight: 130, 
+            ean: ean, 
+            brand_name: brand_name,
+            category_name: category_name
+        };
+        console.log('react')
+        console.log(prod);
+        
         try {
             const { data: response } = await axios.put('http://localhost:5000/products/',
-            {
-              id: 2,
-              name: "blabla", 
-              price: 1337, 
-              weight: "blabla", 
-              ean: "blabla", 
-              brand_name: "blabla",
-              category_name: "blabla"});
+            prod);
           }
           catch{
       
@@ -51,6 +72,8 @@ const ProductTableRow: FC<Props> = ({ product }) => {
           handleClose();
     };
 
+    // Modal should use state
+    // Table should use passed in params
     return (
         <tr>
             <td className="align-middle">
@@ -69,7 +92,22 @@ const ProductTableRow: FC<Props> = ({ product }) => {
 
                             <Form.Group controlId="formProductBrand">
                                 <Form.Label>Brand</Form.Label>
-                                <Form.Control as="textarea" value={brand_name} onChange={(e) => setBrand(e.target.value)} />
+                                <Form.Control type="text" value={brand_name} onChange={(e) => setBrand(e.target.value)} />
+                            </Form.Group>
+
+                            <Form.Group controlId="formProductCategory">
+                                <Form.Label>Category</Form.Label>
+                                <Form.Control type="text" value={category_name} onChange={(e) => setCategory(e.target.value)} />
+                            </Form.Group>
+
+                            {/* <Form.Group controlId="formProductPrice">
+                                <Form.Label>Price</Form.Label>
+                                <Form.Control type="text" value={price} onChange={(e) => setPrice((e.target.value))} />
+                            </Form.Group> */}
+
+                            <Form.Group controlId="formProductWeight">
+                                <Form.Label>Weight</Form.Label>
+                                <Form.Control type="text" value={weight} onChange={(e) => setWeight(parseFloat(e.target.value))} />
                             </Form.Group>
                         </Form>
                     </Modal.Body>

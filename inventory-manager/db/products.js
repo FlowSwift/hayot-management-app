@@ -2,7 +2,16 @@
 const { query } = require("express");
 const db = require("../db/queries")
 const util = require("./util")
-const baseQuery = "SELECT products.id, products.name, products.price, categories.name AS category_name, brands.name AS brand_name, products.ean FROM products JOIN categories ON products.category_id = categories.id JOIN brands ON categories.brand_id = brands.id"; // base query to append on
+const baseQuery = 
+`SELECT 
+products.id, 
+products.name, 
+products.price, 
+categories.name AS category_name, 
+brands.name AS brand_name, 
+products.ean,
+products.weight 
+FROM products JOIN categories ON products.category_id = categories.id JOIN brands ON categories.brand_id = brands.id`; // base query to append on
 
 /**
  * get a list of products
@@ -29,6 +38,7 @@ async function getProducts(limit, offset) {
  */
 async function getProductByID (id) {
     let query = baseQuery + " WHERE products.id = $1"
+    query = orderQuery + " ORDER by products.id asc"
     let results = await db.queryDB(query, [id]);
     if (results === undefined) {
         return undefined
