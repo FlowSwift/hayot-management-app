@@ -118,6 +118,17 @@ router.get('/products/brand/:brand', async (req, res) => {
     return res.send(results)
 })
 
+router.post('/products', async (req, res) => {
+    // request handling
+    let results = await productsQuery.getProducts(req.query.limit, req.query.offset)
+    //response handling
+    util.setStatus(res, results)
+    if (res.statusCode != 200) {
+        return util.sendStatusMessage(res)
+    }
+    return res.send(results)
+})
+
 router.put('/products', async (req, res) => {
     console.log(req.body)
     // request handling
