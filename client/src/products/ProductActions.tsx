@@ -1,4 +1,5 @@
 import { FC, useState, useEffect } from 'react';
+import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import Button from 'react-bootstrap/Button';
@@ -8,9 +9,13 @@ import Row from 'react-bootstrap/Row';
 import Modal from 'react-bootstrap/Modal';
 
 interface Product {
-  id: string;
+  id: number;
   name: string;
+  category_name: string;
   brand_name: string;
+  ean: string;
+  price: number;
+  weight: number;
 }
 
 interface Props {
@@ -26,9 +31,23 @@ const ProductActions: FC<Props> = ({ manageType }) => {
   const handleClose = () => setShowModal(false);
   const handleOpen = () => setShowModal(true);
 
-  const handleSave = () => {
-    // Submit edited product details to server
-    handleClose();
+  const handleSave = async () => {
+    // try {
+    //   const { data: response } = await axios.put('http://localhost:5000/products/',
+    //   {
+    //     id: 2,
+    //     name: "blabla", 
+    //     price: 1337, 
+    //     weight: "blabla", 
+    //     ean: "blabla", 
+    //     brand_name: "blabla", 
+    //     category_name: "blabla"});
+    // }
+    // catch{
+
+    // }
+    // // Submit edited product details to server
+    // //handleClose();
   };
 
   return (

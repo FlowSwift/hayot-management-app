@@ -133,6 +133,26 @@ async function getProductsByBrandCategory(brand, category, limit, offset) {
     return results.rows
 }
 
+/**
+ * update a product by ID
+ * @param {Array} id - params array with id of Number type
+ * @returns the product with a given id or undefined upon error/ null if no product was found
+ */
+async function updateProductByID (product) {
+    // deconstruct product
+    const {name, price, weight, ean, brand_name, category_name, id} = product
+    let query = "UPDATE products SET name = $1, price = $2, weight = $3, ean = $4 WHERE id = $5 RETURNING id, name"
+    let results = await db.queryDB(query, [name, price, weight, ean, id]);
+    //error handling
+    if (results === undefined) {
+        return undefined
+    }
+    if (results.rowCount == 0) {
+        return null
+    }
+    return results.rows
+}
+
 module.exports = {
     getProducts,
     getProductByID,
@@ -140,5 +160,6 @@ module.exports = {
     getProductsBySubstring,
     getProductByEAN,
     getProductsByBrand,
-    getProductsByBrandCategory
+    getProductsByBrandCategory,
+    updateProductByID
 }

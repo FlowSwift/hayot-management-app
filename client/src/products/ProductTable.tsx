@@ -4,12 +4,13 @@ import ProductTableRow from './ProductTableRow';
 import Table from 'react-bootstrap/Table';
 
 interface Product {
-  id: string;
+  id: number;
   name: string;
   category_name: string;
   brand_name: string;
   ean: string;
   price: number;
+  weight: number;
 }
 
 const ProductTable: FC = () => {
