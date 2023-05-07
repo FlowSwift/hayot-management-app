@@ -25,7 +25,7 @@ docker run -it --entrypoint /bin/bash testimage -s
 
 ## Database
 
-Access terminal from `inventory-database` container
+Access terminal from `inventory-database` container. Delete volume if need to reset database content.
 
 Connect to database:
 

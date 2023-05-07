@@ -2,12 +2,7 @@ import { FC, useState, useEffect } from 'react';
 import axios from 'axios';
 import CategoryTableRow from './CategoryTableRow';
 import Table from 'react-bootstrap/Table';
-
-interface Category {
-  id: string;
-  name: string;
-  brand_name: string;
-}
+import { Category } from "../common/types";
 
 const CategoryTable: FC = () => {
   const [loading, setLoading] = useState(true);

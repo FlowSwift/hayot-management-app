@@ -2,11 +2,7 @@ import { FC, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil } from '@fortawesome/free-solid-svg-icons'
 import { Button, Modal, Form } from 'react-bootstrap';
-
-interface Brand {
-    id: string;
-    name: string;
-}
+import { Brand } from "../common/types";
 
 interface Props {
     brand: Brand

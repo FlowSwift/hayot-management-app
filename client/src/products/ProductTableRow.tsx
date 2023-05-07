@@ -8,17 +8,7 @@ import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
-
-interface Product {
-    id: number;
-    name: string;
-    category_name: string;
-    brand_name: string;
-    ean: string;
-    quantity: number;
-    price: number;
-    weight: number;
-}
+import { Product } from "../common/types";
 
 interface Props {
     product: Product

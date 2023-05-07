@@ -7,17 +7,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Modal from 'react-bootstrap/Modal';
-
-interface Product {
-  id: number;
-  name: string;
-  category_name: string;
-  brand_name: string;
-  ean: string;
-  quantity: number;
-  price: number;
-  weight: number;
-}
+// import { Product } from "../common/types";
 
 interface Props {
   manageType: string | undefined
