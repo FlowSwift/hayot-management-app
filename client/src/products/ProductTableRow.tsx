@@ -15,6 +15,7 @@ interface Product {
     category_name: string;
     brand_name: string;
     ean: string;
+    quantity: number;
     price: number;
     weight: number;
 }
@@ -32,6 +33,7 @@ const ProductTableRow: FC<Props> = ({ product }) => {
     const [brand_name, setBrand]    = useState(product.brand_name);
     const [ean, setEan]             = useState(product.ean);
     // const [price, setPrice]         = useState(Number(product.price).toFixed(2));
+    const [quantity, setQuantity]         = useState(product.quantity);
     const [price, setPrice]         = useState(product.price);
     const [weight, setWeight]        = useState(product.weight);
 
@@ -52,8 +54,9 @@ const ProductTableRow: FC<Props> = ({ product }) => {
         const prod = {
             id: id,
             name: name, 
-            price: 1337, 
-            weight: 130, 
+            quantity: quantity,
+            price: price, 
+            weight: weight, 
             ean: ean, 
             brand_name: brand_name,
             category_name: category_name
@@ -100,10 +103,15 @@ const ProductTableRow: FC<Props> = ({ product }) => {
                                 <Form.Control type="text" value={category_name} onChange={(e) => setCategory(e.target.value)} />
                             </Form.Group>
 
-                            {/* <Form.Group controlId="formProductPrice">
+                            <Form.Group controlId="formProductQuantity">
+                                <Form.Label>Quantity</Form.Label>
+                                <Form.Control type="text" value={quantity} onChange={(e) => setQuantity(parseFloat(e.target.value))} />
+                            </Form.Group>
+
+                            <Form.Group controlId="formProductPrice">
                                 <Form.Label>Price</Form.Label>
-                                <Form.Control type="text" value={price} onChange={(e) => setPrice((e.target.value))} />
-                            </Form.Group> */}
+                                <Form.Control type="text" value={price} onChange={(e) => setPrice(parseFloat(e.target.value))} />
+                            </Form.Group>
 
                             <Form.Group controlId="formProductWeight">
                                 <Form.Label>Weight</Form.Label>
@@ -132,6 +140,7 @@ const ProductTableRow: FC<Props> = ({ product }) => {
                             <Form.Control
                                 id="amountInput"
                                 placeholder="0"
+                                value={product.quantity}
                                 type="number"
                                 min="0" step="1"
                             />
@@ -142,7 +151,7 @@ const ProductTableRow: FC<Props> = ({ product }) => {
             </td>
             <td className="align-middle">{product.ean}</td>
             <td className="align-middle">{product.category_name}</td>
-            <td className="align-middle">{product.price}</td>
+            <td className="align-middle">{product.weight}</td>
         </tr>
     )
 }

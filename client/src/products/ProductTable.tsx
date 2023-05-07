@@ -9,6 +9,7 @@ interface Product {
   category_name: string;
   brand_name: string;
   ean: string;
+  quantity: number;
   price: number;
   weight: number;
 }
@@ -51,7 +52,7 @@ const ProductTable: FC = () => {
                 <th>Quantity</th>
                 <th>ean</th>
                 <th>category_name</th>
-                <th>price</th>
+                <th>weight</th>
               </tr>
             </thead>
             <tbody>

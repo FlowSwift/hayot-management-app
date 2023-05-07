@@ -14,6 +14,7 @@ interface Product {
   category_name: string;
   brand_name: string;
   ean: string;
+  quantity: number;
   price: number;
   weight: number;
 }
