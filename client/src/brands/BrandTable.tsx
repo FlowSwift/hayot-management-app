@@ -2,11 +2,7 @@ import { FC, useState, useEffect } from 'react';
 import axios from 'axios';
 import BrandTableRow from './BrandTableRow';
 import Table from 'react-bootstrap/Table';
-
-interface Brand {
-  id: string;
-  name: string;
-}
+import { Brand } from "../common/types";
 
 const BrandTable: FC = () => {
   const [loading, setLoading] = useState(true);
