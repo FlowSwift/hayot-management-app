@@ -22,3 +22,18 @@ docker run -it --entrypoint /bin/bash testimage -s
 ### Clean out old docker files
 
 `docker system prune`
+
+## Database
+
+Access terminal from `inventory-database` container
+
+Connect to database:
+
+1. `su - postgres` - switch to postgres user
+1. `psql` - log into postgresql 
+1. `\c products` - connect to products database
+
+Options
+
+- `\dt` - show tables
+- `SELECT * FROM products ORDER BY id ASC` - query
