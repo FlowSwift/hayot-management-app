@@ -143,6 +143,21 @@ async function getProductsByBrandCategory(brand, category, limit, offset) {
     return results.rows
 }
 
+
+async function createProduct(product) {
+    const {name, price, weight, ean, brand_name, category_name} = product
+    /*
+    $1 = name
+    $2 = price
+    $3 = weight
+    $4 = ean
+    $5 = brand_name
+    $6 = category_name
+    exmaple query: "INSERT INTO products(name, price, weight, ean, category_id) VALUES('Puppy', 99, 4, '1234567891234', (SELECT id FROM categories WHERE brand_id = (SELECT id FROM brands WHERE name = 'Doggylicious' ) AND animal_id = (SELECT id FROM animals WHERE type = 'Dog') AND name = 'Classy'));"
+    */
+    let query = "INSERT INTO products($1, $2, $3, $4, category_id) VALUES('Puppy', 99, 4, '1234567891234', (SELECT id FROM categories WHERE brand_id = (SELECT id FROM brands WHERE name = 'Doggylicious' ) AND animal_id = (SELECT id FROM animals WHERE type = 'Dog') AND name = 'Classy'))"
+}
+
 /**
  * update a product by ID
  * @param {Array} id - params array with id of Number type
@@ -150,13 +165,9 @@ async function getProductsByBrandCategory(brand, category, limit, offset) {
  */
 async function updateProductByID (product) {
     // deconstruct product
-    const {name, price, weight, ean, brand_name, category_name, id} = product;
-    // price = Number(price).toFixed(2);
-    let query = "UPDATE products SET name = 'mew' WHERE id = 10"
-    // let query = "UPDATE products SET name = $1, price = $2, weight = $3, ean = $4 WHERE id = $5 RETURNING id, name"
-    console.log(product)
-    let results = await db.queryDB(query);
-    // let results = await db.queryDB(query, [name, price, weight, ean, id]);
+    const {name, price, weight, ean, brand_name, category_name, id} = product
+    let query = "UPDATE products SET name = $1, price = $2, weight = $3, ean = $4, category_id = (SELECT id FROM categories WHERE name = $5) WHERE id = $6 RETURNING id, name"
+    let results = await db.queryDB(query, [name, price, weight, ean, category_name, id]);
     //error handling
     if (results === undefined) {
         return undefined
@@ -166,6 +177,7 @@ async function updateProductByID (product) {
     }
     return results.rows
 }
+
 
 module.exports = {
     getProducts,
