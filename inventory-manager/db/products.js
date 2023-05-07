@@ -2,7 +2,16 @@
 const { query } = require("express");
 const db = require("../db/queries")
 const util = require("./util")
-const baseQuery = "SELECT products.id, products.name, products.price, categories.name AS category_name, brands.name AS brand_name, products.ean FROM products JOIN categories ON products.category_id = categories.id JOIN brands ON categories.brand_id = brands.id"; // base query to append on
+const baseQuery = 
+`SELECT 
+products.id, 
+products.name, 
+products.price, 
+categories.name AS category_name, 
+brands.name AS brand_name, 
+products.ean,
+products.weight 
+FROM products JOIN categories ON products.category_id = categories.id JOIN brands ON categories.brand_id = brands.id`; // base query to append on
 
 /**
  * get a list of products
@@ -29,6 +38,7 @@ async function getProducts(limit, offset) {
  */
 async function getProductByID (id) {
     let query = baseQuery + " WHERE products.id = $1"
+    query = orderQuery + " ORDER by products.id asc"
     let results = await db.queryDB(query, [id]);
     if (results === undefined) {
         return undefined
@@ -140,9 +150,13 @@ async function getProductsByBrandCategory(brand, category, limit, offset) {
  */
 async function updateProductByID (product) {
     // deconstruct product
-    const {name, price, weight, ean, brand_name, category_name, id} = product
-    let query = "UPDATE products SET name = $1, price = $2, weight = $3, ean = $4 WHERE id = $5 RETURNING id, name"
-    let results = await db.queryDB(query, [name, price, weight, ean, id]);
+    const {name, price, weight, ean, brand_name, category_name, id} = product;
+    // price = Number(price).toFixed(2);
+    let query = "UPDATE products SET name = 'mew' WHERE id = 10"
+    // let query = "UPDATE products SET name = $1, price = $2, weight = $3, ean = $4 WHERE id = $5 RETURNING id, name"
+    console.log(product)
+    let results = await db.queryDB(query);
+    // let results = await db.queryDB(query, [name, price, weight, ean, id]);
     //error handling
     if (results === undefined) {
         return undefined
