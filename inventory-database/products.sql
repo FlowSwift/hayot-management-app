@@ -3,7 +3,7 @@ CREATE TABLE "products" (
   "name" text NOT NULL,
   "price" float NOT NULL,
   "weight" float NOT NULL,
-  "quantity" integer DEFAULT 0,
+  "quantity" integer DEFAULT 0 NOT NULL,
   "ean" char(13), -- 13 chars barcode
   "category_id" integer NOT NULL
 );

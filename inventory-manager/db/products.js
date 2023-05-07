@@ -1,6 +1,7 @@
 "use strict";
 const { query } = require("express");
-const db = require("../db/queries")
+const db = require("../db/queries");
+const { getCategoryByID, getCategoryByName } = require("./categories");
 const util = require("./util")
 const baseQuery = 
 `SELECT 
@@ -161,17 +162,14 @@ async function createProduct(product) {
 
 /**
  * update a product by ID
- * @param {Array} id - params array with id of Number type
- * @returns the product with a given id or undefined upon error/ null if no product was found
+ * @param {object} product - product object
+ * @returns the id and name of a product from a given id or undefined upon error/null if no product exists with the given id
  */
 async function updateProductByID (product) {
     // deconstruct product
-    const {id, name, price, weight, quantity, ean, brand_name, category_name} = product
-    let query = "UPDATE products SET name = $2, price = $3, weight = $4, quantity = $5 WHERE id = $1 RETURNING id, name"
-    console.log(query)
-    //UPDATE products SET name = $1, price = $2, weight = $3, ean = $4, category_id = (SELECT id FROM categories WHERE name = $5) WHERE id = $6 RETURNING id, name
-    let results = await db.queryDB(query, [id, name, price, weight, quantity])
-    // let results = await db.queryDB(query, [name, price, weight, ean, category_name, id]);
+    const {id, name, price, weight, quantity, ean, category_id} = product
+    let query = "UPDATE products SET name = $2, price = $3, weight = $4, quantity = $5, ean = $6 WHERE id = $1 RETURNING id, name"
+    let results = await db.queryDB(query, [id, name, price, weight, quantity, ean])
     //error handling
     if (results === undefined) {
         return undefined
