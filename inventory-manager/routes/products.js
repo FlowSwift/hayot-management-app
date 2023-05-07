@@ -129,6 +129,7 @@ router.post('/products', async (req, res) => {
     return res.send(results)
 })
 
+// update products by id
 router.put('/products', async (req, res) => {
     console.log(req.body)
     // request handling
