@@ -20,7 +20,8 @@ FROM products JOIN categories ON products.category_id = categories.id JOIN brand
  * @returns Array of results or undefined upon error/ null if no products were found
  */
 async function getProducts(limit, offset) {
-    let query = util.addPagination(baseQuery, limit, offset);
+    let query = baseQuery + " ORDER BY products.id ASC"
+    query = util.addPagination(query, limit, offset);
     let results = await db.queryDB(query);
     if (results === undefined) {
         return undefined
@@ -38,7 +39,6 @@ async function getProducts(limit, offset) {
  */
 async function getProductByID (id) {
     let query = baseQuery + " WHERE products.id = $1"
-    query = orderQuery + " ORDER by products.id asc"
     let results = await db.queryDB(query, [id]);
     if (results === undefined) {
         return undefined
@@ -166,8 +166,11 @@ async function createProduct(product) {
 async function updateProductByID (product) {
     // deconstruct product
     const {name, price, weight, ean, brand_name, category_name, id} = product
-    let query = "UPDATE products SET name = $1, price = $2, weight = $3, ean = $4, category_id = (SELECT id FROM categories WHERE name = $5) WHERE id = $6 RETURNING id, name"
-    let results = await db.queryDB(query, [name, price, weight, ean, category_name, id]);
+    let query = "UPDATE products SET name = $1 WHERE id = $2 RETURNING id, name"
+    console.log(query)
+    //UPDATE products SET name = $1, price = $2, weight = $3, ean = $4, category_id = (SELECT id FROM categories WHERE name = $5) WHERE id = $6 RETURNING id, name
+    let results = await db.queryDB(query, [name, id])
+    // let results = await db.queryDB(query, [name, price, weight, ean, category_name, id]);
     //error handling
     if (results === undefined) {
         return undefined
