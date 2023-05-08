@@ -28,7 +28,16 @@ function addPagination(query, limit, offset) {
     return query + " LIMIT " + limit + " OFFSET " + offset;
 }
 
+
+function isNameEmpty(name) {
+    if (name == "") {
+        return true;
+    }
+    return false;
+}
+
 module.exports = {
     checkPagination,
-    addPagination
+    addPagination,
+    isNameEmpty
 }
