@@ -9,7 +9,9 @@ products.id,
 products.name, 
 products.price,
 products.quantity,
+categories.id AS category_id,
 categories.name AS category_name, 
+brands.id AS brand_id,
 brands.name AS brand_name, 
 products.ean,
 products.weight
@@ -147,17 +149,27 @@ async function getProductsByBrandCategory(brand, category, limit, offset) {
 
 
 async function createProduct(product) {
-    const {name, price, weight, ean, brand_name, category_name} = product
+    const {name, price, weight, ean, quantity, category_id} = product
     /*
-    $1 = name
-    $2 = price
-    $3 = weight
-    $4 = ean
-    $5 = brand_name
-    $6 = category_name
-    exmaple query: "INSERT INTO products(name, price, weight, ean, category_id) VALUES('Puppy', 99, 4, '1234567891234', (SELECT id FROM categories WHERE brand_id = (SELECT id FROM brands WHERE name = 'Doggylicious' ) AND animal_id = (SELECT id FROM animals WHERE type = 'Dog') AND name = 'Classy'));"
+    exmaple query: "INSERT INTO products(name, price, weight, quantity, ean, category_id) VALUES('Puppy', 99, 4, '1234567891234', (SELECT id FROM categories WHERE brand_id = (SELECT id FROM brands WHERE name = 'Doggylicious' ) AND animal_id = (SELECT id FROM animals WHERE type = 'Dog') AND name = 'Classy'));"
     */
-    let query = "INSERT INTO products($1, $2, $3, $4, category_id) VALUES('Puppy', 99, 4, '1234567891234', (SELECT id FROM categories WHERE brand_id = (SELECT id FROM brands WHERE name = 'Doggylicious' ) AND animal_id = (SELECT id FROM animals WHERE type = 'Dog') AND name = 'Classy'))"
+    //todo: add category_id to query
+    if (util.isNameEmpty(name)) {
+        return undefined
+    }
+    let query = "INSERT INTO products(name, price, weight, quantity, ean, category_id) VALUES($1, $2, $3, $4, $5, 1) RETURNING name, id"
+    let results = await db.queryDB(query, [name, price, weight, quantity, ean])
+    console.log("--------")
+    console.log(results)
+    console.log("--------")
+    //error handling
+    if (results === undefined) {
+        return undefined
+    }
+    if (results.rowCount == 0) {
+        return null
+    }
+    return results.rows
 }
 
 /**
@@ -168,6 +180,9 @@ async function createProduct(product) {
 async function updateProductByID (product) {
     // deconstruct product
     const {id, name, price, weight, quantity, ean, category_id} = product
+    if (util.isNameEmpty(name)) {
+        return undefined
+    }
     let query = "UPDATE products SET name = $2, price = $3, weight = $4, quantity = $5, ean = $6 WHERE id = $1 RETURNING id, name"
     let results = await db.queryDB(query, [id, name, price, weight, quantity, ean])
     //error handling
@@ -189,5 +204,6 @@ module.exports = {
     getProductByEAN,
     getProductsByBrand,
     getProductsByBrandCategory,
+    createProduct,
     updateProductByID
 }
