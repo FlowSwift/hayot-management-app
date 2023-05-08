@@ -120,7 +120,7 @@ router.get('/products/brand/:brand', async (req, res) => {
 
 router.post('/products', async (req, res) => {
     // request handling
-    let results = await productsQuery.getProducts(req.query.limit, req.query.offset)
+    let results = await productsQuery.createProduct(req.body)
     //response handling
     util.setStatus(res, results)
     if (res.statusCode != 200) {
