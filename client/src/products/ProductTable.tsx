@@ -8,7 +8,7 @@ const ProductTable: FC = () => {
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState<undefined | Product[]>();
 
-  useEffect(() => {
+  const refreshData = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
@@ -25,6 +25,10 @@ const ProductTable: FC = () => {
     }
 
     fetchData();
+  }
+
+  useEffect(() => {
+    refreshData();
   }, []);
  
   if (loading) {
@@ -49,7 +53,11 @@ const ProductTable: FC = () => {
               {
                 products
                   .map(product =>
-                    <ProductTableRow key={product.id} product={product} />
+                    <ProductTableRow 
+                    key={product.id} 
+                    product={product} 
+                    refreshData={refreshData}
+                    />
                   )
               }
             </tbody>

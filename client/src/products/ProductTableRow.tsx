@@ -10,59 +10,52 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 import { Product } from "../common/types";
 
+import CategorySelect from "../categories/CategorySelect";
+
 interface Props {
-    product: Product
+    product: Product,
+    refreshData: Function
 };
 
-const ProductTableRow: FC<Props> = ({ product }) => {
+const ProductTableRow: FC<Props> = ({ product, refreshData }) => {
     const editIcon = <FontAwesomeIcon icon={faPencil} />
+
     const [showModal, setShowModal] = useState(false);
-    const [id, setId]               = useState(product.id);
-    const [name, setName]           = useState(product.name);
-    const [category_name, setCategory]    = useState(product.category_name);
-    const [brand_name, setBrand]    = useState(product.brand_name);
-    const [ean, setEan]             = useState(product.ean);
-    // const [price, setPrice]         = useState(Number(product.price).toFixed(2));
-    const [quantity, setQuantity]         = useState(product.quantity);
-    const [price, setPrice]         = useState(product.price);
-    const [weight, setWeight]        = useState(product.weight);
+    const [id, setId] = useState(product.id);
+    const [name, setName] = useState(product.name);
+    const [category_name, setCategory] = useState(product.category_name);
+    const [category_id, setCategoryId] = useState(3);
+    const [brand_name, setBrand] = useState(product.brand_name);
+    const [ean, setEan] = useState(product.ean);
+    const [quantity, setQuantity] = useState(product.quantity);
+    const [price, setPrice] = useState(product.price);
+    const [weight, setWeight] = useState(product.weight);
 
     const handleClose = () => setShowModal(false);
     const handleOpen = () => setShowModal(true);
 
-    /*
-    const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-        const value = evt.target.value;
-        setState({
-          ...state,
-          [evt.target.name]: value
-        });
-    }
-    */
-
     const handleSave = async () => {
         const prod = {
             id: id,
-            name: name, 
+            name: name,
             quantity: quantity,
-            price: price, 
-            weight: weight, 
-            ean: ean, 
+            price: price,
+            weight: weight,
+            ean: ean,
             brand_name: brand_name,
             category_name: category_name
         };
-        console.log('react')
-        console.log(prod);
-        
+
+        // Submit edited product details to server
         try {
             const { data: response } = await axios.put('http://localhost:5000/products/',
-            prod);
-          }
-          catch{
-      
-          }
-          // Submit edited product details to server
-          handleClose();
+                prod);
+        }
+        catch {
+
+        }
+        refreshData();
+        handleClose();
     };
 
     // Modal should use state
@@ -87,6 +80,8 @@ const ProductTableRow: FC<Props> = ({ product }) => {
                                 <Form.Label>Brand</Form.Label>
                                 <Form.Control type="text" value={brand_name} onChange={(e) => setBrand(e.target.value)} />
                             </Form.Group>
+
+                            <CategorySelect activeId={category_id} />
 
                             <Form.Group controlId="formProductCategory">
                                 <Form.Label>Category</Form.Label>
