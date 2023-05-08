@@ -10,6 +10,8 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 import { Product } from "../common/types";
 
+import CategorySelect from "../categories/CategorySelect";
+
 interface Props {
     product: Product,
     refreshData: Function
@@ -22,6 +24,7 @@ const ProductTableRow: FC<Props> = ({ product, refreshData }) => {
     const [id, setId] = useState(product.id);
     const [name, setName] = useState(product.name);
     const [category_name, setCategory] = useState(product.category_name);
+    const [category_id, setCategoryId] = useState(3);
     const [brand_name, setBrand] = useState(product.brand_name);
     const [ean, setEan] = useState(product.ean);
     const [quantity, setQuantity] = useState(product.quantity);
@@ -77,6 +80,8 @@ const ProductTableRow: FC<Props> = ({ product, refreshData }) => {
                                 <Form.Label>Brand</Form.Label>
                                 <Form.Control type="text" value={brand_name} onChange={(e) => setBrand(e.target.value)} />
                             </Form.Group>
+
+                            <CategorySelect activeId={category_id} />
 
                             <Form.Group controlId="formProductCategory">
                                 <Form.Label>Category</Form.Label>
