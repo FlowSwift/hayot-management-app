@@ -4,6 +4,7 @@ export interface Product {
     category_name: string;
     category_id: number;
     brand_name: string;
+    brand_id: number;
     ean: string;
     quantity: number;
     price: number;
@@ -13,6 +14,7 @@ export interface Product {
 export interface Category {
   id: string;
   name: string;
+  brand_id: number;
   brand_name: string;
 }
 

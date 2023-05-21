@@ -57,6 +57,23 @@ async function getCategoryByName(name) {
 }
 
 /**
+ * search the DB with the brand ID provided
+ * @param {string} id exact brand ID to search by
+ * @returns Array of results or undefined upon error/ null if no categories were found
+ */
+async function getCategoriesByBrandId(id) {
+    let query = baseQuery + " WHERE categories.brand_id = $1"
+    let results = await db.queryDB(query, [id]);
+    if (results === undefined) {
+        return undefined
+    }
+    if (results.rowCount == 0) {
+        return null
+    }
+    return results.rows
+}
+
+/**
  * search the DB for categories name containing the substring
  * @param {*} substring part of a category name
  * @param {*} limit maximum amount of results returned
@@ -82,6 +99,7 @@ async function getCategoriesBySubstring(substring, limit, offset) {
 module.exports = {
     getCategories,
     getCategoryByID,
+    getCategoriesByBrandId,
     getCategoryByName,
     getCategoriesBySubstring
 }

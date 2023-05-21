@@ -37,3 +37,19 @@ Options
 
 - `\dt` - show tables
 - `SELECT * FROM products ORDER BY id ASC` - query
+
+## To do
+
+- ✓ Categories by brand ID
+- Pagination
+- Update product quantity by ID
+
+FED:
+- Search
+- Add product modal
+- Add brand modal
+- Add category modal
+- Debug numeric inputs
+- Dynamic brand / category selectboxes
+- Quantity save
+- Edits brands / categories

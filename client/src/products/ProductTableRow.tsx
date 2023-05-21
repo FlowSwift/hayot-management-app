@@ -6,11 +6,11 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
-import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 import { Product } from "../common/types";
 
 import CategorySelect from "../categories/CategorySelect";
+import BrandSelect from '../brands/BrandSelect';
 
 interface Props {
     product: Product,
@@ -24,8 +24,9 @@ const ProductTableRow: FC<Props> = ({ product, refreshData }) => {
     const [id, setId] = useState(product.id);
     const [name, setName] = useState(product.name);
     const [category_name, setCategory] = useState(product.category_name);
-    const [category_id, setCategoryId] = useState(3);
+    const [category_id, setCategoryId] = useState(product.category_id);
     const [brand_name, setBrand] = useState(product.brand_name);
+    const [brand_id, setBrandId] = useState(product.brand_id);
     const [ean, setEan] = useState(product.ean);
     const [quantity, setQuantity] = useState(product.quantity);
     const [price, setPrice] = useState(product.price);
@@ -43,7 +44,9 @@ const ProductTableRow: FC<Props> = ({ product, refreshData }) => {
             weight: weight,
             ean: ean,
             brand_name: brand_name,
-            category_name: category_name
+            brand_id: brand_id,
+            category_name: category_name,
+            category_id: category_id
         };
 
         // Submit edited product details to server
@@ -76,16 +79,16 @@ const ProductTableRow: FC<Props> = ({ product, refreshData }) => {
                                 <Form.Control type="text" value={name} onChange={(e) => setName(e.target.value)} />
                             </Form.Group>
 
+                            {/* TODO: add onchange handlers */}
                             <Form.Group controlId="formProductBrand">
                                 <Form.Label>Brand</Form.Label>
-                                <Form.Control type="text" value={brand_name} onChange={(e) => setBrand(e.target.value)} />
+                                <BrandSelect activeId={brand_id} />
                             </Form.Group>
 
-                            <CategorySelect activeId={category_id} />
-
+                            {/* TODO: update categories by state's brand ID */}
                             <Form.Group controlId="formProductCategory">
                                 <Form.Label>Category</Form.Label>
-                                <Form.Control type="text" value={category_name} onChange={(e) => setCategory(e.target.value)} />
+                                <CategorySelect activeId={category_id} brandId={brand_id} />
                             </Form.Group>
 
                             <Form.Group controlId="formProductQuantity">
@@ -125,9 +128,10 @@ const ProductTableRow: FC<Props> = ({ product, refreshData }) => {
                             <Form.Control
                                 id="amountInput"
                                 placeholder="0"
-                                value={product.quantity}
+                                value={quantity}
                                 type="number"
                                 min="0" step="1"
+                                onChange={(e) => setQuantity(parseFloat(e.target.value))} 
                             />
 
                         </Col>

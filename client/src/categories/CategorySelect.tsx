@@ -2,23 +2,24 @@ import { FC, useState, useEffect } from 'react';
 import axios from 'axios';
 import Table from 'react-bootstrap/Table';
 import { Category } from "../common/types";
+import Form from 'react-bootstrap/Form';
 
 interface Props {
-  activeId: number;
+  activeId: number; // Active category ID
+  brandId: number;
 };
 
-const CategorySelect: FC<Props> = ({ activeId }) => {
+const CategorySelect: FC<Props> = ({ activeId, brandId }) => {
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState<undefined | Category[]>();
-
-  const [activeValue, setActiveValue] = useState<number>()
+  const [activeValue, setActiveValue] = useState<number>()  
   
-
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
+      setActiveValue(activeId);
       try {
-        const { data: response } = await axios.get('http://localhost:5000/categories/');
+        const { data: response } = await axios.get(`http://localhost:5000/brands/${brandId}/categories/`);
         setCategories(response);
       } catch (error) {
         if (error instanceof Error) {
@@ -27,14 +28,11 @@ const CategorySelect: FC<Props> = ({ activeId }) => {
           console.log('Unexpected error', error);
         }
       }
-      setActiveValue(activeId);
       setLoading(false);
     }
 
     fetchData();
-  }, []);
-
-  
+  }, []);  
  
   if (loading) {
     return (
@@ -46,9 +44,9 @@ const CategorySelect: FC<Props> = ({ activeId }) => {
           return <option key={category.id} value={category.id}>{category.name} ({category.brand_name})</option>
       })
       return (
-          <select value={activeValue} onChange={(e) => setActiveValue(parseInt(e.target.value))}>
-              {options}
-          </select>
+        <Form.Select defaultValue="Choose..." value={activeValue} onChange={(e) => setActiveValue(parseInt(e.target.value))}>
+          {options}
+        </Form.Select>
       )
     } else {
       return (
