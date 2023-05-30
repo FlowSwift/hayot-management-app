@@ -6,13 +6,14 @@ import Form from 'react-bootstrap/Form';
 
 interface Props {
   activeId: number;
+  stateChanger: Function;
 };
 
-const BrandSelect: FC<Props> = ({ activeId }) => {
+const BrandSelect: FC<Props> = ({ activeId, stateChanger }) => {
   const [loading, setLoading] = useState(true);
   const [brands, setBrands] = useState<undefined | Brand[]>();
 
-  const [activeValue, setActiveValue] = useState<number>()
+  // const [activeValue, setActiveValue] = useState<number>()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,7 +28,8 @@ const BrandSelect: FC<Props> = ({ activeId }) => {
           console.log('Unexpected error', error);
         }
       }
-      setActiveValue(activeId);
+      // setActiveValue(activeId);
+      // {this.props.handler}
       setLoading(false);
     }
 
@@ -44,7 +46,7 @@ const BrandSelect: FC<Props> = ({ activeId }) => {
           return <option key={brand.id} value={brand.id}>{brand.name}</option>
       })
       return (
-        <Form.Select value={activeValue} onChange={(e) => setActiveValue(parseInt(e.target.value))}>
+        <Form.Select value={activeId} onChange={(e) => stateChanger(parseInt(e.target.value))}>
           {options}
         </Form.Select>
       )

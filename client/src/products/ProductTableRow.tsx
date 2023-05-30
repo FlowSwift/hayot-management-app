@@ -7,7 +7,7 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import { Product } from "../common/types";
+import { Product, Category } from "../common/types";
 
 import CategorySelect from "../categories/CategorySelect";
 import BrandSelect from '../brands/BrandSelect';
@@ -23,10 +23,14 @@ const ProductTableRow: FC<Props> = ({ product, refreshData }) => {
     const [showModal, setShowModal] = useState(false);
     const [id, setId] = useState(product.id);
     const [name, setName] = useState(product.name);
+    const [categories, setCategories] = useState<undefined | Category[]>();
     const [category_name, setCategory] = useState(product.category_name);
     const [category_id, setCategoryId] = useState(product.category_id);
     const [brand_name, setBrand] = useState(product.brand_name);
     const [brand_id, setBrandId] = useState(product.brand_id);
+
+  const [activeValue, setActiveValue] = useState<number>();
+
     const [ean, setEan] = useState(product.ean);
     const [quantity, setQuantity] = useState(product.quantity);
     const [price, setPrice] = useState(product.price);
@@ -82,13 +86,22 @@ const ProductTableRow: FC<Props> = ({ product, refreshData }) => {
                             {/* TODO: add onchange handlers */}
                             <Form.Group controlId="formProductBrand">
                                 <Form.Label>Brand</Form.Label>
-                                <BrandSelect activeId={brand_id} />
+                                <BrandSelect
+                                    activeId={brand_id}
+                                    stateChanger={setBrandId}
+                                />
                             </Form.Group>
 
                             {/* TODO: update categories by state's brand ID */}
                             <Form.Group controlId="formProductCategory">
                                 <Form.Label>Category</Form.Label>
-                                <CategorySelect activeId={category_id} brandId={brand_id} />
+                                <CategorySelect
+                                    activeId={category_id}
+                                    brandId={brand_id}
+                                    categories={categories}
+                                    stateChanger={setCategoryId}
+                                    listChanger={setCategories}
+                                />
                             </Form.Group>
 
                             <Form.Group controlId="formProductQuantity">
