@@ -3,6 +3,7 @@ import axios from 'axios';
 import CategoryTableRow from './CategoryTableRow';
 import Table from 'react-bootstrap/Table';
 import { Category } from "../common/types";
+import TablePagination from "../pagination/TablePagination";
 
 const CategoryTable: FC = () => {
   const [loading, setLoading] = useState(true);
@@ -34,6 +35,7 @@ const CategoryTable: FC = () => {
   } else {
     if (typeof (categories) !== 'undefined' && categories != null) {
       return (
+        <>
           <Table striped bordered hover>
             <thead>
               <tr>
@@ -51,6 +53,8 @@ const CategoryTable: FC = () => {
               }
             </tbody>
           </Table>
+          <TablePagination />
+        </>
       )
     } else {
       return (

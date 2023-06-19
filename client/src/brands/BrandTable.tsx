@@ -3,6 +3,7 @@ import axios from 'axios';
 import BrandTableRow from './BrandTableRow';
 import Table from 'react-bootstrap/Table';
 import { Brand } from "../common/types";
+import TablePagination from "../pagination/TablePagination";
 
 const BrandTable: FC = () => {
   const [loading, setLoading] = useState(true);
@@ -34,6 +35,7 @@ const BrandTable: FC = () => {
   } else {
     if (typeof (brands) !== 'undefined' && brands != null) {
       return (
+        <>
           <Table striped bordered hover>
             <thead>
               <tr>
@@ -49,7 +51,9 @@ const BrandTable: FC = () => {
                   )
               }
             </tbody>
-          </Table>
+          </Table>          
+          <TablePagination />
+        </>
       )
     } else {
       return (

@@ -3,6 +3,7 @@ import axios from 'axios';
 import ProductTableRow from './ProductTableRow';
 import Table from 'react-bootstrap/Table';
 import { Product } from "../common/types";
+import TablePagination from "../pagination/TablePagination";
 
 const ProductTable: FC = () => {
   const [loading, setLoading] = useState(true);
@@ -38,6 +39,7 @@ const ProductTable: FC = () => {
   } else {
     if (typeof (products) !== 'undefined' && products != null) {
       return (
+        <>
           <Table striped bordered hover size="sm">
             <thead>
               <tr>
@@ -62,6 +64,8 @@ const ProductTable: FC = () => {
               }
             </tbody>
           </Table>
+          <TablePagination />
+        </>
       )
     } else {
       return (
