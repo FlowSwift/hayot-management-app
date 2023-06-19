@@ -56,11 +56,11 @@ const ProductActions: FC<Props> = ({ manageType }) => {
               type="search"
             />
           </Col>
-          <Col xs="auto">
+          {/* <Col xs="auto">
             <Button type="button" className="mb-2">
               Export
             </Button>
-          </Col>
+          </Col> */}
           <Col xs="auto">
             <Button type="button" className="mb-2" onClick={handleOpen}>
               {addIcon} Add {manageType}
@@ -72,12 +72,12 @@ const ProductActions: FC<Props> = ({ manageType }) => {
               </Modal.Header>
               <Modal.Body>
                 <Form>
-                  <Form.Group controlId="formProductName">
+                  <Form.Group className="mb-3" controlId="formProductName">
                     <Form.Label>Name</Form.Label>
                     <Form.Control type="text" value="Name" onChange={(e) => setName(e.target.value)} />
                   </Form.Group>
 
-                  <Form.Group controlId="formProductBrand">
+                  <Form.Group className="mb-3" controlId="formProductBrand">
                     <Form.Label>Brand</Form.Label>
                     <Form.Control as="textarea" value="Brand name" onChange={(e) => setBrand(e.target.value)} />
                   </Form.Group>

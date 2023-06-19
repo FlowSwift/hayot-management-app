@@ -17,7 +17,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ onSubmit }) => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <Form.Group controlId="formBasicName">
+      <Form.Group className="mb-3" controlId="formBasicName">
         <Form.Label>Name</Form.Label>
         <Form.Control
           type="text"
@@ -27,7 +27,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ onSubmit }) => {
         />
       </Form.Group>
 
-      <Form.Group controlId="formBasicEmail">
+      <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Email</Form.Label>
         <Form.Control
           type="email"
@@ -37,7 +37,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ onSubmit }) => {
         />
       </Form.Group>
 
-      <Form.Group controlId="formBasicPassword">
+      <Form.Group className="mb-3" controlId="formBasicPassword">
         <Form.Label>Password</Form.Label>
         <Form.Control
           type="password"

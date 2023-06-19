@@ -19,6 +19,7 @@ const GlobalStyles = createGlobalStyle`
     margin: 0;
     padding: 0;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    direction: rtl;
   }
 
   *,
@@ -34,6 +35,28 @@ const GlobalStyles = createGlobalStyle`
     padding-bottom: 40px;
     padding-left: var(--theme-gutter-width);
     padding-right: var(--theme-gutter-width);
+  }
+
+  // rtl
+  .form-select {
+    background-position: left .75rem center;
+    padding-left: 2.25rem;
+    padding-right: .75rem;
+  }
+
+  .modal-header .btn-close {
+    margin: 0;
+  }
+
+  select, button {
+    cursor: pointer;
+  }
+
+  th, .form-label {
+    margin-bottom: .25rem;
+    color: var(--bs-gray-dark);
+    font-size: .9em;
+    font-weight: 700;
   }
 `
 

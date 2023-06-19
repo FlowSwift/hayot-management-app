@@ -78,13 +78,13 @@ const ProductTableRow: FC<Props> = ({ product, refreshData }) => {
                     </Modal.Header>
                     <Modal.Body>
                         <Form>
-                            <Form.Group controlId="formProductName">
+                            <Form.Group className="mb-3" controlId="formProductName">
                                 <Form.Label>Name</Form.Label>
                                 <Form.Control type="text" value={name} onChange={(e) => setName(e.target.value)} />
                             </Form.Group>
 
                             {/* TODO: add onchange handlers */}
-                            <Form.Group controlId="formProductBrand">
+                            <Form.Group className="mb-3" controlId="formProductBrand">
                                 <Form.Label>Brand</Form.Label>
                                 <BrandSelect
                                     activeId={brand_id}
@@ -93,7 +93,7 @@ const ProductTableRow: FC<Props> = ({ product, refreshData }) => {
                             </Form.Group>
 
                             {/* TODO: update categories by state's brand ID */}
-                            <Form.Group controlId="formProductCategory">
+                            <Form.Group className="mb-3" controlId="formProductCategory">
                                 <Form.Label>Category</Form.Label>
                                 <CategorySelect
                                     activeId={category_id}
@@ -104,17 +104,17 @@ const ProductTableRow: FC<Props> = ({ product, refreshData }) => {
                                 />
                             </Form.Group>
 
-                            <Form.Group controlId="formProductQuantity">
+                            <Form.Group className="mb-3" controlId="formProductQuantity">
                                 <Form.Label>Quantity</Form.Label>
                                 <Form.Control type="text" value={quantity} onChange={(e) => setQuantity(parseFloat(e.target.value))} />
                             </Form.Group>
 
-                            <Form.Group controlId="formProductPrice">
+                            <Form.Group className="mb-3" controlId="formProductPrice">
                                 <Form.Label>Price</Form.Label>
                                 <Form.Control type="text" value={price} onChange={(e) => setPrice(parseFloat(e.target.value))} />
                             </Form.Group>
 
-                            <Form.Group controlId="formProductWeight">
+                            <Form.Group className="mb-3" controlId="formProductWeight">
                                 <Form.Label>Weight</Form.Label>
                                 <Form.Control type="text" value={weight} onChange={(e) => setWeight(parseFloat(e.target.value))} />
                             </Form.Group>

@@ -34,12 +34,12 @@ const CategoryTableRow: FC<Props> = ({ category }) => {
                     </Modal.Header>
                     <Modal.Body>
                         <Form>
-                            <Form.Group controlId="formCategoryName">
+                            <Form.Group className="mb-3" controlId="formCategoryName">
                                 <Form.Label>Name</Form.Label>
                                 <Form.Control type="text" value={name} onChange={(e) => setName(e.target.value)} />
                             </Form.Group>
 
-                            <Form.Group controlId="formCategoryBrand">
+                            <Form.Group className="mb-3" controlId="formCategoryBrand">
                                 <Form.Label>Brand</Form.Label>
                                 <Form.Control as="textarea" value={brand_name} onChange={(e) => setBrand(e.target.value)} />
                             </Form.Group>

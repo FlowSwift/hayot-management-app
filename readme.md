@@ -43,6 +43,7 @@ Options
 - ✓ Categories by brand ID
 - Pagination
 - Update product quantity by ID
+- Delete or archive products
 
 FED:
 - Search
@@ -50,6 +51,6 @@ FED:
 - Add brand modal
 - Add category modal
 - Debug numeric inputs
-- Dynamic brand / category selectboxes
+- ✓ Dynamic brand / category selectboxes
 - Quantity save
 - Edits brands / categories

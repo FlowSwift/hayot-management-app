@@ -18,7 +18,7 @@ const LoginForm: FC<LoginFormProps> = ({ onSubmit }) => {
 
   return (
 <Form onSubmit={handleSubmit}>
-      <Form.Group controlId="formBasicEmail">
+      <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Username</Form.Label>
         <Form.Control
           type="text"
@@ -28,7 +28,7 @@ const LoginForm: FC<LoginFormProps> = ({ onSubmit }) => {
         />
       </Form.Group>
 
-      <Form.Group controlId="formBasicPassword">
+      <Form.Group className="mb-3" controlId="formBasicPassword">
         <Form.Label>Password</Form.Label>
         <Form.Control
           type="password"

@@ -33,7 +33,7 @@ const BrandTableRow: FC<Props> = ({ brand }) => {
                     </Modal.Header>
                     <Modal.Body>
                         <Form>
-                            <Form.Group controlId="formProductName">
+                            <Form.Group className="mb-3" controlId="formProductName">
                                 <Form.Label>Name</Form.Label>
                                 <Form.Control type="text" value={name} onChange={(e) => setName(e.target.value)} />
                             </Form.Group>
