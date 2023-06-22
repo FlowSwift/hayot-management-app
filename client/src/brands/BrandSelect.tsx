@@ -5,7 +5,7 @@ import { Brand } from "../common/types";
 import Form from 'react-bootstrap/Form';
 
 interface Props {
-  activeId: number;
+  activeId: number | undefined; // New products
   stateChanger: Function;
 };
 
@@ -41,18 +41,22 @@ const BrandSelect: FC<Props> = ({ activeId, stateChanger }) => {
       <p>Loading...</p>
     )
   } else {
+    const defaultOption = <option key="undefinedBrand" value="">---------</option>
     if (typeof (brands) !== 'undefined' && brands != null) {
       const options = brands.map((brand) => {
           return <option key={brand.id} value={brand.id}>{brand.name}</option>
       })
       return (
         <Form.Select value={activeId} onChange={(e) => stateChanger(parseInt(e.target.value))}>
+          {defaultOption}
           {options}
         </Form.Select>
       )
     } else {
       return (
-        <p>No results found</p>
+        <Form.Select>
+          {defaultOption}
+        </Form.Select>
       )
     }
   }

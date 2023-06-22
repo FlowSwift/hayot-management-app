@@ -5,8 +5,8 @@ import { Category } from "../common/types";
 import Form from 'react-bootstrap/Form';
 
 interface Props {
-  activeId: number; // Active category ID
-  brandId: number;
+  activeId: number | undefined; // Active category ID
+  brandId: number | undefined; // New products
   categories: undefined | Category[];
   stateChanger: Function;
   listChanger: Function;
@@ -21,14 +21,16 @@ const CategorySelect: FC<Props> = ({ activeId, brandId, categories, stateChanger
     const fetchData = async () => {
       setLoading(true);
       // setActiveValue(activeId);
-      try {
-        const { data: response } = await axios.get(`http://localhost:5000/brands/${brandId}/categories/`);
-        listChanger(response);
-      } catch (error) {
-        if (error instanceof Error) {
-          console.log(error.message);
-        } else {
-          console.log('Unexpected error', error);
+      if (brandId != undefined) {
+        try {
+          const { data: response } = await axios.get(`http://localhost:5000/brands/${brandId}/categories/`);
+          listChanger(response);
+        } catch (error) {
+          if (error instanceof Error) {
+            console.log(error.message);
+          } else {
+            console.log('Unexpected error', error);
+          }
         }
       }
       setLoading(false);
@@ -59,6 +61,7 @@ const CategorySelect: FC<Props> = ({ activeId, brandId, categories, stateChanger
       <p>Loading...</p>
     )
   } else {
+    const defaultOption = <option key="undefinedCategory" value="">---------</option>
     if (typeof (categories) !== 'undefined' && categories != null) {
       const options = categories.map((category) => {
           return <option key={category.id} value={category.id}>{category.name} ({category.brand_name})</option>
@@ -69,13 +72,16 @@ const CategorySelect: FC<Props> = ({ activeId, brandId, categories, stateChanger
          onChange={(e) => stateChanger(parseInt(e.target.value))}
           // onChange={(e) => setActiveValue(parseInt(e.target.value))}
           >
+          {defaultOption}
           {options}
         </Form.Select>
         </div>
       )
     } else {
       return (
-        <p>No results found</p>
+        <Form.Select>
+          {defaultOption}
+        </Form.Select>
       )
     }
   }

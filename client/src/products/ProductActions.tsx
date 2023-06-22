@@ -7,7 +7,10 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Modal from 'react-bootstrap/Modal';
-// import { Product } from "../common/types";
+import { Category } from "../common/types";
+
+import CategorySelect from "../categories/CategorySelect";
+import BrandSelect from '../brands/BrandSelect';
 
 interface Props {
   manageType: string | undefined
@@ -17,14 +20,25 @@ const ProductActions: FC<Props> = ({ manageType }) => {
   const addIcon = <FontAwesomeIcon icon={faPlus} />;
   const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState("");
-  const [brand_name, setBrand] = useState("");
+  const [categories, setCategories] = useState<undefined | Category[]>();
+  const [category_id, setCategoryId] = useState(undefined);
+  const [brand_id, setBrandId] = useState(undefined);
 
-  const handleClose = () => setShowModal(false);
+  // Open form should probably reset fields somehow
   const handleOpen = () => setShowModal(true);
+  const handleClose = () => setShowModal(false);
 
   const handleSave = async () => {
+    const prod = {
+      name: name,
+      brand_id: brand_id,
+      category_id: category_id
+    };
+
+    console.log(prod);
+
     // try {
-    //   const { data: response } = await axios.put('http://localhost:5000/products/',
+    //   const { data: response } = await axios.post('http://localhost:5000/products/',
     //   {
     //     id: 2,
     //     name: "blabla", 
@@ -74,12 +88,28 @@ const ProductActions: FC<Props> = ({ manageType }) => {
                 <Form>
                   <Form.Group className="mb-3" controlId="formProductName">
                     <Form.Label>Name</Form.Label>
-                    <Form.Control type="text" value="Name" onChange={(e) => setName(e.target.value)} />
+                    <Form.Control type="text" value={name} onChange={(e) => setName(e.target.value)} />
                   </Form.Group>
 
+                  {/* TODO: add onchange handlers */}
                   <Form.Group className="mb-3" controlId="formProductBrand">
-                    <Form.Label>Brand</Form.Label>
-                    <Form.Control as="textarea" value="Brand name" onChange={(e) => setBrand(e.target.value)} />
+                      <Form.Label>Brand</Form.Label>
+                      <BrandSelect
+                          activeId={brand_id}
+                          stateChanger={setBrandId}
+                      />
+                  </Form.Group>
+
+                  {/* TODO: update categories by state's brand ID */}
+                  <Form.Group className="mb-3" controlId="formProductCategory">
+                      <Form.Label>Category</Form.Label>
+                      <CategorySelect
+                          activeId={category_id}
+                          brandId={brand_id}
+                          categories={categories}
+                          stateChanger={setCategoryId}
+                          listChanger={setCategories}
+                      />
                   </Form.Group>
                 </Form>
               </Modal.Body>
@@ -88,7 +118,7 @@ const ProductActions: FC<Props> = ({ manageType }) => {
                   Close
                 </Button>
                 <Button variant="primary" onClick={handleSave}>
-                  Save Changes
+                  Add Product
                 </Button>
               </Modal.Footer>
             </Modal>

@@ -118,6 +118,7 @@ router.get('/products/brand/:brand', async (req, res) => {
     return res.send(results)
 })
 
+// Create new product
 router.post('/products', async (req, res) => {
     // request handling
     let results = await productsQuery.createProduct(req.body)
