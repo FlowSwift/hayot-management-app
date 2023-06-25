@@ -14,7 +14,8 @@ categories.name AS category_name,
 brands.id AS brand_id,
 brands.name AS brand_name, 
 products.ean,
-products.weight
+products.weight,
+COUNT(products.id) OVER () AS total_count
 FROM products JOIN categories ON products.category_id = categories.id JOIN brands ON categories.brand_id = brands.id`; // base query to append on
 
 /**
@@ -51,22 +52,6 @@ async function getProductByID (id) {
         return null
     }
     return results.rows[0]
-}
-
-/**
- * return count of product matches
- * @param {Array} id - params array with id of Number type
- * @returns the count
- */
-async function getProductsResultCount() {
-    let query = "SELECT COUNT(products.id) FROM products"
-    let results = await db.queryDB(query);
-    if (results === undefined) {
-        return undefined
-    } else if (results.rowCount == 0) {
-        return null
-    }
-    return (results.rows[0].count)
 }
 
 /**
@@ -215,7 +200,6 @@ async function updateProductByID (product) {
 module.exports = {
     getProducts,
     getProductByID,
-    getProductsResultCount,
     getProductByName,
     getProductsBySubstring,
     getProductByEAN,

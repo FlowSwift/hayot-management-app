@@ -19,10 +19,11 @@ const ProductTable: FC = () => {
         const { data: response } = await axios.get(`http://localhost:5000/products/?limit=${resultLimit}&?offset=${resultActivePage}`);
         setProducts(response);
 
-        // need a way to determine total number of results for pagination
-        // getProductsResultCount.
-        const { data: resCount } = await axios.get(`http://localhost:5000/products/count`);
-        console.log(resCount)
+        // Determine total number of results for pagination
+        let resCount = 0;
+        if (response  !== 'undefined') {
+          resCount = response[0].total_count;
+        }
         setResultNumPages(Math.ceil(resCount / resultLimit));
       } catch (error) {
         if (error instanceof Error) {

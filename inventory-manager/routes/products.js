@@ -19,19 +19,6 @@ router.get('/products', async (req, res) => {
     return res.send(results)
 })
 
-// WIP return count of matching total products without limit for pagination
-// could this be set in the index, next, prev, object instead?
-router.get('/products/count', async (req, res) => {
-    // request handling
-    let results = await productsQuery.getProductsResultCount()
-    //response handling
-    util.setStatus(res, results)
-    if (res.statusCode != 200) {
-        return util.sendStatusMessage(res)
-    }
-    return res.send(results)
-})
-
 // fetch a product by ID
 router.get('/products/:id', async (req, res) => {
     let product
