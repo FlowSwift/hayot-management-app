@@ -54,6 +54,22 @@ async function getProductByID (id) {
 }
 
 /**
+ * return count of product matches
+ * @param {Array} id - params array with id of Number type
+ * @returns the count
+ */
+async function getProductsResultCount() {
+    let query = "SELECT COUNT(products.id) FROM products"
+    let results = await db.queryDB(query);
+    if (results === undefined) {
+        return undefined
+    } else if (results.rowCount == 0) {
+        return null
+    }
+    return (results.rows[0].count)
+}
+
+/**
  * search the DB with the name provided
  * @param {string} name exact product name to search by
  * @returns Array of results or undefined upon error/ null if no products were found
@@ -199,6 +215,7 @@ async function updateProductByID (product) {
 module.exports = {
     getProducts,
     getProductByID,
+    getProductsResultCount,
     getProductByName,
     getProductsBySubstring,
     getProductByEAN,

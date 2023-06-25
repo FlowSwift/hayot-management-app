@@ -8,13 +8,22 @@ import TablePagination from "../pagination/TablePagination";
 const ProductTable: FC = () => {
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState<undefined | Product[]>();
+  const [resultNumPages, setResultNumPages] = useState<number>();
+  const resultLimit = 25;
+  let resultActivePage = 1;
 
   const refreshData = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const { data: response } = await axios.get('http://localhost:5000/products/');
+        const { data: response } = await axios.get(`http://localhost:5000/products/?limit=${resultLimit}&?offset=${resultActivePage}`);
         setProducts(response);
+
+        // need a way to determine total number of results for pagination
+        // getProductsResultCount.
+        const { data: resCount } = await axios.get(`http://localhost:5000/products/count`);
+        console.log(resCount)
+        setResultNumPages(Math.ceil(resCount / resultLimit));
       } catch (error) {
         if (error instanceof Error) {
           console.log(error.message);
@@ -64,7 +73,7 @@ const ProductTable: FC = () => {
               }
             </tbody>
           </Table>
-          <TablePagination />
+          <TablePagination active={resultActivePage} totalPages={resultNumPages} />
         </>
       )
     } else {
