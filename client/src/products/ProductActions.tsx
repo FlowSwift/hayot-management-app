@@ -28,36 +28,41 @@ const ProductActions: FC<Props> = ({ manageType }) => {
   const handleOpen = () => setShowModal(true);
   const handleClose = () => setShowModal(false);
 
+  // Prevent page from redirecting when user hits Enter
+  const handleSubmit = async (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
+    handleSave();
+  }
+
   const handleSave = async () => {
+    console.log("handleSave");
+
     const prod = {
       name: name,
-      brand_id: brand_id,
+      price: 13.37, 
+      weight: 13.37,
+      quantity: 0,
+      ean: "1234567899876", 
       category_id: category_id
     };
 
     console.log(prod);
 
-    // try {
-    //   const { data: response } = await axios.post('http://localhost:5000/products/',
-    //   {
-    //     id: 2,
-    //     name: "blabla", 
-    //     price: 1337, 
-    //     weight: "blabla", 
-    //     ean: "blabla", 
-    //     brand_name: "blabla", 
-    //     category_name: "blabla"});
-    // }
-    // catch{
+    // name, price, weight, quantity, ean, category_id
+    try {
+      const { data: response } = await axios.post('http://localhost:5000/products/',
+      prod);
+    }
+    catch {
 
-    // }
-    // // Submit edited product details to server
-    // //handleClose();
+    }
+    // Submit edited product details to server
+    //handleClose();
   };
 
   return (
     <div>
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <Row className="align-items-center">
           <Col xs="auto">
             <Form.Label htmlFor="inlineFormInput" visuallyHidden>
@@ -114,10 +119,10 @@ const ProductActions: FC<Props> = ({ manageType }) => {
                 </Form>
               </Modal.Body>
               <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
+                <Button type="reset" variant="secondary" onClick={handleClose}>
                   Close
                 </Button>
-                <Button variant="primary" onClick={handleSave}>
+                <Button type="submit" variant="primary" onClick={handleSave}>
                   Add Product
                 </Button>
               </Modal.Footer>

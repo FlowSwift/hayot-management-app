@@ -157,8 +157,8 @@ async function createProduct(product) {
     if (util.isNameEmpty(name)) {
         return undefined
     }
-    let query = "INSERT INTO products(name, price, weight, quantity, ean, category_id) VALUES($1, $2, $3, $4, $5, 1) RETURNING name, id"
-    let results = await db.queryDB(query, [name, price, weight, quantity, ean])
+    let query = "INSERT INTO products(name, price, weight, quantity, ean, category_id) VALUES($1, $2, $3, $4, $5, $6) RETURNING name, id"
+    let results = await db.queryDB(query, [name, price, weight, quantity, ean, category_id])
     console.log("--------")
     console.log(results)
     console.log("--------")
