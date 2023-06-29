@@ -9,14 +9,19 @@ const ProductTable: FC = () => {
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState<undefined | Product[]>();
   const [resultNumPages, setResultNumPages] = useState<number>();
+  const [activeNumPage, setActiveNumPage] = useState(1);
   const resultLimit = 25;
-  let resultActivePage = 1;
 
   const refreshData = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const { data: response } = await axios.get(`http://localhost:5000/products/?limit=${resultLimit}&?offset=${resultActivePage}`);
+        let pageRequestURL = `http://localhost:5000/products/?limit=${resultLimit}`;
+        if (activeNumPage > 1) {
+           // Offset is page number * num per page
+          pageRequestURL = `http://localhost:5000/products/?limit=${resultLimit}&offset=${resultLimit * (activeNumPage - 1) + 1}`;  
+        }
+        const { data: response } = await axios.get(pageRequestURL);
         setProducts(response);
 
         // Determine total number of results for pagination
@@ -40,7 +45,7 @@ const ProductTable: FC = () => {
 
   useEffect(() => {
     refreshData();
-  }, []);
+  }, [activeNumPage]);
  
   if (loading) {
     return (
@@ -74,7 +79,11 @@ const ProductTable: FC = () => {
               }
             </tbody>
           </Table>
-          <TablePagination active={resultActivePage} totalPages={resultNumPages} />
+          <TablePagination 
+            active={activeNumPage} 
+            totalPages={resultNumPages}
+            setActiveNumPage={setActiveNumPage}
+            />
         </>
       )
     } else {

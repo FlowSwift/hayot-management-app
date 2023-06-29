@@ -8,11 +8,14 @@ import TablePagination from "../pagination/TablePagination";
 const BrandTable: FC = () => {
   const [loading, setLoading] = useState(true);
   const [brands, setBrands] = useState<undefined | Brand[]>();
+  const [resultNumPages, setResultNumPages] = useState<number>();
+  const [activeNumPage, setActiveNumPage] = useState(1);
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
+        // TODO: Add pagination similar to ProductTable
         const { data: response } = await axios.get('http://localhost:5000/brands/');
         setBrands(response);
       } catch (error) {
@@ -52,7 +55,11 @@ const BrandTable: FC = () => {
               }
             </tbody>
           </Table>          
-          <TablePagination />
+          <TablePagination 
+            active={activeNumPage} 
+            totalPages={resultNumPages}
+            setActiveNumPage={setActiveNumPage}
+            />
         </>
       )
     } else {
