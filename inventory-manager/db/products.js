@@ -175,17 +175,27 @@ async function createProduct(product) {
 
 /**
  * update a product by ID
- * @param {object} product - product object
+ * @param {object} product - product object - valid product id required and one or more of the existing product properties to update
  * @returns the id and name of a product from a given id or undefined upon error/null if no product exists with the given id
  */
 async function updateProductByID (product) {
-    // deconstruct product
-    const {id, name, price, weight, quantity, ean, category_id} = product
-    if (util.isNameEmpty(name)) {
-        return undefined
+    //set base query
+    let query = "UPDATE products SET"
+    let i = 0
+    const values = []
+    //loop over product and add to query based on this format: " {key} ${i+1} ,"
+    for (var key in product) {
+        if (key != "id") {
+            query += " " + key.toLowerCase() + " = $" + (i+1) + ","
+            values.push(product[key])
+            i++
+        }
     }
-    let query = "UPDATE products SET name = $2, price = $3, weight = $4, quantity = $5, ean = $6 WHERE id = $1 RETURNING id, name"
-    let results = await db.queryDB(query, [id, name, price, weight, quantity, ean])
+    query = query.slice(0, -1) //get rid of last ','
+    values.push(product["id"])
+    query += " WHERE id = $" + (i+1) + " RETURNING id, name"
+    //let query = "UPDATE products SET name = $2, price = $3, weight = $4, quantity = $5, ean = $6 WHERE id = $1 RETURNING id, name"
+    let results = await db.queryDB(query, values)
     //error handling
     if (results === undefined) {
         return undefined

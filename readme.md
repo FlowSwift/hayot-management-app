@@ -42,7 +42,7 @@ Options
 
 - ✓ Categories by brand ID
 - Pagination
-- Update product quantity by ID
+- ✓ Update product quantity by ID
 - Delete or archive products
 
 FED:
