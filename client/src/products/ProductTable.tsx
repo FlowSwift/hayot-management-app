@@ -10,7 +10,7 @@ const ProductTable: FC = () => {
   const [products, setProducts] = useState<undefined | Product[]>();
   const [resultNumPages, setResultNumPages] = useState<number>();
   const [activeNumPage, setActiveNumPage] = useState(1);
-  const resultLimit = 25;
+  const resultLimit = 5;
 
   const refreshData = () => {
     const fetchData = async () => {
@@ -19,7 +19,7 @@ const ProductTable: FC = () => {
         let pageRequestURL = `http://localhost:5000/products/?limit=${resultLimit}`;
         if (activeNumPage > 1) {
            // Offset is page number * num per page
-          pageRequestURL = `http://localhost:5000/products/?limit=${resultLimit}&offset=${resultLimit * (activeNumPage - 1) + 1}`;  
+          pageRequestURL = `http://localhost:5000/products/?limit=${resultLimit}&offset=${resultLimit * (activeNumPage - 1)}`;  
         }
         const { data: response } = await axios.get(pageRequestURL);
         setProducts(response);
