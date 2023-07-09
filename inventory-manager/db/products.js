@@ -148,21 +148,21 @@ async function getProductsByBrandCategory(brand, category, limit, offset) {
     return results.rows
 }
 
-
+/**
+ * create a product.
+ * @param {object} product - must include name, price, weight, ean, quantity and category_id
+ * @returns - product name and newly associated ID
+ */
 async function createProduct(product) {
     const {name, price, weight, ean, quantity, category_id} = product
     /*
     exmaple query: "INSERT INTO products(name, price, weight, quantity, ean, category_id) VALUES('Puppy', 99, 4, '1234567891234', (SELECT id FROM categories WHERE brand_id = (SELECT id FROM brands WHERE name = 'Doggylicious' ) AND animal_id = (SELECT id FROM animals WHERE type = 'Dog') AND name = 'Classy'));"
     */
-    //todo: add category_id to query
     if (util.isNameEmpty(name)) {
         return undefined
     }
     let query = "INSERT INTO products(name, price, weight, quantity, ean, category_id) VALUES($1, $2, $3, $4, $5, $6) RETURNING name, id"
     let results = await db.queryDB(query, [name, price, weight, quantity, ean, category_id])
-    console.log("--------")
-    console.log(results)
-    console.log("--------")
     //error handling
     if (results === undefined) {
         return undefined
