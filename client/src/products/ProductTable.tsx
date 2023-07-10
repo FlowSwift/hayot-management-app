@@ -10,7 +10,7 @@ const ProductTable: FC = () => {
   const [products, setProducts] = useState<undefined | Product[]>();
   const [resultNumPages, setResultNumPages] = useState<number>();
   const [activeNumPage, setActiveNumPage] = useState(1);
-  const resultLimit = 5;
+  const resultLimit = 15;
 
   const refreshData = () => {
     const fetchData = async () => {
