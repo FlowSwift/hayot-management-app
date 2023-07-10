@@ -7,6 +7,7 @@ const port = 5000
 const productsRouter = require("./routes/products")
 const brandsRouter = require("./routes/brands")
 const categoriesRouter = require("./routes/categories")
+const authRouter = require("./routes/auth.js")
 
 const db = require("./db/queries")
 
@@ -19,6 +20,7 @@ app.use(express.json())
 app.use(productsRouter)
 app.use(brandsRouter)
 app.use(categoriesRouter)
+app.use(authRouter)
 
 
 app.get('/', async (req, res) => {
