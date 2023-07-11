@@ -26,6 +26,7 @@ const ProductActions: FC<Props> = ({ manageType }) => {
   const [quantity, setQuantity] = useState(0);
   const [price, setPrice] = useState(0);
   const [weight, setWeight] = useState(0);
+  const [ean, setEan] = useState("");
 
   // Open form should probably reset fields somehow
   const handleOpen = () => setShowModal(true);
@@ -38,7 +39,7 @@ const ProductActions: FC<Props> = ({ manageType }) => {
   }
 
   const handleSave = async () => {
-    console.log("handleSaveaaaa");
+    console.log("handleSave");
 
     const prod = {
       name: name,
@@ -59,7 +60,7 @@ const ProductActions: FC<Props> = ({ manageType }) => {
 
     }
     // Submit edited product details to server
-    //handleClose();
+    handleClose();
   };
 
   return (
@@ -89,7 +90,7 @@ const ProductActions: FC<Props> = ({ manageType }) => {
 
             <Modal show={showModal} onHide={handleClose}>
               <Modal.Header closeButton>
-                <Modal.Title>Edit Product</Modal.Title>
+                <Modal.Title>Add Product</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <Form>
@@ -106,20 +107,6 @@ const ProductActions: FC<Props> = ({ manageType }) => {
                       stateChanger={setBrandId}
                     />
                   </Form.Group>
-                  <Form.Group className="mb-3" controlId="formProductQuantity">
-                    <Form.Label>Quantity</Form.Label>
-                    <Form.Control type="text" value={quantity} onChange={(e) => setQuantity(parseFloat(e.target.value))} />
-                  </Form.Group>
-
-                  <Form.Group className="mb-3" controlId="formProductPrice">
-                    <Form.Label>Price</Form.Label>
-                    <Form.Control type="text" value={price} onChange={(e) => setPrice(parseFloat(e.target.value))} />
-                  </Form.Group>
-
-                  <Form.Group className="mb-3" controlId="formProductWeight">
-                    <Form.Label>Weight</Form.Label>
-                    <Form.Control type="text" value={weight} onChange={(e) => setWeight(parseFloat(e.target.value))} />
-                  </Form.Group>
                   <Form.Group className="mb-3" controlId="formProductCategory">
                     <Form.Label>Category</Form.Label>
                     <CategorySelect
@@ -129,6 +116,22 @@ const ProductActions: FC<Props> = ({ manageType }) => {
                       stateChanger={setCategoryId}
                       listChanger={setCategories}
                     />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="formProductQuantity">
+                    <Form.Label>Quantity</Form.Label>
+                    <Form.Control type="text" value={quantity} onChange={(e) => setQuantity(parseFloat(e.target.value))} />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="formProductPrice">
+                    <Form.Label>Price</Form.Label>
+                    <Form.Control type="text" value={price} onChange={(e) => setPrice(parseFloat(e.target.value))} />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="formProductWeight">
+                    <Form.Label>Weight</Form.Label>
+                    <Form.Control type="text" value={weight} onChange={(e) => setWeight(parseFloat(e.target.value))} />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="formProductEan">
+                    <Form.Label>EAN:</Form.Label>
+                    <Form.Control type="text" value={ean} onChange={(e) => setEan(e.target.value)} />
                   </Form.Group>
                 </Form>
               </Modal.Body>
