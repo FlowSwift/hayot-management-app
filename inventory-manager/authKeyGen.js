@@ -6,3 +6,4 @@ const generateSecretKey = () => {
 
 const secretKey = generateSecretKey();
 console.log(secretKey);
+//export JWT_SECRET='key'
