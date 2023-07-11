@@ -47,9 +47,6 @@ const ProductTableRow: FC<Props> = ({ product, refreshData }) => {
             price: price,
             weight: weight,
             ean: ean,
-            brand_name: brand_name,
-            brand_id: brand_id,
-            category_name: category_name,
             category_id: category_id
         };
 
