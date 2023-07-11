@@ -194,7 +194,6 @@ async function updateProductByID (product) {
     query = query.slice(0, -1) //get rid of last ','
     values.push(product["id"])
     query += " WHERE id = $" + (i+1) + " RETURNING id, name"
-    //let query = "UPDATE products SET name = $2, price = $3, weight = $4, quantity = $5, ean = $6 WHERE id = $1 RETURNING id, name"
     let results = await db.queryDB(query, values)
     //error handling
     if (results === undefined) {
