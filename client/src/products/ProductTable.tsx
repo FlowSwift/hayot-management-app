@@ -5,7 +5,11 @@ import Table from 'react-bootstrap/Table';
 import { Product } from "../common/types";
 import TablePagination from "../pagination/TablePagination";
 
-const ProductTable: FC = () => {
+interface Props {
+  searchQuery: string;
+}
+
+const ProductTable: FC<Props> = ({searchQuery}) => {
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState<undefined | Product[]>();
   const [resultNumPages, setResultNumPages] = useState<number>();
@@ -16,10 +20,14 @@ const ProductTable: FC = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        let pageRequestURL = `http://localhost:5000/products/?limit=${resultLimit}`;
+        let pageRequestURL = `http://localhost:5000/products/`;
+        if (searchQuery.trim() != "") {
+          pageRequestURL += `name/${searchQuery}`
+        }
+        pageRequestURL += `?limit=${resultLimit}`;
         if (activeNumPage > 1) {
            // Offset is page number * num per page
-          pageRequestURL = `http://localhost:5000/products/?limit=${resultLimit}&offset=${resultLimit * (activeNumPage - 1)}`;  
+          pageRequestURL += `&offset=${resultLimit * (activeNumPage - 1)}`;  
         }
         const { data: response } = await axios.get(pageRequestURL);
         setProducts(response);
@@ -45,7 +53,7 @@ const ProductTable: FC = () => {
 
   useEffect(() => {
     refreshData();
-  }, [activeNumPage]);
+  }, [activeNumPage, searchQuery]);
  
   if (loading) {
     return (

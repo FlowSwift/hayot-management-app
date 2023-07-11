@@ -11,12 +11,14 @@ import { Category } from "../common/types";
 
 import CategorySelect from "../categories/CategorySelect";
 import BrandSelect from '../brands/BrandSelect';
+import SearchBar from './SearchBar';
 
 interface Props {
   manageType: string | undefined
+  onSearch: (query: string) => void;
 };
 
-const ProductActions: FC<Props> = ({ manageType }) => {
+const ProductActions: FC<Props> = ({ manageType, onSearch}) => {
   const addIcon = <FontAwesomeIcon icon={faPlus} />;
   const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState("");
@@ -27,6 +29,7 @@ const ProductActions: FC<Props> = ({ manageType }) => {
   const [price, setPrice] = useState(0);
   const [weight, setWeight] = useState(0);
   const [ean, setEan] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Open form should probably reset fields somehow
   const handleOpen = () => setShowModal(true);
@@ -38,6 +41,12 @@ const ProductActions: FC<Props> = ({ manageType }) => {
     handleSave();
   }
 
+  const handleSearch = async (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
+    setSearchQuery(searchQuery);
+    onSearch(searchQuery);
+  }
+
   const handleSave = async () => {
     console.log("handleSave");
 
@@ -46,7 +55,7 @@ const ProductActions: FC<Props> = ({ manageType }) => {
       price: price,
       weight: weight,
       quantity: quantity,
-      ean: "1234567899876",
+      ean: ean,
       category_id: category_id
     };
 
@@ -65,18 +74,13 @@ const ProductActions: FC<Props> = ({ manageType }) => {
 
   return (
     <div>
-      <Form onSubmit={handleSubmit}>
+      <Form>
         <Row className="align-items-center">
           <Col xs="auto">
             <Form.Label htmlFor="inlineFormInput" visuallyHidden>
               Search
             </Form.Label>
-            <Form.Control
-              className="mb-2"
-              id="inlineFormInput"
-              placeholder="Search"
-              type="search"
-            />
+            <SearchBar onSearch={onSearch} />
           </Col>
           {/* <Col xs="auto">
             <Button type="button" className="mb-2">
@@ -139,7 +143,7 @@ const ProductActions: FC<Props> = ({ manageType }) => {
                 <Button type="reset" variant="secondary" onClick={handleClose}>
                   Close
                 </Button>
-                <Button type="submit" variant="primary" onClick={handleSave}>
+                <Button type="submit" variant="primary" onClick={handleSubmit}>
                   Add Product
                 </Button>
               </Modal.Footer>

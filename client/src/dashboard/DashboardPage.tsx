@@ -17,26 +17,19 @@ interface Props {
 
 const DashboardPage: FC<Props> = ({ manageType }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
-  const handleLogin = (username: string, password: string) => {
-    // Check if username and password are correct
-    const isValidUser = true; // Replace with your authentication logic
-    if (isValidUser) {
-      setUser({ username, password });
-    }
-  };
-
-  const handleLogout = () => {
-    setUser(null);
+  const handleSearch = (query: string): void => {
+    setSearchQuery(query);
   };
 
   const dataTable = () => {
     if (manageType == "brands") {
       return <BrandTable />
     } else if (manageType == "categories") {
-      return <CategoryTable /> 
+      return <CategoryTable />
     } else {
-      return <ProductTable />
+      return <ProductTable searchQuery={searchQuery} />
     }
   }
 
@@ -45,7 +38,7 @@ const DashboardPage: FC<Props> = ({ manageType }) => {
       {user == null ? ( // TODO Check for user
         <div>
           <Subnavbar />
-          <ProductActions manageType={manageType} />
+          <ProductActions manageType={manageType} onSearch={handleSearch} />
           {dataTable()}
         </div>
       ) : (

@@ -162,6 +162,7 @@ async function createProduct(product) {
         return undefined
     }
     let query = "INSERT INTO products(name, price, weight, quantity, ean, category_id) VALUES($1, $2, $3, $4, $5, $6) RETURNING name, id"
+    console.log(query)
     let results = await db.queryDB(query, [name, price, weight, quantity, ean, category_id])
     //error handling
     if (results === undefined) {
