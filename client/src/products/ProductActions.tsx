@@ -16,13 +16,16 @@ interface Props {
   manageType: string | undefined
 };
 
-const ProductActions: FC<Props> = ({ manageType }) => {  
+const ProductActions: FC<Props> = ({ manageType }) => {
   const addIcon = <FontAwesomeIcon icon={faPlus} />;
   const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState("");
   const [categories, setCategories] = useState<undefined | Category[]>();
   const [category_id, setCategoryId] = useState(undefined);
   const [brand_id, setBrandId] = useState(undefined);
+  const [quantity, setQuantity] = useState(0);
+  const [price, setPrice] = useState(0);
+  const [weight, setWeight] = useState(0);
 
   // Open form should probably reset fields somehow
   const handleOpen = () => setShowModal(true);
@@ -35,23 +38,22 @@ const ProductActions: FC<Props> = ({ manageType }) => {
   }
 
   const handleSave = async () => {
-    console.log("handleSave");
+    console.log("handleSaveaaaa");
 
     const prod = {
       name: name,
-      price: 13.37, 
-      weight: 13.37,
-      quantity: 0,
-      ean: "1234567899876", 
+      price: price,
+      weight: weight,
+      quantity: quantity,
+      ean: "1234567899876",
       category_id: category_id
     };
 
     console.log(prod);
 
-    // name, price, weight, quantity, ean, category_id
     try {
       const { data: response } = await axios.post('http://localhost:5000/products/',
-      prod);
+        prod);
     }
     catch {
 
@@ -98,23 +100,35 @@ const ProductActions: FC<Props> = ({ manageType }) => {
 
                   {/* TODO: add onchange handlers */}
                   <Form.Group className="mb-3" controlId="formProductBrand">
-                      <Form.Label>Brand</Form.Label>
-                      <BrandSelect
-                          activeId={brand_id}
-                          stateChanger={setBrandId}
-                      />
+                    <Form.Label>Brand</Form.Label>
+                    <BrandSelect
+                      activeId={brand_id}
+                      stateChanger={setBrandId}
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="formProductQuantity">
+                    <Form.Label>Quantity</Form.Label>
+                    <Form.Control type="text" value={quantity} onChange={(e) => setQuantity(parseFloat(e.target.value))} />
                   </Form.Group>
 
-                  {/* TODO: update categories by state's brand ID */}
+                  <Form.Group className="mb-3" controlId="formProductPrice">
+                    <Form.Label>Price</Form.Label>
+                    <Form.Control type="text" value={price} onChange={(e) => setPrice(parseFloat(e.target.value))} />
+                  </Form.Group>
+
+                  <Form.Group className="mb-3" controlId="formProductWeight">
+                    <Form.Label>Weight</Form.Label>
+                    <Form.Control type="text" value={weight} onChange={(e) => setWeight(parseFloat(e.target.value))} />
+                  </Form.Group>
                   <Form.Group className="mb-3" controlId="formProductCategory">
-                      <Form.Label>Category</Form.Label>
-                      <CategorySelect
-                          activeId={category_id}
-                          brandId={brand_id}
-                          categories={categories}
-                          stateChanger={setCategoryId}
-                          listChanger={setCategories}
-                      />
+                    <Form.Label>Category</Form.Label>
+                    <CategorySelect
+                      activeId={category_id}
+                      brandId={brand_id}
+                      categories={categories}
+                      stateChanger={setCategoryId}
+                      listChanger={setCategories}
+                    />
                   </Form.Group>
                 </Form>
               </Modal.Body>
