@@ -68,7 +68,7 @@ const ProductTable: FC = () => {
   return (
     <>
       <Filters filterType={"products"} onSearch={handleSearch} />
-      <ProductActions />
+      <ProductActions refreshData={refreshData} />
       {loading ? <p>Loading...</p> : <>
         <Table striped bordered hover size="sm">
           <thead>

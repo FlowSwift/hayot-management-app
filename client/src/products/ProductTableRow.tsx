@@ -55,8 +55,9 @@ const ProductTableRow: FC<Props> = ({ product, refreshData }) => {
             const { data: response } = await axios.put('http://localhost:5000/products/',
                 prod);
         }
-        catch {
-
+        catch (error){
+            console.log("DATABASE ERROR: ")
+            console.log(error)
         }
         refreshData();
         handleClose();

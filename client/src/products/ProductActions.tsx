@@ -12,9 +12,11 @@ import { Category } from "../common/types";
 import CategorySelect from "../categories/CategorySelect";
 import BrandSelect from '../brands/BrandSelect';
 
+interface Props {
+  refreshData: Function
+};
 
-
-const ProductActions: FC = () => {
+const ProductActions: FC<Props> = ({ refreshData }) => {
   const addIcon = <FontAwesomeIcon icon={faPlus} />;
   const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState("");
@@ -36,11 +38,6 @@ const ProductActions: FC = () => {
     handleSave();
   }
 
-  const handleSearch = async (e: { preventDefault: () => void; }) => {
-    e.preventDefault();
-    setSearchQuery(searchQuery);
-  }
-
   const handleSave = async () => {
     console.log("handleSave");
 
@@ -59,10 +56,11 @@ const ProductActions: FC = () => {
       const { data: response } = await axios.post('http://localhost:5000/products/',
         prod);
     }
-    catch {
-
+    catch (error) {
+      console.log("DATABASE ERROR: ")
+      console.log(error)
     }
-    // Submit edited product details to server
+    refreshData();
     handleClose();
   };
 
@@ -70,17 +68,6 @@ const ProductActions: FC = () => {
     <div>
       <Form>
         <Row className="align-items-center">
-          {/* <Col xs="auto">
-            <Form.Label htmlFor="inlineFormInput" visuallyHidden>
-              Search
-            </Form.Label>
-            <SearchBar onSearch={() => null} />
-          </Col> */}
-          {/* <Col xs="auto">
-            <Button type="button" className="mb-2">
-              Export
-            </Button>
-          </Col> */}
           <Col xs="auto">
             <Button type="button" className="mb-2" onClick={handleOpen}>
               {addIcon} Add Product
