@@ -11,14 +11,10 @@ import { Category } from "../common/types";
 
 import CategorySelect from "../categories/CategorySelect";
 import BrandSelect from '../brands/BrandSelect';
-import SearchBar from './SearchBar';
 
-interface Props {
-  manageType: string | undefined
-  onSearch: (query: string) => void;
-};
 
-const ProductActions: FC<Props> = ({ manageType, onSearch}) => {
+
+const ProductActions: FC = () => {
   const addIcon = <FontAwesomeIcon icon={faPlus} />;
   const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState("");
@@ -34,7 +30,6 @@ const ProductActions: FC<Props> = ({ manageType, onSearch}) => {
   // Open form should probably reset fields somehow
   const handleOpen = () => setShowModal(true);
   const handleClose = () => setShowModal(false);
-
   // Prevent page from redirecting when user hits Enter
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
@@ -44,7 +39,6 @@ const ProductActions: FC<Props> = ({ manageType, onSearch}) => {
   const handleSearch = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     setSearchQuery(searchQuery);
-    onSearch(searchQuery);
   }
 
   const handleSave = async () => {
@@ -76,12 +70,12 @@ const ProductActions: FC<Props> = ({ manageType, onSearch}) => {
     <div>
       <Form>
         <Row className="align-items-center">
-          <Col xs="auto">
+          {/* <Col xs="auto">
             <Form.Label htmlFor="inlineFormInput" visuallyHidden>
               Search
             </Form.Label>
-            <SearchBar onSearch={onSearch} />
-          </Col>
+            <SearchBar onSearch={() => null} />
+          </Col> */}
           {/* <Col xs="auto">
             <Button type="button" className="mb-2">
               Export
@@ -89,7 +83,7 @@ const ProductActions: FC<Props> = ({ manageType, onSearch}) => {
           </Col> */}
           <Col xs="auto">
             <Button type="button" className="mb-2" onClick={handleOpen}>
-              {addIcon} Add {manageType}
+              {addIcon} Add Product
             </Button>
 
             <Modal show={showModal} onHide={handleClose}>

@@ -3,7 +3,7 @@ import DashboardPage from './dashboard/DashboardPage';
 import LoginPage from './login/LoginPage';
 import GlobalNavbar from './navbar/Navbar';
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import GlobalStyles from './styles/GlobalStyles';
 import SignUpPage from './login/SignUpPage';
 import AuthRoute from "./auth/AuthRoute";
@@ -12,49 +12,32 @@ import checkIfUserIsAuthenticated from "./auth/util";
 
 const App: React.FC = () => {
   const isAuthenticated = checkIfUserIsAuthenticated();
-  console.log(isAuthenticated)
+  const location = useLocation()
+  const currentPath = location.pathname.slice(1)
+  type Filters = {
+    searchQuery: string;
+    // Other filter properties...
+  };
+
 
   return (
-    <Router>
-      <div className="App">
-        <GlobalStyles />
-        <header className="App-header">
-          <GlobalNavbar />
-        </header>
-        <main>
-          <Routes>
-            <Route
-              path="/dashboard"
-              element={
-                <AuthRoute isAuthenticated={isAuthenticated}>
-                  <DashboardPage manageType="products" />
-                </AuthRoute>
-              }
-            />
-            <Route
-              path="/brands"
-              element={
-                <AuthRoute isAuthenticated={isAuthenticated}>
-                  <DashboardPage manageType="brands" />
-                </AuthRoute>
-              }
-            />
-            <Route
-              path="/categories"
-              element={
-                <AuthRoute isAuthenticated={isAuthenticated}>
-                  <DashboardPage manageType="categories" />
-                </AuthRoute>
-              }
-            />
-            <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="*" element={<DashboardPage manageType="products" />} />
-            {/* Other routes */}
-          </Routes>
-        </main>
-      </div>
-    </Router >
+    <div className="App">
+      <GlobalStyles />
+      <header className="App-header">
+        <GlobalNavbar />
+      </header>
+      <main>
+        <Routes>
+          <Route element={<AuthRoute isAuthenticated={isAuthenticated} />}>
+            <Route path="dashboard/*" element={<DashboardPage />} />
+          </Route>
+          <Route path="signup" element={<SignUpPage />} />
+          <Route path="login" element={<LoginPage />} />
+          {/* <Route path="*" element={<Navigate to="/dashboard" />} /> */}
+          {/* Other routes */}
+        </Routes>
+      </main>
+    </div>
   );
 };
 

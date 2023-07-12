@@ -5,14 +5,9 @@ interface Props {
 }
 
 const SearchBar: FC<Props> = ({ onSearch }) => {
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const handleSearch = () => {
-    onSearch(searchQuery);
-  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value);
+    e.preventDefault()
     onSearch(e.target.value); // Perform search on every change
   };
 
@@ -21,10 +16,8 @@ const SearchBar: FC<Props> = ({ onSearch }) => {
       <input
         type="text"
         placeholder="Search"
-        value={searchQuery}
         onChange={handleChange}
       />
-      <button type="button" onClick={handleSearch}>Search</button>
     </div>
   );
 };

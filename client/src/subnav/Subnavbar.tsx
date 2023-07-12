@@ -8,21 +8,21 @@ const Subnavbar: FC = () => {
             <SubnavLinks>
                 <SubnavLink>
                     <NavLink
-                        to="/dashboard"
+                        to="/dashboard/products"
                         className={({ isActive }) => (isActive ? 'active' : 'inactive')}>
                         Products
                     </NavLink>
                 </SubnavLink>
                 <SubnavLink>
                     <NavLink
-                        to="/categories"
+                        to="/dashboard/categories"
                         className={({ isActive }) => (isActive ? 'active' : 'inactive')}>
                         Categories
                     </NavLink>
                 </SubnavLink>
                 <SubnavLink>
                     <NavLink
-                        to="/brands"
+                        to="/dashboard/brands"
                         className={({ isActive }) => (isActive ? 'active' : 'inactive')}>
                         Brands
                     </NavLink>

@@ -1,13 +1,10 @@
-import { ReactElement } from 'react';
-import { Route, Navigate } from 'react-router-dom';
+import { Outlet, Navigate } from 'react-router-dom';
 
 type AuthRouteProps = {
-    children: ReactElement
     isAuthenticated: boolean;
 };
 
 const AuthRoute: React.FC<AuthRouteProps> = ({
-    children,
     isAuthenticated,
 }) => {
     let authenticationPath = "/login"
@@ -15,7 +12,7 @@ const AuthRoute: React.FC<AuthRouteProps> = ({
         return <Navigate to={authenticationPath} replace />;
     }
 
-    return children;
+    return <Outlet />;
 };
 
 export default AuthRoute;
