@@ -37,6 +37,13 @@ const ProductActions: FC<Props> = ({ refreshData }) => {
     handleSave();
   }
 
+  const checkfieldNan = (value: number) => {
+    if (isNaN(value)){
+      return 0
+    }
+    return value
+  }
+
   //reset modal values
   const handleSave = async () => {
     setName("");
@@ -111,15 +118,15 @@ const ProductActions: FC<Props> = ({ refreshData }) => {
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formProductQuantity">
                     <Form.Label>Quantity</Form.Label>
-                    <Form.Control type="text" value={quantity} onChange={(e) => setQuantity(parseFloat(e.target.value))} />
+                    <Form.Control type="text" value={quantity} onChange={(e) => setQuantity(checkfieldNan(parseFloat(e.target.value)))} />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formProductPrice">
                     <Form.Label>Price</Form.Label>
-                    <Form.Control type="text" value={price} onChange={(e) => setPrice(parseFloat(e.target.value))} />
+                    <Form.Control type="text" value={price} onChange={(e) => setPrice(checkfieldNan(parseFloat(e.target.value)))} />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formProductWeight">
                     <Form.Label>Weight</Form.Label>
-                    <Form.Control type="text" value={weight} onChange={(e) => setWeight(parseFloat(e.target.value))} />
+                    <Form.Control type="text" value={weight} onChange={(e) => setWeight(checkfieldNan(parseFloat(e.target.value)))} />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formProductEan">
                     <Form.Label>EAN:</Form.Label>
