@@ -7,7 +7,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Modal from 'react-bootstrap/Modal';
-import { Category } from "../common/types";
+import { Brand, Category } from "../common/types";
 
 import CategorySelect from "../categories/CategorySelect";
 import BrandSelect from '../brands/BrandSelect';
@@ -102,7 +102,7 @@ const ProductActions: FC<Props> = ({ refreshData }) => {
                   <Form.Group className="mb-3" controlId="formProductBrand">
                     <Form.Label>Brand</Form.Label>
                     <BrandSelect
-                      activeId={brand_id}
+                      activeId={undefined}
                       stateChanger={setBrandId}
                     />
                   </Form.Group>
