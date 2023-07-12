@@ -27,7 +27,6 @@ const ProductActions: FC<Props> = ({ refreshData }) => {
   const [price, setPrice] = useState(0);
   const [weight, setWeight] = useState(0);
   const [ean, setEan] = useState("");
-  const [searchQuery, setSearchQuery] = useState('');
 
   // Open form should probably reset fields somehow
   const handleOpen = () => setShowModal(true);
@@ -38,8 +37,16 @@ const ProductActions: FC<Props> = ({ refreshData }) => {
     handleSave();
   }
 
+  //reset modal values
   const handleSave = async () => {
-    console.log("handleSave");
+    setName("");
+    setCategories(undefined);
+    setCategoryId(undefined);
+    setBrandId(undefined);
+    setQuantity(0);
+    setPrice(0);
+    setWeight(0);
+    setEan("");
 
     const prod = {
       name: name,
