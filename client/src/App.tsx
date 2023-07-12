@@ -12,12 +12,6 @@ import checkIfUserIsAuthenticated from "./auth/util";
 
 const App: React.FC = () => {
   const isAuthenticated = checkIfUserIsAuthenticated();
-  const location = useLocation()
-  const currentPath = location.pathname.slice(1)
-  type Filters = {
-    searchQuery: string;
-    // Other filter properties...
-  };
 
 
   return (
