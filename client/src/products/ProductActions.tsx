@@ -1,60 +1,80 @@
 import { FC, useState, useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faL, faPlus } from '@fortawesome/free-solid-svg-icons'
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Modal from 'react-bootstrap/Modal';
-import { Brand, Category } from "../common/types";
-
+import { Brand, Category, Product } from "../common/types";
 import CategorySelect from "../categories/CategorySelect";
 import BrandSelect from '../brands/BrandSelect';
 
 interface Props {
-  refreshData: Function
+  actionType: string
+  handleAddProduct: Function
+  isShow: boolean
+  selectedProduct?: Product
 };
 
-const ProductActions: FC<Props> = ({ refreshData }) => {
+const ProductActions: FC<Props> = ({actionType, handleAddProduct, isShow ,selectedProduct = undefined}) => {
   const addIcon = <FontAwesomeIcon icon={faPlus} />;
-  const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState("");
   const [categories, setCategories] = useState<undefined | Category[]>();
-  const [category_id, setCategoryId] = useState(undefined);
-  const [brand_id, setBrandId] = useState(undefined);
+  const [category_id, setCategoryId] = useState(0);
+  const [brand_id, setBrandId] = useState(0);
   const [quantity, setQuantity] = useState(0);
   const [price, setPrice] = useState(0);
   const [weight, setWeight] = useState(0);
   const [ean, setEan] = useState("");
 
-  // Open form should probably reset fields somehow
-  const handleOpen = () => setShowModal(true);
-  const handleClose = () => setShowModal(false);
+  const handleOpen = () => null;
+  const handleClose = () => {
+    handleAddProduct(false);
+  }
+  console.log(actionType)
   // Prevent page from redirecting when user hits Enter
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     handleSave();
+    handleClose();
   }
 
   const checkfieldNan = (value: number) => {
-    if (isNaN(value)){
+    if (isNaN(value)) {
       return 0
     }
     return value
   }
 
-  //reset modal values
-  const handleSave = async () => {
+  useEffect(() => {
+    if (selectedProduct) {
+      setName(selectedProduct.name);
+      setBrandId(selectedProduct.brand_id);
+      setCategoryId(selectedProduct.category_id);
+      setQuantity(selectedProduct.quantity);
+      setPrice(selectedProduct.price);
+      setWeight(selectedProduct.weight);
+      setEan(selectedProduct.ean);
+    } else {
+      resetForm();
+    }
+  }, [selectedProduct]);
+
+  const resetForm = () => {
     setName("");
     setCategories(undefined);
-    setCategoryId(undefined);
-    setBrandId(undefined);
+    setCategoryId(0);
+    setBrandId(0);
     setQuantity(0);
     setPrice(0);
     setWeight(0);
     setEan("");
+  }
 
+  //reset modal values
+  const handleSave = async () => {
     const prod = {
       name: name,
       price: price,
@@ -74,8 +94,7 @@ const ProductActions: FC<Props> = ({ refreshData }) => {
       console.log("DATABASE ERROR: ")
       console.log(error)
     }
-    refreshData();
-    handleClose();
+    resetForm()
   };
 
   return (
@@ -83,13 +102,9 @@ const ProductActions: FC<Props> = ({ refreshData }) => {
       <Form>
         <Row className="align-items-center">
           <Col xs="auto">
-            <Button type="button" className="mb-2" onClick={handleOpen}>
-              {addIcon} Add Product
-            </Button>
-
-            <Modal show={showModal} onHide={handleClose}>
+            <Modal show={isShow} onHide={handleClose}>
               <Modal.Header closeButton>
-                <Modal.Title>Add Product</Modal.Title>
+                <Modal.Title>{actionType}</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <Form>
@@ -102,7 +117,7 @@ const ProductActions: FC<Props> = ({ refreshData }) => {
                   <Form.Group className="mb-3" controlId="formProductBrand">
                     <Form.Label>Brand</Form.Label>
                     <BrandSelect
-                      activeId={undefined}
+                      activeId={brand_id}
                       stateChanger={setBrandId}
                     />
                   </Form.Group>
@@ -139,7 +154,7 @@ const ProductActions: FC<Props> = ({ refreshData }) => {
                   Close
                 </Button>
                 <Button type="submit" variant="primary" onClick={handleSubmit}>
-                  Add Product
+                  {actionType}
                 </Button>
               </Modal.Footer>
             </Modal>

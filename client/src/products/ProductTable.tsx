@@ -1,11 +1,14 @@
 import { FC, useState, useEffect } from 'react';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import ProductTableRow from './ProductTableRow';
 import Table from 'react-bootstrap/Table';
 import { Product } from "../common/types";
 import TablePagination from "../pagination/TablePagination";
 import ProductActions from './ProductActions';
 import Filters from '../filters/Filters';
+import Button from 'react-bootstrap/Button';
 
 interface Props {
   // filters: {}
@@ -13,16 +16,44 @@ interface Props {
 
 
 const ProductTable: FC = () => {
+  const addIcon = <FontAwesomeIcon icon={faPlus} />;
+  const [showAddProductForm, setShowAddProductForm] = useState(false);
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState<undefined | Product[]>();
+  const [selectedEditProduct, setSelectedEditProduct] = useState<Product>();
   const [resultNumPages, setResultNumPages] = useState<number>();
   const [activeNumPage, setActiveNumPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("")
+  const addAction = "Add Product";
+  const editAction = "Edit Product";
+  const [actionType, setActionType] = useState(addAction)
   const resultLimit = 15;
 
   const handleSearch = (search: string) => {
     setSearchQuery(search)
+    setActiveNumPage(1)
   };
+
+  const setAddProductForm = () => {
+    if (showAddProductForm) {
+      refreshData();
+      setShowAddProductForm(false);
+      setSelectedEditProduct(undefined)
+    } else {
+      setShowAddProductForm(true);
+    }
+  }
+
+  const handleAddProduct = () => {
+    setActionType(addAction)
+    setAddProductForm()
+  };
+
+  const handleEditProduct = (product: Product) => {
+    setActionType(editAction)
+    setAddProductForm()
+    setSelectedEditProduct(product)
+  }
 
   const refreshData = () => {
     const fetchData = async () => {
@@ -68,7 +99,10 @@ const ProductTable: FC = () => {
   return (
     <>
       <Filters filterType={"products"} onSearch={handleSearch} />
-      <ProductActions refreshData={refreshData} />
+      <Button type="button" className="mb-2" onClick={handleAddProduct}>
+        {addIcon} Add Product
+      </Button>
+      {showAddProductForm && <ProductActions actionType={actionType} handleAddProduct={handleAddProduct} isShow={showAddProductForm} selectedProduct={selectedEditProduct}/>}
       {loading ? <p>Loading...</p> : <>
         <Table striped bordered hover size="sm">
           <thead>
@@ -87,7 +121,7 @@ const ProductTable: FC = () => {
                 <ProductTableRow
                   key={product.id}
                   product={product}
-                  refreshData={refreshData}
+                  handleEditProduct={handleEditProduct}
                 />
               )
             }

@@ -21,7 +21,7 @@ const CategorySelect: FC<Props> = ({ activeId, brandId, categories, stateChanger
     const fetchData = async () => {
       setLoading(true);
       // setActiveValue(activeId);
-      if (brandId != undefined) {
+      if (brandId != undefined && brandId != 0) {
         try {
           const { data: response } = await axios.get(`http://localhost:5000/brands/${brandId}/categories/`);
           listChanger(response);
