@@ -72,7 +72,6 @@ const ProductActions: FC<Props> = ({actionType, handleAddProduct, isShow ,select
     setEan("");
   }
 
-  //reset modal values
   const handleSave = async () => {
     let prod = {
       id: selectedProduct?.id,
@@ -116,8 +115,6 @@ const ProductActions: FC<Props> = ({actionType, handleAddProduct, isShow ,select
                     <Form.Label>Name</Form.Label>
                     <Form.Control type="text" value={name} onChange={(e) => setName(e.target.value)} />
                   </Form.Group>
-
-                  {/* TODO: add onchange handlers */}
                   <Form.Group className="mb-3" controlId="formProductBrand">
                     <Form.Label>Brand</Form.Label>
                     <BrandSelect
