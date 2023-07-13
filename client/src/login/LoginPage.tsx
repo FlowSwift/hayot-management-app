@@ -24,6 +24,7 @@ const LoginPage: FC = () => {
             Cookies.set("token", token, { expires: 7 });
             setUser(checkIfUserIsAuthenticated())
             navigate("/dashboard")
+            navigate(0)
         } catch (error) {
             console.log("Login failed:", error);
             // Handle login failure, display error message, etc.
@@ -34,10 +35,8 @@ const LoginPage: FC = () => {
         setUser(false);
         Cookies.remove("token")
         navigate("/login")
+        navigate(0)
     };
-    if (user) {
-        console.log(user)
-    }
     return (
         <div>
             {user ? (
