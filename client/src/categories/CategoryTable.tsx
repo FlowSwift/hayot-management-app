@@ -4,21 +4,81 @@ import CategoryTableRow from './CategoryTableRow';
 import Table from 'react-bootstrap/Table';
 import { Category } from "../common/types";
 import TablePagination from "../pagination/TablePagination";
+import Filters from '../filters/Filters';
+import Button from 'react-bootstrap/esm/Button';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import CategoryActions from './CategoryActions';
 
-const CategoryTable: FC = () => {
+
+interface Props {
+  itemLim: number
+};
+
+const CategoryTable: FC<Props> = ({ itemLim }) => {
+  const addIcon = <FontAwesomeIcon icon={faPlus} />;
+  const [showAddCategoryForm, setShowAddCategoryForm] = useState(false);
+  const [selectedEditCategory, setSelectedEditCategory] = useState<Category>();
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState<undefined | Category[]>();
   const [resultNumPages, setResultNumPages] = useState<number>();
   const [activeNumPage, setActiveNumPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("")
+  const [itemLimit, setItemLimit] = useState(itemLim | 15)
+  const addAction = "Add Category";
+  const editAction = "Edit Category";
+  const [actionType, setActionType] = useState(addAction)
+
+  const handleSearch = (search: string) => {
+    setSearchQuery(search)
+    setActiveNumPage(1)
+  };
+
+  const setAddCategoryForm = () => {
+    if (showAddCategoryForm) {
+      // refreshData();
+      setShowAddCategoryForm(false);
+      setSelectedEditCategory(undefined)
+    } else {
+      setShowAddCategoryForm(true);
+    }
+  }
+
+  const handleAddCategory = () => {
+    setActionType(addAction)
+    setAddCategoryForm()
+  };
+
+  const handleEditCategory = (category: Category) => {
+    setActionType(editAction)
+    setAddCategoryForm()
+    setSelectedEditCategory(category)
+  }
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        // TODO: Add pagination similar to ProductTable
-        const { data: response } = await axios.get('http://localhost:5000/categories/');
+        let pageRequestURL = 'http://localhost:5000/categories/'
+        if (searchQuery.trim() != "") {
+          pageRequestURL += `name/${searchQuery}`
+        }
+        pageRequestURL += `?limit=${itemLimit}`;
+        if (activeNumPage > 1) {
+          // Offset is page number * num per page
+          pageRequestURL += `&offset=${itemLimit * (activeNumPage - 1)}`;
+        }
+        const { data: response } = await axios.get(pageRequestURL);
         setCategories(response);
+
+        // Determine total number of results for pagination
+        let resCount = 0;
+        if (response !== 'undefined') {
+          resCount = response[0].total_count;
+        }
+        setResultNumPages(Math.ceil(resCount / itemLimit));
       } catch (error) {
+        setCategories(undefined)
         if (error instanceof Error) {
           console.log(error.message);
         } else {
@@ -29,15 +89,17 @@ const CategoryTable: FC = () => {
     }
 
     fetchData();
-  }, []);
- 
-  if (loading) {
-    return (
-      <p>Loading...</p>
-    )
-  } else {
-    if (typeof (categories) !== 'undefined' && categories != null) {
-      return (
+  }, [activeNumPage,
+    searchQuery]);
+  return (
+    <>
+      <Filters filterType={"categories"} onSearch={handleSearch} />
+      <Button type="button" className="mb-2" onClick={handleAddCategory}>
+        {addIcon} {actionType}
+      </Button>
+      {showAddCategoryForm && <CategoryActions actionType={actionType} handleAddCategory={handleAddCategory} isShow={showAddCategoryForm} selectedCategory={selectedEditCategory} />}
+      {loading && (<p>Loading...</p>)}
+      {!loading && typeof categories !== "undefined" && (
         <>
           <Table striped bordered hover>
             <thead>
@@ -49,26 +111,21 @@ const CategoryTable: FC = () => {
             </thead>
             <tbody>
               {
-                categories
-                  .map(category =>
-                    <CategoryTableRow key={category.id} category={category} />
-                  )
+                categories?.map(category =>
+                  <CategoryTableRow key={category.id} category={category} />
+                )
               }
             </tbody>
           </Table>
-          <TablePagination 
-            active={activeNumPage} 
+          <TablePagination
+            active={activeNumPage}
             totalPages={resultNumPages}
             setActiveNumPage={setActiveNumPage}
-            />
-        </>
-      )
-    } else {
-      return (
-        <p>No results found</p>
-      )
-    }
-  }
+          />
+        </>)}
+      {!loading && typeof categories === "undefined" && (
+        <p>No results found! :(</p>
+      )}
+    </>)
 }
-
 export default CategoryTable;
