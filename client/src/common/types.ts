@@ -1,3 +1,5 @@
+import { type } from "os";
+
 export interface Product {
     id: number;
     name: string;
@@ -16,9 +18,16 @@ export interface Category {
   name: string;
   brand_id: number;
   brand_name: string;
+  animal_id: number;
+  animal_name: string;
 }
 
 export interface Brand {
-    id: string;
-    name: string;
+  id: string;
+  name: string;
+}
+
+export interface Animal {
+  id: string;
+  type: string;
 }
