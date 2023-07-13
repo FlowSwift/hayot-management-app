@@ -19,7 +19,7 @@ export interface Category {
   brand_id: number;
   brand_name: string;
   animal_id: number;
-  animal_name: string;
+  animal_type: string;
 }
 
 export interface Brand {

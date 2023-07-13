@@ -107,18 +107,18 @@ const CategoryTable: FC<Props> = ({ itemLim }) => {
       {loading && (<p>Loading...</p>)}
       {!loading && typeof categories !== "undefined" && (
         <>
-          <Table striped bordered hover>
+          <Table striped bordered size="sm">
             <thead>
               <tr>
-                <th>Category ID</th>
                 <th>Category Name</th>
                 <th>Brand</th>
+                <th>Animal</th>
               </tr>
             </thead>
             <tbody>
               {
                 categories?.map(category =>
-                  <CategoryTableRow key={category.id} category={category} />
+                  <CategoryTableRow key={category.id} category={category} handleEditCategory={handleEditCategory}/>
                 )
               }
             </tbody>

@@ -1,61 +1,24 @@
 import { FC, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPencil } from '@fortawesome/free-solid-svg-icons'
-import { Button, Modal, Form } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
 import { Category } from "../common/types";
+import { Col, Form, Row } from 'react-bootstrap';
+import ConfirmationPopup from '../global/ConfirmPopup';
 
 interface Props {
-    category: Category
+    category: Category,
+    handleEditCategory: Function
 };
-
-const CategoryTableRow: FC<Props> = ({ category }) => {
-    const editIcon = <FontAwesomeIcon icon={faPencil} />
-    const [showModal, setShowModal] = useState(false);
-    const [name, setName] = useState(category.name);
-    const [brand_name, setBrand] = useState(category.brand_name);
-
-    const handleClose = () => setShowModal(false);
-    const handleOpen = () => setShowModal(true);
-
-    const handleSave = () => {
-        // Submit edited category details to server
-        handleClose();
-    };
+const CategoryTableRow: FC<Props> = ({ category, handleEditCategory}) => {
+    const handleOpen = () => handleEditCategory(category);
+    
 
     return (
         <tr>
-            <td>{category.id}</td>
-            <td>
-                <Button variant="primary" onClick={handleOpen}>{editIcon}</Button> {category.name}
-
-                <Modal show={showModal} onHide={handleClose}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Edit Category</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Form>
-                            <Form.Group className="mb-3" controlId="formCategoryName">
-                                <Form.Label>Name</Form.Label>
-                                <Form.Control type="text" value={name} onChange={(e) => setName(e.target.value)} />
-                            </Form.Group>
-
-                            <Form.Group className="mb-3" controlId="formCategoryBrand">
-                                <Form.Label>Brand</Form.Label>
-                                <Form.Control as="textarea" value={brand_name} onChange={(e) => setBrand(e.target.value)} />
-                            </Form.Group>
-                        </Form>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={handleClose}>
-                            Close
-                        </Button>
-                        <Button variant="primary" onClick={handleSave}>
-                            Save Changes
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
+            <td className="align-middle">
+                <span className="text-muted">#{category.id}</span> <Button variant="link" onClick={handleOpen}>{category.name}</Button>
             </td>
-            <td>{category.brand_name}</td>
+            <td className="align-middle">{category.brand_name}</td>
+            <td className="align-middle">{category.animal_type}</td>
         </tr>
     )
 }
