@@ -1,7 +1,5 @@
 "use strict";
-const { query } = require("express");
 const db = require("../db/queries");
-const { getCategoryByID, getCategoryByName } = require("./categories");
 const util = require("./util")
 const baseQuery = 
 `SELECT 
@@ -17,6 +15,7 @@ products.ean,
 products.weight,
 COUNT(products.id) OVER () AS total_count
 FROM products JOIN categories ON products.category_id = categories.id JOIN brands ON categories.brand_id = brands.id`; // base query to append on
+const orderBy = "products.id ASC"
 
 /**
  * get a list of products
@@ -25,7 +24,7 @@ FROM products JOIN categories ON products.category_id = categories.id JOIN brand
  * @returns Array of results or undefined upon error/ null if no products were found
  */
 async function getProducts(limit, offset) {
-    let query = baseQuery + " ORDER BY products.id ASC"
+    let query = baseQuery + " ORDER BY " + orderBy;
     query = util.addPagination(query, limit, offset);
     let results = await db.queryDB(query);
     if (results === undefined) {
@@ -43,7 +42,7 @@ async function getProducts(limit, offset) {
  * @returns the product with a given id or undefined upon error/ null if no product was found
  */
 async function getProductByID (id) {
-    let query = baseQuery + " WHERE products.id = $1"
+    let query = baseQuery + " WHERE products.id = $1";
     let results = await db.queryDB(query, [id]);
     if (results === undefined) {
         return undefined
@@ -60,7 +59,7 @@ async function getProductByID (id) {
  * @returns Array of results or undefined upon error/ null if no products were found
  */
 async function getProductByName(name) {
-    let query = baseQuery + " WHERE products.name = $1"
+    let query = baseQuery + " WHERE products.name = $1 ORDER BY" + orderBy;
     let results = await db.queryDB(query, [name]);
     if (results === undefined) {
         return undefined
@@ -80,7 +79,7 @@ async function getProductByName(name) {
  */
 async function getProductsBySubstring(substring, limit, offset) {
     //add conditions to base query and match name to a substring with any prefix and suffix
-    let query = baseQuery + " WHERE products.name iLIKE REPLACE('%?%', '?', $1)";
+    let query = baseQuery + " WHERE products.name iLIKE REPLACE('%?%', '?', $1) ORDER BY " + orderBy;
     query = util.addPagination(query, limit, offset);
     //query
     let results = await db.queryDB(query, [substring]);
@@ -162,7 +161,6 @@ async function createProduct(product) {
         return undefined
     }
     let query = "INSERT INTO products(name, price, weight, quantity, ean, category_id) VALUES($1, $2, $3, $4, $5, $6) RETURNING name, id"
-    console.log(query)
     let results = await db.queryDB(query, [name, price, weight, quantity, ean, category_id])
     //error handling
     if (results === undefined) {
@@ -181,21 +179,10 @@ async function createProduct(product) {
  */
 async function updateProductByID (product) {
     //set base query
-    let query = "UPDATE products SET"
-    let i = 0
-    const values = []
-    //loop over product and add to query based on this format: " {key} ${i+1} ,"
-    for (var key in product) {
-        if (key != "id") {
-            query += " " + key.toLowerCase() + " = $" + (i+1) + ","
-            values.push(product[key])
-            i++
-        }
-    }
-    query = query.slice(0, -1) //get rid of last ','
-    values.push(product["id"])
-    query += " WHERE id = $" + (i+1) + " RETURNING id, name"
-    let results = await db.queryDB(query, values)
+    let query = "UPDATE products SET";
+    let values = [];
+    [query, values] = util.updateItem(query, product);
+    let results = await db.queryDB(query, values);
     //error handling
     if (results === undefined) {
         return undefined

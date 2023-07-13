@@ -36,8 +36,26 @@ function isNameEmpty(name) {
     return false;
 }
 
+function updateItem(query, item) {
+    //loop over item and add to query based on this format: " {key} ${i+1} ,"
+    let i = 0
+    let values = []
+    for (var key in item) {
+        if (key != "id") {
+            query += " " + key.toLowerCase() + " = $" + (i+1) + ","
+            values.push(item[key])
+            i++
+        }
+    }
+    query = query.slice(0, -1) //get rid of last ','
+    values.push(item["id"])
+    query += " WHERE id = $" + (i+1) + " RETURNING id, name"
+    return [query, values]
+}
+
 module.exports = {
     checkPagination,
     addPagination,
-    isNameEmpty
+    isNameEmpty,
+    updateItem
 }
