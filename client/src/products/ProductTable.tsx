@@ -11,11 +11,11 @@ import Filters from '../filters/Filters';
 import Button from 'react-bootstrap/Button';
 
 interface Props {
-  itemLim?: number | undefined
+  itemLim: number
 };
 
 
-const ProductTable: FC<Props> = ({itemLim}) => {
+const ProductTable: FC<Props> = ({ itemLim }) => {
   const addIcon = <FontAwesomeIcon icon={faPlus} />;
   const [showAddProductForm, setShowAddProductForm] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -24,7 +24,7 @@ const ProductTable: FC<Props> = ({itemLim}) => {
   const [resultNumPages, setResultNumPages] = useState<number>();
   const [activeNumPage, setActiveNumPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("")
-  const [itemLimit, setItemLimit] = useState(15)
+  const [itemLimit, setItemLimit] = useState(itemLim | 15)
   const addAction = "Add Product";
   const editAction = "Edit Product";
   const [actionType, setActionType] = useState(addAction)
@@ -83,6 +83,7 @@ const ProductTable: FC<Props> = ({itemLim}) => {
         }
         setResultNumPages(Math.ceil(resCount / itemLimit));
       } catch (error) {
+        setProducts(undefined)
         if (error instanceof Error) {
           console.log(error.message);
         } else {
@@ -106,37 +107,42 @@ const ProductTable: FC<Props> = ({itemLim}) => {
       <Button type="button" className="mb-2" onClick={handleAddProduct}>
         {addIcon} Add Product
       </Button>
-      {showAddProductForm && <ProductActions actionType={actionType} handleAddProduct={handleAddProduct} isShow={showAddProductForm} selectedProduct={selectedEditProduct}/>}
-      {loading ? <p>Loading...</p> : <>
-        <Table striped bordered hover size="sm">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Brand</th>
-              <th>category_name</th>
-              <th>weight</th>
-              <th>Quantity</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              products?.map(product =>
-                <ProductTableRow
-                  key={product.id}
-                  product={product}
-                  handleEditProduct={handleEditProduct}
-                  handleEditQuantity={handleEditQuantity}
-                />
-              )
-            }
-          </tbody>
-        </Table>
-        <TablePagination
-          active={activeNumPage}
-          totalPages={resultNumPages}
-          setActiveNumPage={setActiveNumPage}
-        />
-      </>}
+      {showAddProductForm && <ProductActions actionType={actionType} handleAddProduct={handleAddProduct} isShow={showAddProductForm} selectedProduct={selectedEditProduct} />}
+      {loading && (<p>Loading...</p>)}
+      {!loading && typeof products !== "undefined" && (
+        <>
+          <Table striped bordered hover size="sm">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Brand</th>
+                <th>category_name</th>
+                <th>weight</th>
+                <th>Quantity</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                products?.map(product =>
+                  <ProductTableRow
+                    key={product.id}
+                    product={product}
+                    handleEditProduct={handleEditProduct}
+                    handleEditQuantity={handleEditQuantity}
+                  />
+                )
+              }
+            </tbody>
+          </Table>
+          <TablePagination
+            active={activeNumPage}
+            totalPages={resultNumPages}
+            setActiveNumPage={setActiveNumPage}
+          />
+        </>)}
+      {!loading && typeof products === "undefined" && (
+        <p>No results found! :(</p>
+      )}
     </>)
 }
 
