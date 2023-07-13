@@ -11,11 +11,11 @@ import Filters from '../filters/Filters';
 import Button from 'react-bootstrap/Button';
 
 interface Props {
-  // filters: {}
+  itemLim?: number | undefined
 };
 
 
-const ProductTable: FC = () => {
+const ProductTable: FC<Props> = ({itemLim}) => {
   const addIcon = <FontAwesomeIcon icon={faPlus} />;
   const [showAddProductForm, setShowAddProductForm] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -24,10 +24,10 @@ const ProductTable: FC = () => {
   const [resultNumPages, setResultNumPages] = useState<number>();
   const [activeNumPage, setActiveNumPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("")
+  const [itemLimit, setItemLimit] = useState(15)
   const addAction = "Add Product";
   const editAction = "Edit Product";
   const [actionType, setActionType] = useState(addAction)
-  const resultLimit = 15;
 
   const handleSearch = (search: string) => {
     setSearchQuery(search)
@@ -68,10 +68,10 @@ const ProductTable: FC = () => {
         if (searchQuery.trim() != "") {
           pageRequestURL += `name/${searchQuery}`
         }
-        pageRequestURL += `?limit=${resultLimit}`;
+        pageRequestURL += `?limit=${itemLimit}`;
         if (activeNumPage > 1) {
           // Offset is page number * num per page
-          pageRequestURL += `&offset=${resultLimit * (activeNumPage - 1)}`;
+          pageRequestURL += `&offset=${itemLimit * (activeNumPage - 1)}`;
         }
         const { data: response } = await axios.get(pageRequestURL);
         setProducts(response);
@@ -81,7 +81,7 @@ const ProductTable: FC = () => {
         if (response !== 'undefined') {
           resCount = response[0].total_count;
         }
-        setResultNumPages(Math.ceil(resCount / resultLimit));
+        setResultNumPages(Math.ceil(resCount / itemLimit));
       } catch (error) {
         if (error instanceof Error) {
           console.log(error.message);

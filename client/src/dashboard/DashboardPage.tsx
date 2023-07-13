@@ -3,7 +3,7 @@ import Subnavbar from "../subnav/Subnavbar";
 import ProductTable from "../products/ProductTable";
 import { BrowserRouter as Router, Routes, Route,} from "react-router-dom";
 import CategoryTable from "../categories/CategoryTable";
-import BrandTable from "../brands/BrandTable";;
+import BrandTable from "../brands/BrandTable";
 
 interface Props {
   //

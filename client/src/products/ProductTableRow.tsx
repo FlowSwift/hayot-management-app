@@ -2,7 +2,7 @@ import { FC, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import { Product, Category } from "../common/types";
 import { Col, Form, Row } from 'react-bootstrap';
-import ConfirmationPopup from '../global/ConfirmPopup,tsx';
+import ConfirmationPopup from '../global/ConfirmPopup';
 
 interface Props {
     product: Product,

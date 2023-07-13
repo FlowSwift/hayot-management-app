@@ -14,11 +14,9 @@ const Filters: React.FC<FiltersProps> = ({ filterType, onSearch }) => {
 
     return (
         <div>
-      {filterType === "products" && (
         <>
           <SearchBar onSearch={handleSearch} />
         </>
-      )}
     </div>
     );
 };
