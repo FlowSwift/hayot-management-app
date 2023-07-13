@@ -7,7 +7,9 @@ const port = 5000
 const productsRouter = require("./routes/products")
 const brandsRouter = require("./routes/brands")
 const categoriesRouter = require("./routes/categories")
+const animalsRouter = require("./routes/animals")
 const authRouter = require("./routes/auth.js")
+const authMiddleware = require("./auth/authMiddleware.js")
 
 const db = require("./db/queries")
 
@@ -29,11 +31,12 @@ app.use(cors({
 //   }, delay);
 // });
 app.use(express.json())
+// app.use("/products", authMiddleware)
 app.use(productsRouter)
 app.use(brandsRouter)
 app.use(categoriesRouter)
+app.use(animalsRouter)
 app.use(authRouter)
-
 
 app.get('/', async (req, res) => {
   try {
