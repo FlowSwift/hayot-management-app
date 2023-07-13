@@ -75,6 +75,7 @@ const ProductTable: FC = () => {
         }
         const { data: response } = await axios.get(pageRequestURL);
         setProducts(response);
+        console.log(response)
 
         // Determine total number of results for pagination
         let resCount = 0;

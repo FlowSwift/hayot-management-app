@@ -75,7 +75,8 @@ const ProductActions: FC<Props> = ({actionType, handleAddProduct, isShow ,select
 
   //reset modal values
   const handleSave = async () => {
-    const prod = {
+    let prod = {
+      id: selectedProduct?.id,
       name: name,
       price: price,
       weight: weight,
@@ -83,12 +84,16 @@ const ProductActions: FC<Props> = ({actionType, handleAddProduct, isShow ,select
       ean: ean,
       category_id: category_id
     };
-
     console.log(prod);
 
     try {
+      if (actionType === "Add Product") {
       const { data: response } = await axios.post('http://localhost:5000/products/',
         prod);
+      } else if (actionType === "Edit Product"){
+        const { data: response } = await axios.put('http://localhost:5000/products/',
+        prod);
+      }
     }
     catch (error) {
       console.log("DATABASE ERROR: ")
