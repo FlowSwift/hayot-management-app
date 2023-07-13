@@ -23,9 +23,18 @@ docker run -it --entrypoint /bin/bash testimage -s
 
 `docker system prune`
 
+## Environmental variables
+
+Set up .env in root:
+
+- run `node inventory-manager/authKeyGen.js`
+- copy key to .env in root, replacing "key" with generated code `JWT_SECRET='key'`
+
 ## Database
 
-Access terminal from `inventory-database` container. Delete volume if need to reset database content.
+Access terminal from `inventory-database` container. 
+
+Delete volume if need to reset database content: `docker volume rm hayot-management-app_products-db`
 
 Connect to database:
 
@@ -41,16 +50,20 @@ Options
 ## To do
 
 - ✓ Categories by brand ID
-- Pagination
+- ✓ Pagination
 - ✓ Update product quantity by ID
 - Delete or archive products
+- Show Log out if logged in
 
 FED:
-- Search
-- Add product modal
-- Add brand modal
-- Add category modal
-- Debug numeric inputs
+- ✓ Search
+- ✓ Add product modal
+- ✓ Add brand modal
+- ✓ Add category modal
+- Debug numeric inputs with decimals
 - ✓ Dynamic brand / category selectboxes
-- Quantity save
-- Edits brands / categories
+- ✓ Quantity save
+- ✓ Edits brands / categories
+- Styling mobile menu
+- Remove count input
+- Pagination RTL

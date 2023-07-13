@@ -1,7 +1,6 @@
 import { FC, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import { Category } from "../common/types";
-import { Col, Form, Row } from 'react-bootstrap';
 import ConfirmationPopup from '../global/ConfirmPopup';
 
 interface Props {

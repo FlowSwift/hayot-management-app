@@ -1,6 +1,6 @@
 import React from "react";
 import SearchBar from "./SearchBar";
-import DropdownMenu from "./DropdownMenu";
+// import DropdownMenu from "./DropdownMenu";
 
 type FiltersProps = {
     filterType: string;
@@ -13,11 +13,9 @@ const Filters: React.FC<FiltersProps> = ({ filterType, onSearch }) => {
       };
 
     return (
-        <div>
-        <>
-          <SearchBar onSearch={handleSearch} />
-        </>
-    </div>
+      <div>
+        <SearchBar onSearch={handleSearch} />
+      </div>
     );
 };
 

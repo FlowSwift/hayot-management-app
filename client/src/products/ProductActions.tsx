@@ -1,7 +1,7 @@
 import { FC, useState, useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faL, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
@@ -145,7 +145,7 @@ const ProductActions: FC<Props> = ({actionType, handleAddProduct, isShow ,select
                     <Form.Control type="text" value={weight} onChange={(e) => setWeight(checkfieldNan(parseFloat(e.target.value)))} />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formProductEan">
-                    <Form.Label>EAN:</Form.Label>
+                    <Form.Label>EAN</Form.Label>
                     <Form.Control type="text" value={ean} onChange={(e) => setEan(e.target.value)} />
                   </Form.Group>
                 </Form>

@@ -9,7 +9,8 @@ import Button from 'react-bootstrap/esm/Button';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import BrandActions from './BrandActions';
-
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 
 interface Props {
   itemLim: number
@@ -99,10 +100,16 @@ const BrandTable: FC<Props> = ({ itemLim }) => {
   ]);
   return (
     <>
-      <Filters filterType={"brands"} onSearch={handleSearch} />
-      <Button type="button" className="mb-2" onClick={handleAddBrand}>
-        {addIcon} {actionType}
-      </Button>
+      <Row>
+        <Col className="col-12 col-md-6 col-lg-3">
+          <Filters filterType={"brands"} onSearch={handleSearch} />
+        </Col>
+        <Col>
+          <Button type="button" className="mb-2" onClick={handleAddBrand}>
+          {addIcon} {actionType}
+          </Button>
+        </Col>
+      </Row>
       {showAddBrandForm && <BrandActions actionType={actionType} handleAddBrand={handleAddBrand} isShow={showAddBrandForm} selectedBrand={selectedEditBrand} />}
       {loading && (<p>Loading...</p>)}
       {!loading && typeof brands !== "undefined" && (

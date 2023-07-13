@@ -9,6 +9,8 @@ import TablePagination from "../pagination/TablePagination";
 import ProductActions from './ProductActions';
 import Filters from '../filters/Filters';
 import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 
 interface Props {
   itemLim: number
@@ -103,10 +105,16 @@ const ProductTable: FC<Props> = ({ itemLim }) => {
   ]);
   return (
     <>
-      <Filters filterType={"products"} onSearch={handleSearch} />
-      <Button type="button" className="mb-2" onClick={handleAddProduct}>
-        {addIcon} Add Product
-      </Button>
+    <Row>
+      <Col className="col-12 col-md-6 col-lg-3">
+        <Filters filterType={"products"} onSearch={handleSearch} />
+      </Col>
+      <Col>
+        <Button type="button" className="mb-2" onClick={handleAddProduct}>
+          {addIcon} Add Product
+        </Button>
+      </Col>
+    </Row>
       {showAddProductForm && <ProductActions actionType={actionType} handleAddProduct={handleAddProduct} isShow={showAddProductForm} selectedProduct={selectedEditProduct} />}
       {loading && (<p>Loading...</p>)}
       {!loading && typeof products !== "undefined" && (

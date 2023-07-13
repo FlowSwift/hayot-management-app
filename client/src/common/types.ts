@@ -1,5 +1,3 @@
-import { type } from "os";
-
 export interface Product {
     id: number;
     name: string;

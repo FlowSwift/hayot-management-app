@@ -9,7 +9,8 @@ import Button from 'react-bootstrap/esm/Button';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CategoryActions from './CategoryActions';
-
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 
 interface Props {
   itemLim: number
@@ -99,10 +100,17 @@ const CategoryTable: FC<Props> = ({ itemLim }) => {
   ]);
   return (
     <>
-      <Filters filterType={"categories"} onSearch={handleSearch} />
-      <Button type="button" className="mb-2" onClick={handleAddCategory}>
-        {addIcon} {actionType}
-      </Button>
+      <Row>
+        <Col className="col-12 col-md-6 col-lg-3">
+          <Filters filterType={"categories"} onSearch={handleSearch} />
+        </Col>
+        <Col>
+          <Button type="button" className="mb-2" onClick={handleAddCategory}>
+            {addIcon} {actionType}
+          </Button>
+        </Col>
+      </Row>
+
       {showAddCategoryForm && <CategoryActions actionType={actionType} handleAddCategory={handleAddCategory} isShow={showAddCategoryForm} selectedCategory={selectedEditCategory} />}
       {loading && (<p>Loading...</p>)}
       {!loading && typeof categories !== "undefined" && (
