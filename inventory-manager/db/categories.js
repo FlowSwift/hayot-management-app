@@ -2,7 +2,17 @@
 const { query } = require("express");
 const db = require("./queries")
 const util = require("./util")
-const baseQuery = "SELECT categories.id, categories.name, categories.brand_id, brands.name as brand_name FROM categories JOIN brands ON categories.brand_id = brands.id"; // base query to append on
+const baseQuery = 
+`SELECT
+categories.id,
+categories.name,
+categories.brand_id,
+brands.name as brand_name,
+categories.animal_id,
+animals.type as animal_type,
+COUNT(categories.id) OVER () AS total_count
+FROM categories JOIN brands ON categories.brand_id = brands.id JOIN animals ON animals.id = categories.animal_id`; 
+// base query to append on
 
 /**
  * get a list of categories
@@ -96,10 +106,36 @@ async function getCategoriesBySubstring(substring, limit, offset) {
     return results.rows
 }
 
+/**
+ * create a category.
+ * @param {object} category - must include name, price, weight, ean, quantity and category_id
+ * @returns - category name and newly associated ID
+ */
+async function createCategory(category) {
+    const {name, brand_id, animal_id} = category
+    /*
+    exmaple query: "INSERT INTO categories(name, brand_id, animal_id) VALUES('Huskey la vista', 2, 2)"
+    */
+    if (util.isNameEmpty(name)) {
+        return undefined
+    }
+    let query = "INSERT INTO categories(name, brand_id, animal_id) VALUES($1, $2, $3) RETURNING name, id"
+    let results = await db.queryDB(query, [name, brand_id, animal_id])
+    //error handling
+    if (results === undefined) {
+        return undefined
+    }
+    if (results.rowCount == 0) {
+        return null
+    }
+    return results.rows
+}
+
 module.exports = {
     getCategories,
     getCategoryByID,
     getCategoriesByBrandId,
     getCategoryByName,
-    getCategoriesBySubstring
+    getCategoriesBySubstring,
+    createCategory
 }
