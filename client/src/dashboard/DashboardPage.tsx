@@ -16,9 +16,9 @@ const DashboardPage: FC<Props> = () => {
       <div>
         <Subnavbar />
         <Routes>
-          <Route path="products" element={<ProductTable />} />
+          <Route path="products" element={<ProductTable itemLim={15}/>} />
           <Route path="brands" element={<BrandTable />} />
-          <Route path="categories" element={<CategoryTable />} />
+          <Route path="categories" element={<CategoryTable itemLim={15}/>} />
         </Routes>
       </div>
     </div>
