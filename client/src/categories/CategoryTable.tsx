@@ -36,7 +36,7 @@ const CategoryTable: FC<Props> = ({ itemLim }) => {
 
   const setAddCategoryForm = () => {
     if (showAddCategoryForm) {
-      // refreshData();
+      refreshData();
       setShowAddCategoryForm(false);
       setSelectedEditCategory(undefined)
     } else {
@@ -47,6 +47,7 @@ const CategoryTable: FC<Props> = ({ itemLim }) => {
   const handleAddCategory = () => {
     setActionType(addAction)
     setAddCategoryForm()
+
   };
 
   const handleEditCategory = (category: Category) => {
@@ -55,7 +56,7 @@ const CategoryTable: FC<Props> = ({ itemLim }) => {
     setSelectedEditCategory(category)
   }
 
-  useEffect(() => {
+  const refreshData = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
@@ -89,8 +90,13 @@ const CategoryTable: FC<Props> = ({ itemLim }) => {
     }
 
     fetchData();
+  }
+
+  useEffect(() => {
+    refreshData();
   }, [activeNumPage,
-    searchQuery]);
+    searchQuery
+  ]);
   return (
     <>
       <Filters filterType={"categories"} onSearch={handleSearch} />
