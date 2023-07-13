@@ -55,6 +55,10 @@ const ProductTable: FC = () => {
     setSelectedEditProduct(product)
   }
 
+  const handleEditQuantity = () => {
+    refreshData();
+  }
+
   const refreshData = () => {
     const fetchData = async () => {
       console.log(searchQuery)
@@ -121,6 +125,7 @@ const ProductTable: FC = () => {
                   key={product.id}
                   product={product}
                   handleEditProduct={handleEditProduct}
+                  handleEditQuantity={handleEditQuantity}
                 />
               )
             }
