@@ -20,7 +20,7 @@ const ConfirmationPopup: React.FC<ConfirmationProps> = ({ message, onConfirm, on
     product.quantity += quantity
     try {
       const { data: response } = await axios.put('http://localhost:5000/products/',
-        {id: product.id, quantity: product.quantity});
+        { id: product.id, quantity: product.quantity });
     }
     catch (error) {
       console.log("DATABASE ERROR: ")
@@ -46,6 +46,11 @@ const ConfirmationPopup: React.FC<ConfirmationProps> = ({ message, onConfirm, on
           <Row className="align-items-center">
             <Col>
               הכניסו כמות שתרצו להוסיף:
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              {product.brand_name} - {product.category_name} - {product.name}
             </Col>
           </Row>
           <Row className="align-items-center">
