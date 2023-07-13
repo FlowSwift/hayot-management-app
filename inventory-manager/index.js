@@ -13,9 +13,21 @@ const db = require("./db/queries")
 
 // ensure any page can access the API resources
 app.use(cors({
-    origin: '*'
+  origin: '*'
 }));
 
+// delay all routes, use for testing purposes
+// app.use((req, res, next) => {
+//   const delay = 5000;
+
+//   console.log(`Requested route: ${req.method} ${req.originalUrl}`);
+//   console.log('Pausing for 2 seconds...');
+
+//   setTimeout(() => {
+//     console.log('Resuming execution.');
+//     next();
+//   }, delay);
+// });
 app.use(express.json())
 app.use(productsRouter)
 app.use(brandsRouter)

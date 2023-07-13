@@ -37,7 +37,7 @@ const ProductActions: FC<Props> = ({actionType, handleAddProduct, isShow ,select
   // Prevent page from redirecting when user hits Enter
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-    handleSave();
+    await handleSave();
     handleClose();
   }
 
