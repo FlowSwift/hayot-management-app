@@ -109,10 +109,9 @@ const ProductTable: FC = () => {
             <tr>
               <th>Name</th>
               <th>Brand</th>
-              <th>Quantity</th>
-              <th>ean</th>
               <th>category_name</th>
               <th>weight</th>
+              <th>Quantity</th>
             </tr>
           </thead>
           <tbody>

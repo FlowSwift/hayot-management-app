@@ -18,6 +18,8 @@ const ProductTableRow: FC<Props> = ({ product, handleEditProduct }) => {
 
             </td>
             <td className="align-middle">{product.brand_name}</td>
+            <td className="align-middle">{product.category_name}</td>
+            <td className="align-middle">{product.weight}</td>
             <td className="align-middle">
                 <Form>
                     <Row className="align-items-center">
@@ -39,9 +41,6 @@ const ProductTableRow: FC<Props> = ({ product, handleEditProduct }) => {
                     </Row>
                 </Form>
             </td>
-            <td className="align-middle">{product.ean}</td>
-            <td className="align-middle">{product.category_name}</td>
-            <td className="align-middle">{product.weight}</td>
         </tr>
     )
 }
