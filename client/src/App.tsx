@@ -11,7 +11,11 @@ import checkIfUserIsAuthenticated from "./auth/util";
 
 
 const App: React.FC = () => {
-  const isAuthenticated = checkIfUserIsAuthenticated();
+  const user = checkIfUserIsAuthenticated();
+  let isAuthenticated = false
+  if (user) {
+    isAuthenticated = true;
+  }
 
 
   return (
