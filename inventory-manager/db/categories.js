@@ -1,5 +1,4 @@
 "use strict";
-const { query } = require("express");
 const db = require("./queries")
 const util = require("./util")
 const baseQuery = 
@@ -13,6 +12,7 @@ animals.type as animal_type,
 COUNT(categories.id) OVER () AS total_count
 FROM categories JOIN brands ON categories.brand_id = brands.id JOIN animals ON animals.id = categories.animal_id`; 
 // base query to append on
+const orderBy = "categories.id ASC"
 
 /**
  * get a list of categories
@@ -21,7 +21,8 @@ FROM categories JOIN brands ON categories.brand_id = brands.id JOIN animals ON a
  * @returns Array of results or undefined upon error/ null if no categories were found
  */
 async function getCategories(limit, offset) {
-    let query = util.addPagination(baseQuery, limit, offset);
+    let query = baseQuery + " ORDER BY " + orderBy;
+    query = util.addPagination(query, limit, offset);
     let results = await db.queryDB(query);
     if (results === undefined) {
         return undefined
@@ -92,7 +93,7 @@ async function getCategoriesByBrandId(id) {
  */
 async function getCategoriesBySubstring(substring, limit, offset) {
     //add conditions to base query and match name to a substring with any prefix and suffix
-    let query = baseQuery + " WHERE categories.name iLIKE REPLACE('%?%', '?', $1)";
+    let query = baseQuery + " WHERE categories.name iLIKE REPLACE('%?%', '?', $1) ORDER BY " + orderBy;
     query = util.addPagination(query, limit, offset);
     //query
     let results = await db.queryDB(query, [substring]);
@@ -131,11 +132,34 @@ async function createCategory(category) {
     return results.rows
 }
 
+/**
+ * update a category by ID
+ * @param {object} category - category object - valid category id required and one or more of the existing category properties to update
+ * @returns the id and name of a category from a given id or undefined upon error/null if no category exists with the given id
+ */
+async function updateCategoryByID (category) {
+    //set base query
+    let query = "UPDATE categories SET";
+    let values = [];
+    [query, values] = util.updateItem(query, category);
+    let results = await db.queryDB(query, values);
+    //error handling
+    if (results === undefined) {
+        return undefined
+    }
+    if (results.rowCount == 0) {
+        return null
+    }
+    return results.rows
+}
+
+
 module.exports = {
     getCategories,
     getCategoryByID,
     getCategoriesByBrandId,
     getCategoryByName,
     getCategoriesBySubstring,
-    createCategory
+    createCategory,
+    updateCategoryByID
 }

@@ -81,3 +81,17 @@ router.post('/categories', async (req, res) => {
 })
 
 module.exports = router;
+
+// update categories by id
+router.put('/categories', async (req, res) => {
+    // request handling
+    let results = await categoriesQuery.updateCategoryByID(req.body)
+    //response handling
+    util.setStatus(res, results)
+    if (res.statusCode != 200) {
+        return util.sendStatusMessage(res)
+    }
+    return res.send(results)
+})
+
+module.exports = router;
