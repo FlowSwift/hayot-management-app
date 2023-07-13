@@ -4,21 +4,82 @@ import BrandTableRow from './BrandTableRow';
 import Table from 'react-bootstrap/Table';
 import { Brand } from "../common/types";
 import TablePagination from "../pagination/TablePagination";
+import Filters from '../filters/Filters';
+import Button from 'react-bootstrap/esm/Button';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import BrandActions from './BrandActions';
 
-const BrandTable: FC = () => {
+
+interface Props {
+  itemLim: number
+};
+
+const BrandTable: FC<Props> = ({ itemLim }) => {
+  const addIcon = <FontAwesomeIcon icon={faPlus} />;
+  const [showAddBrandForm, setShowAddBrandForm] = useState(false);
+  const [selectedEditBrand, setSelectedEditBrand] = useState<Brand>();
   const [loading, setLoading] = useState(true);
   const [brands, setBrands] = useState<undefined | Brand[]>();
   const [resultNumPages, setResultNumPages] = useState<number>();
   const [activeNumPage, setActiveNumPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("")
+  const [itemLimit, setItemLimit] = useState(itemLim | 15)
+  const addAction = "Add Brand";
+  const editAction = "Edit Brand";
+  const [actionType, setActionType] = useState(addAction)
 
-  useEffect(() => {
+  const handleSearch = (search: string) => {
+    setSearchQuery(search)
+    setActiveNumPage(1)
+  };
+
+  const setAddBrandForm = () => {
+    if (showAddBrandForm) {
+      refreshData();
+      setShowAddBrandForm(false);
+      setSelectedEditBrand(undefined)
+    } else {
+      setShowAddBrandForm(true);
+    }
+  }
+
+  const handleAddBrand = () => {
+    setActionType(addAction)
+    setAddBrandForm()
+
+  };
+
+  const handleEditBrand = (brand: Brand) => {
+    setActionType(editAction)
+    setAddBrandForm()
+    setSelectedEditBrand(brand)
+  }
+
+  const refreshData = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        // TODO: Add pagination similar to ProductTable
-        const { data: response } = await axios.get('http://localhost:5000/brands/');
+        let pageRequestURL = 'http://localhost:5000/brands/'
+        if (searchQuery.trim() != "") {
+          pageRequestURL += `name/${searchQuery}`
+        }
+        pageRequestURL += `?limit=${itemLimit}`;
+        if (activeNumPage > 1) {
+          // Offset is page number * num per page
+          pageRequestURL += `&offset=${itemLimit * (activeNumPage - 1)}`;
+        }
+        const { data: response } = await axios.get(pageRequestURL);
         setBrands(response);
+
+        // Determine total number of results for pagination
+        let resCount = 0;
+        if (response !== 'undefined') {
+          resCount = response[0].total_count;
+        }
+        setResultNumPages(Math.ceil(resCount / itemLimit));
       } catch (error) {
+        setBrands(undefined)
         if (error instanceof Error) {
           console.log(error.message);
         } else {
@@ -29,45 +90,46 @@ const BrandTable: FC = () => {
     }
 
     fetchData();
-  }, []);
- 
-  if (loading) {
-    return (
-      <p>Loading...</p>
-    )
-  } else {
-    if (typeof (brands) !== 'undefined' && brands != null) {
-      return (
+  }
+
+  useEffect(() => {
+    refreshData();
+  }, [activeNumPage,
+    searchQuery
+  ]);
+  return (
+    <>
+      <Filters filterType={"brands"} onSearch={handleSearch} />
+      <Button type="button" className="mb-2" onClick={handleAddBrand}>
+        {addIcon} {actionType}
+      </Button>
+      {showAddBrandForm && <BrandActions actionType={actionType} handleAddBrand={handleAddBrand} isShow={showAddBrandForm} selectedBrand={selectedEditBrand} />}
+      {loading && (<p>Loading...</p>)}
+      {!loading && typeof brands !== "undefined" && (
         <>
-          <Table striped bordered hover>
+          <Table striped bordered size="sm">
             <thead>
               <tr>
-                <th>Brand ID</th>
                 <th>Brand Name</th>
               </tr>
             </thead>
             <tbody>
               {
-                brands
-                  .map(brand =>
-                    <BrandTableRow key={brand.id} brand={brand} />
-                  )
+                brands?.map(brand =>
+                  <BrandTableRow key={brand.id} brand={brand} handleEditBrand={handleEditBrand} />
+                )
               }
             </tbody>
-          </Table>          
-          <TablePagination 
-            active={activeNumPage} 
+          </Table>
+          <TablePagination
+            active={activeNumPage}
             totalPages={resultNumPages}
             setActiveNumPage={setActiveNumPage}
-            />
-        </>
-      )
-    } else {
-      return (
-        <p>No results found</p>
-      )
-    }
-  }
+          />
+        </>)}
+      {!loading && typeof brands === "undefined" && (
+        <p>No results found! :(</p>
+      )}
+    </>)
 }
-
 export default BrandTable;
