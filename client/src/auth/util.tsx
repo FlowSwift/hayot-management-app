@@ -1,34 +1,43 @@
-import jwtDecode from "jwt-decode";
 import Cookies from "js-cookie";
+import jwtDecode from "jwt-decode";
 
-interface myToken {
-  username: string;
-  exp: number;
-  iat: number;
+
+interface DecodedTokenData {
+  username: string
+  iat: number,
+  exp: number
 }
 
-const checkIfUserIsAuthenticated = (): myToken | false => {
-  // Check if the user has a valid JWT token
-  const token = Cookies.get("token") || null
+interface UserData {
+  username: string
+  iat: number,
+  exp: number
+  isAuthenticated: boolean
+}
 
+const checkIfUserIsAuthenticated = (): UserData => {
+  // Check if the user has a valid JWT token
+  const token = Cookies.get("token") || null;
   if (token) {
     try {
-      // Decode the JWT token
-      const decodedToken = jwtDecode<myToken>(token);
-      // Check if the token is expired
+      const decodedToken = jwtDecode<DecodedTokenData>(token);
       if (decodedToken.exp * 1000 > Date.now()) {
-        console.log("check")
-        // Token is valid and not expired
-        return decodedToken;
+        const user = {
+          ...decodedToken,
+          isAuthenticated: true,
+        };
+        return user;
+      } else {
+        throw new Error("Token has expired.");
       }
     } catch (error) {
       console.error("Error decoding token:", error);
+      throw new Error("Invalid token.");
     }
   }
 
-  // Token is invalid or expired
-  return false;
+  throw new Error("No token found.");
 };
 
 export default checkIfUserIsAuthenticated;
-export type {myToken};
+export type { UserData };

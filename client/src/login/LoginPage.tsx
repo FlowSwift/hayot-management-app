@@ -3,16 +3,12 @@ import LoginForm from "./LoginForm";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
-import checkIfUserIsAuthenticated from "../auth/util";
+import { UserData } from "../auth/util";
 
-
-type User = {
-    username: string;
-    password: string;
-};
-
-const LoginPage: FC = () => {
-    const [user, setUser] = useState(checkIfUserIsAuthenticated());
+interface Props {
+    user: UserData
+}
+const LoginPage: FC<Props> = ({user}) => {
     const navigate = useNavigate();
     const handleLogin = async (username: string, password: string) => {
         try {
@@ -22,8 +18,7 @@ const LoginPage: FC = () => {
             });
             const { token } = response.data;
             Cookies.set("token", token, { expires: 7 });
-            setUser(checkIfUserIsAuthenticated())
-            navigate("/dashboard")
+            navigate("/dashboard/products")
             navigate(0)
         } catch (error) {
             console.log("Login failed:", error);
@@ -32,14 +27,13 @@ const LoginPage: FC = () => {
     };
 
     const handleLogout = () => {
-        setUser(false);
         Cookies.remove("token")
         navigate("/login")
         navigate(0)
     };
     return (
         <div>
-            {user ? (
+            {user.isAuthenticated ? (
                 <div>
                     <p>Welcome, {user.username}</p>
                     <button onClick={handleLogout}>Logout</button>

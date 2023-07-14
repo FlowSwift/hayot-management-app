@@ -1,14 +1,13 @@
 import { Outlet, Navigate } from 'react-router-dom';
+import { UserData } from './util';
 
 type AuthRouteProps = {
-    isAuthenticated: boolean;
+    user: UserData;
 };
 
-const AuthRoute: React.FC<AuthRouteProps> = ({
-    isAuthenticated,
-}) => {
+const AuthRoute: React.FC<AuthRouteProps> = ({ user }) => {
     let authenticationPath = "/login"
-    if (!isAuthenticated) {
+    if (!user.isAuthenticated) {
         return <Navigate to={authenticationPath} replace />;
     }
 
