@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { Col, Form, Row } from 'react-bootstrap';
 import { Product } from '../common/types';
-import axios from 'axios';
+import axiosClient from "../axios/axiosInstance"
 
 interface ConfirmationProps {
   message: string;
@@ -19,8 +19,8 @@ const ConfirmationPopup: React.FC<ConfirmationProps> = ({ message, onConfirm, on
   const updateProduct = async () => {
     product.quantity += quantity
     try {
-      const { data: response } = await axios.put('http://localhost:5000/products/',
-        {id: product.id, quantity: product.quantity});
+      const { data: response } = await axiosClient.put(axiosClient.defaults.baseURL + '/products/',
+        { id: product.id, quantity: product.quantity });
     }
     catch (error) {
       console.log("DATABASE ERROR: ")

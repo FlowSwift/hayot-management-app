@@ -1,6 +1,7 @@
 import { FC, useState } from "react";
 import LoginForm from "./LoginForm";
 import axios from "axios";
+import axiosClient from "../axios/axiosInstance"
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { UserData } from "../auth/util";
@@ -8,11 +9,11 @@ import { UserData } from "../auth/util";
 interface Props {
     user: UserData
 }
-const LoginPage: FC<Props> = ({user}) => {
+const LoginPage: FC<Props> = ({ user }) => {
     const navigate = useNavigate();
     const handleLogin = async (username: string, password: string) => {
         try {
-            const response = await axios.post('http://localhost:5000/login/', {
+            const response = await axios.post(axiosClient.defaults.baseURL + '/login/', {
                 username,
                 password,
             });

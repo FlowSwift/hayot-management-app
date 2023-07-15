@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react"
 import { Category } from "../common/types"
-import axios from "axios"
+import axiosClient from "../axios/axiosInstance"
 import { Row, Col, Modal, Button, Form } from "react-bootstrap"
 import BrandSelect from "../brands/BrandSelect"
 import AnimalSelect from "../animals/AnimalSelect"
@@ -54,10 +54,10 @@ const CategoryActions: FC<Props> = ({ actionType, handleAddCategory, isShow, sel
 
     try {
       if (actionType === "Add Category") {
-        const { data: response } = await axios.post('http://localhost:5000/categories/',
+        const { data: response } = await axiosClient.post(axiosClient.defaults.baseURL + '/categories/',
           category);
       } else if (actionType === "Edit Category") {
-        const { data: response } = await axios.put('http://localhost:5000/categories/',
+        const { data: response } = await axiosClient.put(axiosClient.defaults.baseURL + '/categories/',
           category);
       }
     }

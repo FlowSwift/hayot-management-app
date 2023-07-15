@@ -1,6 +1,5 @@
 import { FC, useState, useEffect } from 'react';
-import axios from 'axios';
-import Table from 'react-bootstrap/Table';
+import axiosClient from "../axios/axiosInstance"
 import { Category } from "../common/types";
 import Form from 'react-bootstrap/Form';
 
@@ -16,14 +15,14 @@ const CategorySelect: FC<Props> = ({ activeId, brandId, categories, stateChanger
   const [loading, setLoading] = useState(true);
   // const [categories, setCategories] = useState<undefined | Category[]>();
   // const [activeValue, setActiveValue] = useState<number>()
-  
+
   const refreshData = () => {
     const fetchData = async () => {
       setLoading(true);
       // setActiveValue(activeId);
       if (brandId != undefined && brandId != 0) {
         try {
-          const { data: response } = await axios.get(`http://localhost:5000/brands/${brandId}/categories/`);
+          const { data: response } = await axiosClient.get(axiosClient.defaults.baseURL + `/brands/${brandId}/categories/`);
           listChanger(response);
         } catch (error) {
           if (error instanceof Error) {
@@ -55,7 +54,7 @@ const CategorySelect: FC<Props> = ({ activeId, brandId, categories, stateChanger
   useEffect(() => {
     refreshData();
   }, [brandId]);
- 
+
   if (loading) {
     return (
       <p>Loading...</p>
@@ -64,16 +63,16 @@ const CategorySelect: FC<Props> = ({ activeId, brandId, categories, stateChanger
     const defaultOption = <option key="undefinedCategory" value="">---------</option>
     if (typeof (categories) !== 'undefined' && categories != null) {
       const options = categories.map((category) => {
-          return <option key={category.id} value={category.id}>{category.name} ({category.brand_name})</option>
+        return <option key={category.id} value={category.id}>{category.name} ({category.brand_name})</option>
       })
       return (
         <div>
-        <Form.Select value={activeId} onChange={(e) => stateChanger(parseInt(e.target.value))}
+          <Form.Select value={activeId} onChange={(e) => stateChanger(parseInt(e.target.value))}
           // onChange={(e) => setActiveValue(parseInt(e.target.value))}
           >
-          {defaultOption}
-          {options}
-        </Form.Select>
+            {defaultOption}
+            {options}
+          </Form.Select>
         </div>
       )
     } else {

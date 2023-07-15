@@ -1,6 +1,5 @@
 import { FC, useState, useEffect } from 'react';
-import axios from 'axios';
-import Table from 'react-bootstrap/Table';
+import axiosClient from "../axios/axiosInstance"
 import { Animal } from "../common/types";
 import Form from 'react-bootstrap/Form';
 
@@ -19,7 +18,7 @@ const AnimalSelect: FC<Props> = ({ activeId, stateChanger }) => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const { data: response } = await axios.get('http://localhost:5000/animals/');
+        const { data: response } = await axiosClient.get(axiosClient.defaults.baseURL + '/animals/');
         setAnimals(response);
       } catch (error) {
         if (error instanceof Error) {
@@ -35,7 +34,7 @@ const AnimalSelect: FC<Props> = ({ activeId, stateChanger }) => {
 
     fetchData();
   }, []);
- 
+
   if (loading) {
     return (
       <p>Loading...</p>
@@ -44,7 +43,7 @@ const AnimalSelect: FC<Props> = ({ activeId, stateChanger }) => {
     const defaultOption = <option key="undefinedAnimal" value="">---------</option>
     if (typeof (animals) !== 'undefined' && animals != null) {
       const options = animals.map((animal) => {
-          return <option key={animal.id} value={animal.id}>{animal.type}</option>
+        return <option key={animal.id} value={animal.id}>{animal.type}</option>
       })
       return (
         <Form.Select value={activeId} onChange={(e) => stateChanger(parseInt(e.target.value))}>

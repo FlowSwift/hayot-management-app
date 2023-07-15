@@ -1,5 +1,5 @@
 import { FC, useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosClient from "../axios/axiosInstance"
 import CategoryTableRow from './CategoryTableRow';
 import Table from 'react-bootstrap/Table';
 import { Category } from "../common/types";
@@ -61,7 +61,7 @@ const CategoryTable: FC<Props> = ({ itemLim }) => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        let pageRequestURL = 'http://localhost:5000/categories/'
+        let pageRequestURL = axiosClient.defaults.baseURL + '/categories/'
         if (searchQuery.trim() != "") {
           pageRequestURL += `name/${searchQuery}`
         }
@@ -70,7 +70,7 @@ const CategoryTable: FC<Props> = ({ itemLim }) => {
           // Offset is page number * num per page
           pageRequestURL += `&offset=${itemLimit * (activeNumPage - 1)}`;
         }
-        const { data: response } = await axios.get(pageRequestURL);
+        const { data: response } = await axiosClient.get(pageRequestURL);
         setCategories(response);
 
         // Determine total number of results for pagination
@@ -126,7 +126,7 @@ const CategoryTable: FC<Props> = ({ itemLim }) => {
             <tbody>
               {
                 categories?.map(category =>
-                  <CategoryTableRow key={category.id} category={category} handleEditCategory={handleEditCategory}/>
+                  <CategoryTableRow key={category.id} category={category} handleEditCategory={handleEditCategory} />
                 )
               }
             </tbody>

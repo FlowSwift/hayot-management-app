@@ -1,5 +1,5 @@
 import { FC, useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosClient from "../axios/axiosInstance"
 import BrandTableRow from './BrandTableRow';
 import Table from 'react-bootstrap/Table';
 import { Brand } from "../common/types";
@@ -61,7 +61,7 @@ const BrandTable: FC<Props> = ({ itemLim }) => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        let pageRequestURL = 'http://localhost:5000/brands/'
+        let pageRequestURL = axiosClient.defaults.baseURL + '/brands/'
         if (searchQuery.trim() != "") {
           pageRequestURL += `name/${searchQuery}`
         }
@@ -70,7 +70,7 @@ const BrandTable: FC<Props> = ({ itemLim }) => {
           // Offset is page number * num per page
           pageRequestURL += `&offset=${itemLimit * (activeNumPage - 1)}`;
         }
-        const { data: response } = await axios.get(pageRequestURL);
+        const { data: response } = await axiosClient.get(pageRequestURL);
         setBrands(response);
 
         // Determine total number of results for pagination
@@ -106,7 +106,7 @@ const BrandTable: FC<Props> = ({ itemLim }) => {
         </Col>
         <Col>
           <Button type="button" className="mb-2" onClick={handleAddBrand}>
-          {addIcon} {actionType}
+            {addIcon} {actionType}
           </Button>
         </Col>
       </Row>

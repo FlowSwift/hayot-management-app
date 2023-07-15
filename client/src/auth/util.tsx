@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axiosClient from "../axios/axiosInstance"
 import Cookies from 'js-cookie';
 
 interface UserData {
@@ -11,13 +11,13 @@ const checkIfUserIsAuthenticated = async (): Promise<UserData> => {
   const token = Cookies.get("token") || null;
   if (token) {
     try {
-      const { data: response } = await axios.get('http://localhost:5000/auth/', {
+      const { data: response } = await axiosClient.get(axiosClient.defaults.baseURL + '/auth/', {
         headers: {
           Authorization: `Bearer ${token}`
         }
       });
-      if (response.isAuthenticated){
-        const user: UserData = {...response};
+      if (response.isAuthenticated) {
+        const user: UserData = { ...response };
         return user;
       }
     } catch (error) {

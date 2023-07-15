@@ -1,5 +1,5 @@
 import { FC, useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosClient from "../axios/axiosInstance"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import Button from 'react-bootstrap/Button';
@@ -18,7 +18,7 @@ interface Props {
   selectedProduct?: Product
 };
 
-const ProductActions: FC<Props> = ({actionType, handleAddProduct, isShow ,selectedProduct = undefined}) => {
+const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selectedProduct = undefined }) => {
   const addIcon = <FontAwesomeIcon icon={faPlus} />;
   const [name, setName] = useState("");
   const [categories, setCategories] = useState<undefined | Category[]>();
@@ -86,11 +86,11 @@ const ProductActions: FC<Props> = ({actionType, handleAddProduct, isShow ,select
 
     try {
       if (actionType === "Add Product") {
-      const { data: response } = await axios.post('http://localhost:5000/products/',
-        prod);
-      } else if (actionType === "Edit Product"){
-        const { data: response } = await axios.put('http://localhost:5000/products/',
-        prod);
+        const { data: response } = await axiosClient.post(axiosClient.defaults.baseURL + '/products/',
+          prod);
+      } else if (actionType === "Edit Product") {
+        const { data: response } = await axiosClient.put(axiosClient.defaults.baseURL + '/products/',
+          prod);
       }
     }
     catch (error) {

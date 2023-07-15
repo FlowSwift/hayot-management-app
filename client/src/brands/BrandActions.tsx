@@ -1,9 +1,7 @@
 import { FC, useEffect, useState } from "react"
 import { Brand } from "../common/types"
-import axios from "axios"
+import axiosClient from "../axios/axiosInstance"
 import { Row, Col, Modal, Button, Form } from "react-bootstrap"
-import BrandSelect from "../brands/BrandSelect"
-import AnimalSelect from "../animals/AnimalSelect"
 
 interface Props {
     actionType: string
@@ -46,10 +44,10 @@ const BrandActions: FC<Props> = ({ actionType, handleAddBrand, isShow, selectedB
 
         try {
             if (actionType === "Add Brand") {
-                const { data: response } = await axios.post('http://localhost:5000/brands/',
+                const { data: response } = await axiosClient.post(axiosClient.defaults.baseURL + '/brands/',
                     brand);
             } else if (actionType === "Edit Brand") {
-                const { data: response } = await axios.put('http://localhost:5000/brands/',
+                const { data: response } = await axiosClient.put(axiosClient.defaults.baseURL + '/brands/',
                     brand);
             }
         }

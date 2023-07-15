@@ -1,6 +1,5 @@
 import { FC, useState, useEffect } from 'react';
-import axios from 'axios';
-import Table from 'react-bootstrap/Table';
+import axiosClient from "../axios/axiosInstance"
 import { Brand } from "../common/types";
 import Form from 'react-bootstrap/Form';
 
@@ -19,7 +18,7 @@ const BrandSelect: FC<Props> = ({ activeId, stateChanger }) => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const { data: response } = await axios.get('http://localhost:5000/brands/');
+        const { data: response } = await axiosClient.get(axiosClient.defaults.baseURL + '/brands/');
         setBrands(response);
       } catch (error) {
         if (error instanceof Error) {
@@ -35,7 +34,7 @@ const BrandSelect: FC<Props> = ({ activeId, stateChanger }) => {
 
     fetchData();
   }, []);
- 
+
   if (loading) {
     return (
       <p>Loading...</p>
@@ -44,7 +43,7 @@ const BrandSelect: FC<Props> = ({ activeId, stateChanger }) => {
     const defaultOption = <option key="undefinedBrand" value="">---------</option>
     if (typeof (brands) !== 'undefined' && brands != null) {
       const options = brands.map((brand) => {
-          return <option key={brand.id} value={brand.id}>{brand.name}</option>
+        return <option key={brand.id} value={brand.id}>{brand.name}</option>
       })
       return (
         <Form.Select value={activeId} onChange={(e) => stateChanger(parseInt(e.target.value))}>

@@ -1,5 +1,4 @@
 import { FC, useState, useEffect } from 'react';
-import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import ProductTableRow from './ProductTableRow';
@@ -11,6 +10,7 @@ import Filters from '../filters/Filters';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import axiosClient from "../axios/axiosInstance"
 
 interface Props {
   itemLim: number
@@ -30,6 +30,7 @@ const ProductTable: FC<Props> = ({ itemLim }) => {
   const addAction = "Add Product";
   const editAction = "Edit Product";
   const [actionType, setActionType] = useState(addAction)
+
 
   const handleSearch = (search: string) => {
     setSearchQuery(search)
@@ -66,7 +67,7 @@ const ProductTable: FC<Props> = ({ itemLim }) => {
       console.log(searchQuery)
       setLoading(true);
       try {
-        let pageRequestURL = `http://localhost:5000/products/`;
+        let pageRequestURL = axiosClient.defaults.baseURL + `/products/`;
         if (searchQuery.trim() != "") {
           pageRequestURL += `name/${searchQuery}`
         }
@@ -75,7 +76,7 @@ const ProductTable: FC<Props> = ({ itemLim }) => {
           // Offset is page number * num per page
           pageRequestURL += `&offset=${itemLimit * (activeNumPage - 1)}`;
         }
-        const { data: response } = await axios.get(pageRequestURL);
+        const { data: response } = await axiosClient.get(pageRequestURL);
         setProducts(response);
 
         // Determine total number of results for pagination
@@ -105,16 +106,16 @@ const ProductTable: FC<Props> = ({ itemLim }) => {
   ]);
   return (
     <>
-    <Row>
-      <Col className="col-12 col-md-6 col-lg-3">
-        <Filters filterType={"products"} onSearch={handleSearch} />
-      </Col>
-      <Col>
-        <Button type="button" className="mb-2" onClick={handleAddProduct}>
-          {addIcon} Add Product
-        </Button>
-      </Col>
-    </Row>
+      <Row>
+        <Col className="col-12 col-md-6 col-lg-3">
+          <Filters filterType={"products"} onSearch={handleSearch} />
+        </Col>
+        <Col>
+          <Button type="button" className="mb-2" onClick={handleAddProduct}>
+            {addIcon} Add Product
+          </Button>
+        </Col>
+      </Row>
       {showAddProductForm && <ProductActions actionType={actionType} handleAddProduct={handleAddProduct} isShow={showAddProductForm} selectedProduct={selectedEditProduct} />}
       {loading && (<p>Loading...</p>)}
       {!loading && typeof products !== "undefined" && (
