@@ -42,15 +42,6 @@ const App: React.FC = () => {
     )
   }
 
-  if (loading) {
-    return (
-      <>
-      <Header />
-      <p>loading....</p>
-      </>
-    )
-  }
-
   return (
     <div className="App">
       <GlobalStyles />
@@ -59,7 +50,7 @@ const App: React.FC = () => {
       </header>
       <main>
         <Routes>
-          <Route element={<AuthRoute user={user} />}>
+          <Route element={user.username !== "" && <AuthRoute user={user} />}>
             <Route path="dashboard/" element={<Navigate to="/dashboard/products" />} />
             <Route path="dashboard/*" element={<DashboardPage user={user} />} />
           </Route>
