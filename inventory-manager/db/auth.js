@@ -31,8 +31,24 @@ async function getAccount(username) {
     return result
 }
 
+/**
+ * Check if user exists
+ * @param {string} username - Username of the account to fetch.
+ * @returns - username if account was found or undefined if no account was found
+ */
+async function checkAccount(username) {
+    let query = 'SELECT username FROM users WHERE username = $1'
+    let result = await db.queryDB(query, [username]);
+    console.log(result)
+    if (result.rowCount < 1) {
+        return undefined;
+    }
+    return result.rows[0].username
+}
+
 
 module.exports = {
     createAccount,
-    getAccount
+    getAccount,
+    checkAccount
 }

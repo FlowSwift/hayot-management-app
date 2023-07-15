@@ -8,9 +8,19 @@ const authMiddleware = require('../auth/authMiddleware');
 const router = express.Router();
 
 // Protected route
-router.get('/protected', authMiddleware, (req, res) => {
-  // Access the authenticated user via req.user
-  res.json({ message: 'Protected route accessed successfully' });
+router.get('/auth', authMiddleware, async (req, res) => {
+  try {
+    const user = await authQuery.checkAccount(req.user.username)
+    console.log(user)
+    if (user) {
+      res.json({ isAuthenticated: true, username: user });
+    } else {
+      res.json({ isAuthenticated: false });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 // user registration route
@@ -52,7 +62,7 @@ router.post('/login', async (req, res) => {
     }
 
     // Generate a JWT token
-    const token = jwt.sign({username: user.username}, process.env.JWT_SECRET, {expiresIn: "7d"});
+    const token = jwt.sign({ username: user.username }, process.env.JWT_SECRET, { expiresIn: "7d" });
 
     res.json({ token });
   } catch (err) {
