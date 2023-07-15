@@ -31,10 +31,13 @@ app.use(cors({
 //   }, delay);
 // });
 app.use(express.json())
-// app.use("/products", authMiddleware)
+app.use("/products", authMiddleware)
 app.use(productsRouter)
+app.use("/brands", authMiddleware)
 app.use(brandsRouter)
+app.use("/categories", authMiddleware)
 app.use(categoriesRouter)
+app.use("/animals", authMiddleware)
 app.use(animalsRouter)
 app.use(authRouter)
 
