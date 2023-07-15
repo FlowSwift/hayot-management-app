@@ -4,13 +4,13 @@ import ProductTable from "../products/ProductTable";
 import { BrowserRouter as Router, Routes, Route,} from "react-router-dom";
 import CategoryTable from "../categories/CategoryTable";
 import BrandTable from "../brands/BrandTable";
+import { UserData } from "../auth/util";
 
 interface Props {
-  //
+  user: UserData
 };
 
-const DashboardPage: FC<Props> = () => {
-
+const DashboardPage: FC<Props> = (user) => {
   return (
     <div>
       <div>

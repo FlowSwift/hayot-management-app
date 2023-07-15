@@ -1,42 +1,31 @@
-import Cookies from "js-cookie";
-import jwtDecode from "jwt-decode";
-
-
-interface DecodedTokenData {
-  username: string
-  iat: number,
-  exp: number
-}
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
 interface UserData {
-  username: string
-  iat: number,
-  exp: number
+  username: string,
   isAuthenticated: boolean
 }
 
-const checkIfUserIsAuthenticated = (): UserData => {
+const checkIfUserIsAuthenticated = async (): Promise<UserData> => {
   // Check if the user has a valid JWT token
   const token = Cookies.get("token") || null;
   if (token) {
     try {
-      const decodedToken = jwtDecode<DecodedTokenData>(token);
-      if (decodedToken.exp * 1000 > Date.now()) {
-        const user = {
-          ...decodedToken,
-          isAuthenticated: true,
-        };
+      const { data: response } = await axios.get('http://localhost:5000/auth/', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      if (response.isAuthenticated){
+        const user: UserData = {...response};
         return user;
-      } else {
-        throw new Error("Token has expired.");
       }
     } catch (error) {
-      console.error("Error decoding token:", error);
-      throw new Error("Invalid token.");
+      console.log(error)
     }
   }
 
-  throw new Error("No token found.");
+  throw new Error("Invalid token found.");
 };
 
 export default checkIfUserIsAuthenticated;

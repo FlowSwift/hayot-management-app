@@ -11,17 +11,45 @@ import checkIfUserIsAuthenticated, { UserData } from "./auth/util";
 
 
 const App: React.FC = () => {
-  const [user, setUser] = useState<UserData>({ username: "", iat: 0, exp: 0, isAuthenticated: false });
+  const [user, setUser] = useState<UserData>({ username: "", isAuthenticated: false });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    try {
-      const updatedUser = checkIfUserIsAuthenticated();
-      setUser(updatedUser);
-    } catch (error) {
-      setUser({ username: "", iat: 0, exp: 0, isAuthenticated: false });
-    }
+    checkIfUserIsAuthenticated()
+      .then((userData) => {
+        setUser(userData);
+        if (userData.isAuthenticated) {
+          setLoading(false);
+        } else {
+          setLoading(false);
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.error(error);
+      });
   }, []);
 
+
+  const Header = () => {
+    return (
+      <>
+      <GlobalStyles />
+      <header className="App-header">
+        <GlobalNavbar />
+      </header>
+      </>
+    )
+  }
+
+  if (loading) {
+    return (
+      <>
+      <Header />
+      <p>loading....</p>
+      </>
+    )
+  }
 
   return (
     <div className="App">
@@ -33,13 +61,15 @@ const App: React.FC = () => {
         <Routes>
           <Route element={<AuthRoute user={user} />}>
             <Route path="dashboard/" element={<Navigate to="/dashboard/products" />} />
-            <Route path="dashboard/*" element={<DashboardPage />} />
+            <Route path="dashboard/*" element={<DashboardPage user={user} />} />
           </Route>
           <Route path="signup" element={<SignUpPage />} />
           <Route path="login" element={<LoginPage user={user} />} />
           <Route path="*" element={<Navigate to="/dashboard/products" />} />
           {/* Other routes */}
         </Routes>
+        {!user.isAuthenticated &&
+          <p>Loading....</p>}
       </main>
     </div>
   );
