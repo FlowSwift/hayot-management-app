@@ -17,12 +17,10 @@ const App: React.FC = () => {
   useEffect(() => {
     checkIfUserIsAuthenticated()
       .then((userData) => {
-        setUser(userData);
-        if (userData.isAuthenticated) {
-          setLoading(false);
-        } else {
-          setLoading(false);
+        if (userData !== user) {
+          setUser(userData);
         }
+        setLoading(false);
       })
       .catch((error) => {
         setLoading(false);
@@ -34,11 +32,26 @@ const App: React.FC = () => {
   const Header = () => {
     return (
       <>
-      <GlobalStyles />
-      <header className="App-header">
-        <GlobalNavbar />
-      </header>
+        <GlobalStyles />
+        <header className="App-header">
+          <GlobalNavbar />
+        </header>
       </>
+    )
+  }
+
+  const RoutesComp = () => {
+    return (
+      <Routes>
+        <Route element={user.isAuthenticated && <AuthRoute user={user} />}>
+          <Route path="dashboard/" element={<Navigate to="/dashboard/products" />} />
+          <Route path="dashboard/*" element={<DashboardPage user={user} />} />
+        </Route>
+        <Route path="signup" element={<SignUpPage />} />
+        <Route path="login" element={<LoginPage user={user} />} />
+        <Route path="*" element={<Navigate to="/aa" />} />
+        {/* Other routes */}
+      </Routes>
     )
   }
 
@@ -49,18 +62,13 @@ const App: React.FC = () => {
         <GlobalNavbar />
       </header>
       <main>
-        <Routes>
-          <Route element={user.username !== "" && <AuthRoute user={user} />}>
-            <Route path="dashboard/" element={<Navigate to="/dashboard/products" />} />
-            <Route path="dashboard/*" element={<DashboardPage user={user} />} />
-          </Route>
-          <Route path="signup" element={<SignUpPage />} />
-          <Route path="login" element={<LoginPage user={user} />} />
-          <Route path="*" element={<Navigate to="/dashboard/products" />} />
-          {/* Other routes */}
-        </Routes>
-        {!user.isAuthenticated &&
-          <p>Loading....</p>}
+        {
+          (loading) ? (<p>Checking log in...</p>) : // wait for async function
+            (
+              !user.isAuthenticated ? (<LoginPage user={user} />) : // display login if not authenticated after loading
+                <RoutesComp /> // open routes
+            )
+        }
       </main>
     </div>
   );
