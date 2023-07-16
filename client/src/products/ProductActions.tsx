@@ -28,6 +28,7 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
   const [price, setPrice] = useState(0);
   const [weight, setWeight] = useState(0);
   const [ean, setEan] = useState("");
+  const old_quantity = selectedProduct?.quantity
 
   const handleOpen = () => null;
   const handleClose = () => {
@@ -80,7 +81,8 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
       weight: weight,
       quantity: quantity,
       ean: ean,
-      category_id: category_id
+      category_id: category_id,
+      old_quantity: old_quantity
     };
     console.log(prod);
 
