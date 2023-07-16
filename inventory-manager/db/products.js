@@ -153,7 +153,7 @@ async function getProductsByBrandCategory(brand, category, limit, offset) {
  * @param {object} product - must include name, price, weight, ean, quantity and category_id
  * @returns - product name and newly associated ID
  */
-async function createProduct(product) {
+async function createProduct(product, user) {
     const {name, price, weight, ean, quantity, category_id} = product
     /*
     exmaple query: "INSERT INTO products(name, price, weight, quantity, ean, category_id) VALUES('Puppy', 99, 4, '1234567891234', (SELECT id FROM categories WHERE brand_id = (SELECT id FROM brands WHERE name = 'Doggylicious' ) AND animal_id = (SELECT id FROM animals WHERE type = 'Dog') AND name = 'Classy'));"
@@ -163,6 +163,7 @@ async function createProduct(product) {
     }
     let query = "INSERT INTO products(name, price, weight, quantity, ean, category_id) VALUES($1, $2, $3, $4, $5, $6) RETURNING name, id"
     let results = await db.queryDB(query, [name, price, weight, quantity, ean, category_id])
+    let new_product_id = results.rows[0].id
     //error handling
     if (results === undefined) {
         return undefined
@@ -170,6 +171,7 @@ async function createProduct(product) {
     if (results.rowCount == 0) {
         return null
     }
+    let logsResults = logsDB.createProductAction(user, product, new_product_id);
     return results.rows
 }
 

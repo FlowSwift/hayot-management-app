@@ -121,7 +121,8 @@ router.get('/products/brand/:brand', async (req, res) => {
 // Create new product
 router.post('/products', async (req, res) => {
     // request handling
-    let results = await productsQuery.createProduct(req.body)
+    const user = res.locals.user;
+    let results = await productsQuery.createProduct(req.body, user)
     //response handling
     util.setStatus(res, results)
     if (res.statusCode != 200) {

@@ -62,7 +62,23 @@ async function updateQuantityAction(user, log) {
     return results.rows
 }
 
+async function createProductAction(user, log, id) {
+    const {quantity} = log
+    const action_type = "הוספת מוצר"
+    let query = "INSERT INTO logs(user_id, product_id, action_type, new_quantity, old_quantity) VALUES((SELECT id FROM users WHERE username = $1), $2, $3, $4, $5);"
+    let results = await db.queryDB(query, [user, id, action_type, quantity, 0]);
+    //error handling
+    if (results === undefined) {
+        return undefined
+    }
+    if (results.rowCount == 0) {
+        return null
+    }
+    return results.rows
+}
+
 module.exports = {
     getLogs,
-    updateQuantityAction
+    updateQuantityAction,
+    createProductAction
 }
