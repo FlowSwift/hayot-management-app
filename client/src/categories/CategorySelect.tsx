@@ -25,12 +25,15 @@ const CategorySelect: FC<Props> = ({ activeId, brandId, categories, stateChanger
           const { data: response } = await axiosClient.get(axiosClient.defaults.baseURL + `/brands/${brandId}/categories/`);
           listChanger(response);
         } catch (error) {
+          listChanger(undefined)
           if (error instanceof Error) {
             console.log(error.message);
           } else {
             console.log('Unexpected error', error);
           }
         }
+      } else {
+        listChanger(undefined)
       }
       setLoading(false);
     }
