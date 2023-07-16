@@ -1,6 +1,7 @@
 "use strict";
 const db = require("../db/queries");
 const util = require("./util")
+const logsDB = require("./logs")
 const baseQuery = 
 `SELECT 
 products.id, 
@@ -177,7 +178,7 @@ async function createProduct(product) {
  * @param {object} product - product object - valid product id required and one or more of the existing product properties to update
  * @returns the id and name of a product from a given id or undefined upon error/null if no product exists with the given id
  */
-async function updateProductByID (product) {
+async function updateProductByID (product, user) {
     //set base query
     let query = "UPDATE products SET";
     let values = [];
@@ -190,7 +191,8 @@ async function updateProductByID (product) {
     if (results.rowCount == 0) {
         return null
     }
-    return results.rows
+    let logsResults = logsDB.updateQuantityAction(user, product);
+    return results.rows;
 }
 
 

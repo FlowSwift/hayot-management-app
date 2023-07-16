@@ -8,6 +8,7 @@ const productsRouter = require("./routes/products")
 const brandsRouter = require("./routes/brands")
 const categoriesRouter = require("./routes/categories")
 const animalsRouter = require("./routes/animals")
+const logsRouter = require("./routes/logs")
 const authRouter = require("./routes/auth.js")
 const authMiddleware = require("./auth/authMiddleware.js")
 
@@ -39,6 +40,8 @@ app.use("/categories", authMiddleware)
 app.use(categoriesRouter)
 app.use("/animals", authMiddleware)
 app.use(animalsRouter)
+app.use("/logs", authMiddleware)
+app.use(logsRouter)
 app.use(authRouter)
 
 app.get('/', async (req, res) => {

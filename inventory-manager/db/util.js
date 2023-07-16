@@ -41,7 +41,7 @@ function updateItem(query, item) {
     let i = 0
     let values = []
     for (var key in item) {
-        if (key != "id") {
+        if (key !== "id" && key !== "old_quantity") {
             query += " " + key.toLowerCase() + " = $" + (i+1) + ","
             values.push(item[key])
             i++

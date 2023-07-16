@@ -133,13 +133,14 @@ router.post('/products', async (req, res) => {
 // update products by id
 router.put('/products', async (req, res) => {
     // request handling
-    let results = await productsQuery.updateProductByID(req.body)
+    const user = res.locals.user;
+    let results = await productsQuery.updateProductByID(req.body, user);
     //response handling
-    util.setStatus(res, results)
+    util.setStatus(res, results);
     if (res.statusCode != 200) {
-        return util.sendStatusMessage(res)
+        return util.sendStatusMessage(res);
     }
-    return res.send(results)
+    return res.send(results);
 })
 
 module.exports = router;
