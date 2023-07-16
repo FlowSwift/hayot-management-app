@@ -29,3 +29,13 @@ export interface Animal {
   id: string;
   type: string;
 }
+
+export interface Log {
+  id: string
+  product_name: string;
+  category_name: string;
+  brand_name: string;
+  action_type: string;
+  old_quantity: number,
+  new_quantity: number
+}

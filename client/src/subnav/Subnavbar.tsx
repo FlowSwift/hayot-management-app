@@ -27,6 +27,13 @@ const Subnavbar: FC = () => {
                         Brands
                     </NavLink>
                 </SubnavLink>
+                <SubnavLink>
+                    <NavLink
+                        to="/dashboard/logs"
+                        className={({ isActive }) => (isActive ? 'active' : 'inactive')}>
+                        Logs
+                    </NavLink>
+                </SubnavLink>
             </SubnavLinks>
         </SubnavbarContainer>
     )

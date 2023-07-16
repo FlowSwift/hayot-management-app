@@ -31,11 +31,27 @@ CREATE TABLE "animals" (
   "type" text NOT NULL
 );
 
+CREATE TABLE "logs" (
+    "id" SERIAL PRIMARY KEY,
+    "user_id" integer NOT NULL,
+    "product_id" integer NOT NULL,
+    "action_type" text NOT NULL,
+    "old_quantity" integer DEFAULT 0,
+    "new_quantity" integer DEFAULT 0,
+    "log_time" timestamp DEFAULT current_timestamp(5)
+);
+
+
+
 ALTER TABLE "products" ADD CONSTRAINT "fk_category" FOREIGN KEY ("category_id") REFERENCES "categories" ("id");
 
 ALTER TABLE "categories" ADD CONSTRAINT "fk_brand" FOREIGN KEY ("brand_id") REFERENCES "brands" ("id");
 
 ALTER TABLE "categories" ADD CONSTRAINT "fk_animal" FOREIGN KEY ("animal_id") REFERENCES "animals" ("id");
+
+ALTER TABLE "logs" ADD CONSTRAINT "fk_user" FOREIGN KEY ("user_id") REFERENCES "users" ("id");
+
+ALTER TABLE "logs" ADD CONSTRAINT "fk_product" FOREIGN KEY ("product_id") REFERENCES "products" ("id");
 
 
 -- Random content for testing

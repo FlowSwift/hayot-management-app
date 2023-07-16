@@ -11,13 +11,15 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import axiosClient from "../axios/axiosInstance"
+import { UserData } from '../auth/util';
 
 interface Props {
-  itemLim: number
+  itemLim: number,
+  user: UserData
 };
 
 
-const ProductTable: FC<Props> = ({ itemLim }) => {
+const ProductTable: FC<Props> = ({ itemLim, user }) => {
   const addIcon = <FontAwesomeIcon icon={faPlus} />;
   const [showAddProductForm, setShowAddProductForm] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -138,6 +140,7 @@ const ProductTable: FC<Props> = ({ itemLim }) => {
                     product={product}
                     handleEditProduct={handleEditProduct}
                     handleEditQuantity={handleEditQuantity}
+                    user={user}
                   />
                 )
               }

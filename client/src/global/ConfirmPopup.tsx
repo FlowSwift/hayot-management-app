@@ -4,23 +4,26 @@ import Modal from 'react-bootstrap/Modal';
 import { Col, Form, Row } from 'react-bootstrap';
 import { Product } from '../common/types';
 import axiosClient from "../axios/axiosInstance"
+import { UserData } from '../auth/util';
 
 interface ConfirmationProps {
+  user: UserData
   message: string;
   onConfirm: Function;
   onCancel: Function;
   product: Product
 }
 
-const ConfirmationPopup: React.FC<ConfirmationProps> = ({ message, onConfirm, onCancel, product }) => {
+const ConfirmationPopup: React.FC<ConfirmationProps> = ({ user, message, onConfirm, onCancel, product }) => {
   const [show, setShow] = useState(true);
   const [quantity, setQuantity] = useState(0);
+  const originalQuantity = product.quantity
 
   const updateProduct = async () => {
     product.quantity += quantity
     try {
       const { data: response } = await axiosClient.put(axiosClient.defaults.baseURL + '/products/',
-        { id: product.id, quantity: product.quantity });
+        { id: product.id, quantity: product.quantity, old_quantity: originalQuantity });
     }
     catch (error) {
       console.log("DATABASE ERROR: ")

@@ -3,13 +3,16 @@ import Button from 'react-bootstrap/Button';
 import { Product, Category } from "../common/types";
 import { Col, Form, Row } from 'react-bootstrap';
 import ConfirmationPopup from '../global/ConfirmPopup';
+import { UserData } from '../auth/util';
 
 interface Props {
     product: Product,
     handleEditProduct: Function
     handleEditQuantity: Function
+    user: UserData
 };
-const ProductTableRow: FC<Props> = ({ product, handleEditProduct, handleEditQuantity}) => {
+
+const ProductTableRow: FC<Props> = ({ product, handleEditProduct, handleEditQuantity, user }) => {
     const [quantity, setQuantity] = useState(product.quantity);
     const [showConfirmation, setShowConfirmation] = useState(false);
     const handleOpen = () => handleEditProduct(product);
@@ -17,11 +20,11 @@ const ProductTableRow: FC<Props> = ({ product, handleEditProduct, handleEditQuan
     const handleConfirmDelete = () => {
         handleEditQuantity()
         setShowConfirmation(false);
-      };
-    
-      const handleCancelDelete = () => {
+    };
+
+    const handleCancelDelete = () => {
         setShowConfirmation(false);
-      };
+    };
 
     return (
         <tr>
@@ -54,6 +57,7 @@ const ProductTableRow: FC<Props> = ({ product, handleEditProduct, handleEditQuan
                 </Form>
                 {showConfirmation && (
                     <ConfirmationPopup
+                        user={user}
                         message="Are you sure you want to delete?"
                         onConfirm={handleConfirmDelete}
                         onCancel={handleCancelDelete}
