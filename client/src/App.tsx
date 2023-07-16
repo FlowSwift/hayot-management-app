@@ -28,18 +28,6 @@ const App: React.FC = () => {
       });
   }, []);
 
-
-  const Header = () => {
-    return (
-      <>
-        <GlobalStyles />
-        <header className="App-header">
-          <GlobalNavbar />
-        </header>
-      </>
-    )
-  }
-
   const RoutesComp = () => {
     return (
       <Routes>
@@ -59,7 +47,7 @@ const App: React.FC = () => {
     <div className="App">
       <GlobalStyles />
       <header className="App-header">
-        <GlobalNavbar />
+        <GlobalNavbar loading={loading} user={user}/>
       </header>
       <main>
         {
