@@ -122,7 +122,7 @@ const ProductTable: FC<Props> = ({ itemLim, user }) => {
       {loading && (<p>Loading...</p>)}
       {!loading && typeof products !== "undefined" && (
         <>
-          <Table striped bordered hover size="sm">
+          <Table striped bordered hover size="sm" className="table-data">
             <thead>
               <tr>
                 <th>Name</th>

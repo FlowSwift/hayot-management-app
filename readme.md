@@ -67,3 +67,4 @@ FED:
 - Styling mobile menu
 - Remove count input
 - Pagination RTL
+- Mobile table: Brand - category - name

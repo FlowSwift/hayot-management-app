@@ -58,6 +58,13 @@ const GlobalStyles = createGlobalStyle`
     font-size: .9em;
     font-weight: 700;
   }
+
+  @media (max-width: 767px) {
+    .table-data tr {
+      display: flex;
+      flex-direction: column;
+    }
+  }
 `
 
 export default GlobalStyles;
