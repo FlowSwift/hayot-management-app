@@ -51,25 +51,23 @@ const ConfirmationPopup: React.FC<ConfirmationProps> = ({ user, message, onConfi
               הכניסו כמות שתרצו להוסיף:
             </Col>
           </Row>
-          <Row className="align-items-center">
-            <Col>
-              {product.quantity + quantity}
-            </Col>
-            <Col>
-              =
-            </Col>
+          <Row className='my-3'>
             <Col>
               <Form.Control
                 type="number"
                 value={quantity}
                 onChange={(e) => setQuantity(parseInt(e.target.value))}
-              />
+              /> 
             </Col>
             <Col>
-              +
-            </Col>
-            <Col>
+              +  
               {product.quantity}
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              {product.quantity + quantity} 
+              =
             </Col>
           </Row>
         </Form>

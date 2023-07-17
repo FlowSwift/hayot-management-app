@@ -59,11 +59,77 @@ const GlobalStyles = createGlobalStyle`
     font-weight: 700;
   }
 
+  .sr-only {
+    border: 0 !important;
+    clip: rect(1px, 1px, 1px, 1px) !important; /* 1 */
+    -webkit-clip-path: inset(50%) !important;
+      clip-path: inset(50%) !important;  /* 2 */
+    height: 1px !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    position: absolute !important;
+    width: 1px !important;
+    white-space: nowrap !important;            /* 3 */
+  }
+
   @media (max-width: 767px) {
     .table-data tr {
       display: flex;
       flex-direction: column;
+
+      
     }
+
+    .table-dat2a tr {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: auto;
+      grid-column-gap: 0px;
+      grid-row-gap: 0px;
+    }
+ 
+    .table-data2 tr td:nth-of-type(5n + 1) { grid-area: fit-content(300px) fit-content(300px) 1fr; }
+.table-data2 tr td:nth-of-type(5n + 2) { grid-area: fit-content(300px) fit-content(300px) 1fr;; }
+.table-data2 tr td:nth-of-type(5n + 3) { grid-area: 2 / 1 / 3 / 6; }
+.table-data2 tr td:nth-of-type(5n + 4) { grid-area: 3 / 1 / 4 / 2; }
+.table-data2 tr td:nth-of-type(5n + 5) { grid-area: 3 / 2 / 4 / 6; } 
+      
+.table-data2 tr td:nth-of-type(5n + 4),
+.table-data2 tr td:nth-of-type(5n + 5) {
+  white-space: nowrap;
+}
+
+.table-data tr td:nth-of-type(5n + 5) button {
+float: left;
+}
+
+    .table-data thead {
+      border: 3px solid #f00;
+      border: 0 !important;
+      clip: rect(1px, 1px, 1px, 1px) !important; /* 1 */
+      -webkit-clip-path: inset(50%) !important;
+        clip-path: inset(50%) !important;  /* 2 */
+      height: 1px !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      padding: 0 !important;
+      position: absolute !important;
+      width: 1px !important;
+      white-space: nowrap !important;            /* 3 */
+    }
+
+    .table-data tr th,
+    .table-data tr td {
+      border-bottom: 0;
+      padding-right: 1rem;
+      padding-left: 1rem;
+    }
+  }
+
+  .icon-muted {
+    opacity: .6;
+    font-size: .8em;
   }
 `
 

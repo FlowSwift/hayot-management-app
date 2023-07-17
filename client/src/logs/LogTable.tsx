@@ -80,7 +80,7 @@ const LogTable: FC<Props> = ({ itemLim }) => {
       {loading && (<p>Loading...</p>)}
       {!loading && typeof logs !== "undefined" && (
         <>
-          <Table striped bordered size="sm" className="table-data">
+          <Table striped size="sm" className="table-data">
             <thead>
               <tr>
                 <th>Brand</th>

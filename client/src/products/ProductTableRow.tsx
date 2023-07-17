@@ -4,6 +4,10 @@ import { Product, Category } from "../common/types";
 import { Col, Form, Row } from 'react-bootstrap';
 import ConfirmationPopup from '../global/ConfirmPopup';
 import { UserData } from '../auth/util';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPencil } from '@fortawesome/free-solid-svg-icons'
+import { faWeight } from '@fortawesome/free-solid-svg-icons'
+import { faBagShopping } from '@fortawesome/free-solid-svg-icons'
 
 interface Props {
     product: Product,
@@ -16,6 +20,9 @@ const ProductTableRow: FC<Props> = ({ product, handleEditProduct, handleEditQuan
     const [quantity, setQuantity] = useState(product.quantity);
     const [showConfirmation, setShowConfirmation] = useState(false);
     const handleOpen = () => handleEditProduct(product);
+    const editIcon = <FontAwesomeIcon icon={faPencil} />;
+    const weightIcon = <FontAwesomeIcon className="icon-muted" icon={faWeight} />;
+    const quantityIcon = <FontAwesomeIcon className="icon-muted" icon={faBagShopping} />;
 
     const handleConfirmDelete = () => {
         handleEditQuantity()
@@ -28,29 +35,19 @@ const ProductTableRow: FC<Props> = ({ product, handleEditProduct, handleEditQuan
 
     return (
         <tr>
-            <td className="align-middle">
-                <span className="text-muted">#{product.id}</span> <Button variant="link" onClick={handleOpen}>{product.name}</Button>
-
+            <td>{product.brand_name}</td>
+            <td>{product.category_name}</td>
+            <td>
+                <Button variant="link" onClick={handleOpen}>{product.name} <span className="text-muted">({product.id})</span> </Button>
             </td>
-            <td className="align-middle">{product.brand_name}</td>
-            <td className="align-middle">{product.category_name}</td>
-            <td className="align-middle">{product.weight}</td>
-            <td className="align-middle">
+            <td>{weightIcon} {product.weight}kg</td>
+            <td>
                 <Form>
                     <Row className="align-items-center">
                         <Col xs="auto">
-                            <Form.Control
-                                className="small-input"
-                                value={quantity}
-                                type="number"
-                                min="0"
-                                step="1"
-                                onChange={(e) => setQuantity(parseFloat(e.target.value))}
-                            />
-                        </Col>
-                        <Col xs="auto">
-                            <Button variant="outline-primary" size="sm" onClick={() => setShowConfirmation(true)}>
-                                ✓
+                        {quantityIcon} {quantity}
+                            <Button className="mx-1" variant="outline-primary" size="sm" onClick={() => setShowConfirmation(true)}>
+                                {editIcon}
                             </Button>
                         </Col>
                     </Row>
