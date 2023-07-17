@@ -114,7 +114,7 @@ const BrandTable: FC<Props> = ({ itemLim }) => {
       {loading && (<p>Loading...</p>)}
       {!loading && typeof brands !== "undefined" && (
         <>
-          <Table striped bordered size="sm">
+          <Table striped bordered size="sm" className="table-data">
             <thead>
               <tr>
                 <th>Brand Name</th>

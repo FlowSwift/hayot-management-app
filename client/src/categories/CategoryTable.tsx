@@ -115,7 +115,7 @@ const CategoryTable: FC<Props> = ({ itemLim }) => {
       {loading && (<p>Loading...</p>)}
       {!loading && typeof categories !== "undefined" && (
         <>
-          <Table striped bordered size="sm">
+          <Table striped bordered size="sm" className="table-data">
             <thead>
               <tr>
                 <th>Category Name</th>

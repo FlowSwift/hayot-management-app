@@ -37,6 +37,7 @@ const App: React.FC = () => {
         </Route>
         <Route path="signup" element={<SignUpPage />} />
         <Route path="login" element={<LoginPage user={user} />} />
+        <Route path="/" element={<Navigate to="/dashboard/products" />} />
         <Route path="*" element={<Navigate to="/aa" />} />
         {/* Other routes */}
       </Routes>
