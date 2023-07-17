@@ -128,3 +128,4 @@ dist
 .pnp.*
 
 .devcontainer
+/inventory-database/db_backup
