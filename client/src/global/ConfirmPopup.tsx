@@ -18,20 +18,24 @@ const ConfirmationPopup: React.FC<ConfirmationProps> = ({ user, message, onConfi
   const [show, setShow] = useState(true);
   const [quantity, setQuantity] = useState(0);
   const originalQuantity = product.quantity
+  const [saving, setSaving] = useState(false);
 
   const updateProduct = async () => {
-    product.quantity += quantity
     try {
       const { data: response } = await axiosClient.put(axiosClient.defaults.baseURL + '/products/',
-        { id: product.id, quantity: product.quantity, old_quantity: originalQuantity });
+        { id: product.id, quantity: product.quantity + quantity, old_quantity: originalQuantity });
     }
     catch (error) {
-      console.log("DATABASE ERROR: ")
-      console.log(error)
+      console.log("DATABASE ERROR: ");
+      console.log(error);
+    } finally {
+      setSaving(false);
     }
-  }
+  };
 
   const handleConfirm = async () => {
+    if (saving) return;
+    setSaving(true);
     await updateProduct();
     onConfirm();
     setShow(false);
@@ -57,16 +61,16 @@ const ConfirmationPopup: React.FC<ConfirmationProps> = ({ user, message, onConfi
                 type="number"
                 value={quantity}
                 onChange={(e) => setQuantity(parseInt(e.target.value))}
-              /> 
+              />
             </Col>
             <Col>
-              +  
+              +
               {product.quantity}
             </Col>
           </Row>
           <Row>
             <Col>
-              {product.quantity + quantity} 
+              {product.quantity + quantity}
               =
             </Col>
           </Row>

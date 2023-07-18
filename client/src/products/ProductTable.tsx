@@ -12,6 +12,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import axiosClient from "../axios/axiosInstance"
 import { UserData } from '../auth/util';
+import axios from 'axios';
 
 interface Props {
   itemLim: number,
@@ -23,7 +24,7 @@ const ProductTable: FC<Props> = ({ itemLim, user }) => {
   const addIcon = <FontAwesomeIcon icon={faPlus} />;
   const [showAddProductForm, setShowAddProductForm] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [products, setProducts] = useState<undefined | Product[]>();
+  const [products, setProducts] = useState<Product[]>();
   const [selectedEditProduct, setSelectedEditProduct] = useState<Product>();
   const [resultNumPages, setResultNumPages] = useState<number>();
   const [activeNumPage, setActiveNumPage] = useState(1);
@@ -66,7 +67,6 @@ const ProductTable: FC<Props> = ({ itemLim, user }) => {
 
   const refreshData = () => {
     const fetchData = async () => {
-      console.log(searchQuery)
       setLoading(true);
       try {
         let pageRequestURL = axiosClient.defaults.baseURL + `/products/`;
@@ -78,7 +78,12 @@ const ProductTable: FC<Props> = ({ itemLim, user }) => {
           // Offset is page number * num per page
           pageRequestURL += `&offset=${itemLimit * (activeNumPage - 1)}`;
         }
-        const { data: response } = await axiosClient.get(pageRequestURL);
+        const config = {
+          headers: {
+            'X-Cancel-Request': true,
+          },
+        };
+        const { data: response } = await axiosClient.get(pageRequestURL, config);
         setProducts(response);
 
         // Determine total number of results for pagination
@@ -88,11 +93,15 @@ const ProductTable: FC<Props> = ({ itemLim, user }) => {
         }
         setResultNumPages(Math.ceil(resCount / itemLimit));
       } catch (error) {
-        setProducts(undefined)
-        if (error instanceof Error) {
-          console.log(error.message);
+        if (axios.isCancel(error)) {
+          console.log({ canceled: error.message });
         } else {
-          console.log('Unexpected error', error);
+          setProducts(undefined)
+          if (error instanceof Error) {
+            console.log(error.message);
+          } else {
+            console.log('Unexpected error', error);
+          }
         }
       }
       setLoading(false);
@@ -119,8 +128,8 @@ const ProductTable: FC<Props> = ({ itemLim, user }) => {
         </Col>
       </Row>
       {showAddProductForm && <ProductActions actionType={actionType} handleAddProduct={handleAddProduct} isShow={showAddProductForm} selectedProduct={selectedEditProduct} />}
-      {loading && (<p>Loading...</p>)}
-      {!loading && typeof products !== "undefined" && (
+      {/* {loading && (<p>Loading...</p>)} */}
+      {true && (
         <>
           <Table striped size="sm" className="table-data">
             <thead>

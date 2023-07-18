@@ -45,7 +45,7 @@ const ProductTableRow: FC<Props> = ({ product, handleEditProduct, handleEditQuan
                 <Form>
                     <Row className="align-items-center">
                         <Col xs="auto">
-                        {quantityIcon} {quantity}
+                        {quantityIcon} {product.quantity}
                             <Button className="mx-1" variant="outline-primary" size="sm" onClick={() => setShowConfirmation(true)}>
                                 {editIcon}
                             </Button>

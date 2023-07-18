@@ -29,6 +29,7 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
   const [weight, setWeight] = useState(0);
   const [ean, setEan] = useState("");
   const old_quantity = selectedProduct?.quantity
+  const [saving, setSaving] = useState(false);
 
   const handleOpen = () => null;
   const handleClose = () => {
@@ -37,6 +38,8 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
   // Prevent page from redirecting when user hits Enter
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
+    if (saving) return;
+    setSaving(true);
     await handleSave();
     handleClose();
   }
@@ -96,10 +99,12 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
       }
     }
     catch (error) {
-      console.log("DATABASE ERROR: ")
-      console.log(error)
+      console.log("DATABASE ERROR: ");
+      console.log(error);
+    } finally {
+      setSaving(false);
+      resetForm();
     }
-    resetForm()
   };
 
   return (

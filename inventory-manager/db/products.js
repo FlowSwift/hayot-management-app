@@ -163,7 +163,6 @@ async function createProduct(product, user) {
     }
     let query = "INSERT INTO products(name, price, weight, quantity, ean, category_id) VALUES($1, $2, $3, $4, $5, $6) RETURNING name, id"
     let results = await db.queryDB(query, [name, price, weight, quantity, ean, category_id])
-    let new_product_id = results.rows[0].id
     //error handling
     if (results === undefined) {
         return undefined
@@ -171,6 +170,7 @@ async function createProduct(product, user) {
     if (results.rowCount == 0) {
         return null
     }
+    let new_product_id = results.rows[0].id
     let logsResults = logsDB.createProductAction(user, product, new_product_id);
     return results.rows
 }
