@@ -13,6 +13,7 @@ import Row from 'react-bootstrap/Row';
 import axiosClient from "../axios/axiosInstance"
 import { UserData } from '../auth/util';
 import axios from 'axios';
+import LoadingModal from '../global/LoadingPopup';
 
 interface Props {
   itemLim: number,
@@ -40,24 +41,30 @@ const ProductTable: FC<Props> = ({ itemLim, user }) => {
     setActiveNumPage(1)
   };
 
-  const setAddProductForm = () => {
+  const setAddProductForm = (makeChange: boolean) => {
     if (showAddProductForm) {
-      refreshData();
+      if (makeChange) {
+        refreshData();
+      }
       setShowAddProductForm(false);
-      setSelectedEditProduct(undefined)
+      setSelectedEditProduct(undefined);
     } else {
       setShowAddProductForm(true);
     }
   }
 
-  const handleAddProduct = () => {
-    setActionType(addAction)
-    setAddProductForm()
+  const handleAddProduct = (makeChange: boolean) => {
+    setActionType(addAction);
+    setAddProductForm(makeChange);
   };
 
-  const handleEditProduct = (product: Product) => {
+  const openAddProduct = () => {
+    handleAddProduct(false);
+  }
+
+  const handleEditProduct = (product: Product, makeChange: boolean) => {
     setActionType(editAction)
-    setAddProductForm()
+    setAddProductForm(makeChange)
     setSelectedEditProduct(product)
   }
 
@@ -84,6 +91,7 @@ const ProductTable: FC<Props> = ({ itemLim, user }) => {
           },
         };
         const { data: response } = await axiosClient.get(pageRequestURL, config);
+        setLoading(false);
         setProducts(response);
 
         // Determine total number of results for pagination
@@ -104,7 +112,6 @@ const ProductTable: FC<Props> = ({ itemLim, user }) => {
           }
         }
       }
-      setLoading(false);
     }
 
     fetchData();
@@ -122,13 +129,13 @@ const ProductTable: FC<Props> = ({ itemLim, user }) => {
           <Filters filterType={"products"} onSearch={handleSearch} />
         </Col>
         <Col>
-          <Button type="button" className="mb-2" onClick={handleAddProduct}>
+          <Button type="button" className="mb-2" onClick={openAddProduct}>
             {addIcon} Add Product
           </Button>
         </Col>
       </Row>
       {showAddProductForm && <ProductActions actionType={actionType} handleAddProduct={handleAddProduct} isShow={showAddProductForm} selectedProduct={selectedEditProduct} />}
-      {/* {loading && (<p>Loading...</p>)} */}
+      {loading && <LoadingModal show={loading} />}
       {true && (
         <>
           <Table striped size="sm" className="table-data">

@@ -1,7 +1,8 @@
 import { FC, useState, useEffect } from 'react';
 import axiosClient from "../axios/axiosInstance"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faL, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
@@ -30,10 +31,11 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
   const [ean, setEan] = useState("");
   const old_quantity = selectedProduct?.quantity
   const [saving, setSaving] = useState(false);
+  const loadingIcon = <FontAwesomeIcon className="spinner mx-1" icon={faSpinner} />;
 
   const handleOpen = () => null;
   const handleClose = () => {
-    handleAddProduct(false);
+    finishModal(false);
   }
   // Prevent page from redirecting when user hits Enter
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
@@ -41,7 +43,11 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
     if (saving) return;
     setSaving(true);
     await handleSave();
-    handleClose();
+    finishModal(true);
+  }
+
+  const finishModal = (makeChange: boolean) => {
+    handleAddProduct(makeChange);
   }
 
   const checkfieldNan = (value: number) => {
@@ -162,7 +168,7 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
                   Close
                 </Button>
                 <Button type="submit" variant="primary" onClick={handleSubmit}>
-                  {actionType}
+                  {actionType} {saving && loadingIcon}
                 </Button>
               </Modal.Footer>
             </Modal>
