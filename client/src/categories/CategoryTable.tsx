@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CategoryActions from './CategoryActions';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
   itemLim: number
@@ -29,6 +30,7 @@ const CategoryTable: FC<Props> = ({ itemLim }) => {
   const addAction = "Add Category";
   const editAction = "Edit Category";
   const [actionType, setActionType] = useState(addAction)
+  const loadingIcon = <FontAwesomeIcon size='4x' className="spinner mx-1 icon-muted" icon={faSpinner} />;
 
   const handleSearch = (search: string) => {
     setSearchQuery(search)
@@ -112,7 +114,7 @@ const CategoryTable: FC<Props> = ({ itemLim }) => {
       </Row>
 
       {showAddCategoryForm && <CategoryActions actionType={actionType} handleAddCategory={handleAddCategory} isShow={showAddCategoryForm} selectedCategory={selectedEditCategory} />}
-      {loading && (<p>Loading...</p>)}
+      {loading && (<div className="m-5 text-center">{loadingIcon}</div>)}
       {!loading && typeof categories !== "undefined" && (
         <>
           <Table striped size="sm" className="table-data">

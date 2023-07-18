@@ -2,6 +2,8 @@ import { FC, useState, useEffect } from 'react';
 import axiosClient from "../axios/axiosInstance"
 import { Animal } from "../common/types";
 import Form from 'react-bootstrap/Form';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
   activeId: number | undefined; // New products
@@ -11,6 +13,7 @@ interface Props {
 const AnimalSelect: FC<Props> = ({ activeId, stateChanger }) => {
   const [loading, setLoading] = useState(true);
   const [animals, setAnimals] = useState<undefined | Animal[]>();
+  const loadingIcon = <FontAwesomeIcon className="spinner mx-1" icon={faSpinner} />;
 
   // const [activeValue, setActiveValue] = useState<number>()
 
@@ -37,7 +40,9 @@ const AnimalSelect: FC<Props> = ({ activeId, stateChanger }) => {
 
   if (loading) {
     return (
-      <p>Loading...</p>
+      <>
+        {loadingIcon}
+      </>
     )
   } else {
     const defaultOption = <option key="undefinedAnimal" value="">---------</option>

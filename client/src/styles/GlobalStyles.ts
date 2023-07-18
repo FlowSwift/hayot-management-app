@@ -129,7 +129,22 @@ float: left;
 
   .icon-muted {
     opacity: .6;
-    font-size: .8em;
+  }
+
+  .spinner {
+    animation: spin infinite 5s linear;
+
+    /*You can increase or decrease the timer (5s) to 
+     increase or decrease the speed of the spinner*/
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
   }
 `
 
