@@ -24,7 +24,7 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
   const [categories, setCategories] = useState<undefined | Category[]>();
   const [category_id, setCategoryId] = useState(0);
   const [brand_id, setBrandId] = useState(0);
-  const [quantity, setQuantity] = useState<undefined | number>();
+  const [quantity, setQuantity] = useState(0);
   const [price, setPrice] = useState(0);
   const [weight, setWeight] = useState(0);
   const [ean, setEan] = useState("");
@@ -46,9 +46,9 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
 
   const checkfieldNan = (value: number) => {
     if (isNaN(value)) {
-      return 0
+      return 0;
     }
-    return value
+    return value;
   }
 
   useEffect(() => {
@@ -70,7 +70,7 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
     setCategories(undefined);
     setCategoryId(0);
     setBrandId(0);
-    setQuantity(undefined);
+    setQuantity(0);
     setPrice(0);
     setWeight(0);
     setEan("");
@@ -141,15 +141,15 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formProductQuantity">
                     <Form.Label>Quantity</Form.Label>
-                    <Form.Control type="text" value={quantity} placeholder="0" onChange={(e) => setQuantity(checkfieldNan(parseFloat(e.target.value)))} />
+                    <Form.Control type="text" inputMode="numeric" value={!quantity ? "" : quantity} placeholder={!quantity ? "0" : ""} onChange={(e) => setQuantity(checkfieldNan(parseFloat(e.target.value)))} />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formProductPrice">
                     <Form.Label>Price</Form.Label>
-                    <Form.Control type="text" value={price} onChange={(e) => setPrice(checkfieldNan(parseFloat(e.target.value)))} />
+                    <Form.Control type="number" inputMode="decimal" value={!price ? "" : price} placeholder={!price ? "0" : ""} onChange={(e) => setPrice(checkfieldNan(parseFloat(e.target.value)))} />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formProductWeight">
                     <Form.Label>Weight</Form.Label>
-                    <Form.Control type="text" value={weight} onChange={(e) => setWeight(checkfieldNan(parseFloat(e.target.value)))} />
+                    <Form.Control type="number" inputMode="decimal" value={!weight ? "" : weight} placeholder={!weight ? "0" : ""} onChange={(e) => setWeight(checkfieldNan(parseFloat(e.target.value)))} />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formProductEan">
                     <Form.Label>EAN</Form.Label>
