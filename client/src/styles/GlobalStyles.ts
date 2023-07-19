@@ -146,6 +146,12 @@ float: left;
       transform: rotate(360deg);
     }
   }
+
+  .loading-modal .modal-content {
+    background-color: transparent;
+    border: 0;
+    text-align: center;
+  }
 `
 
 export default GlobalStyles;
