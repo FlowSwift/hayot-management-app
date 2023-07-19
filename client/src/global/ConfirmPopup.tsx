@@ -5,6 +5,8 @@ import { Col, Form, Row } from 'react-bootstrap';
 import { Product } from '../common/types';
 import axiosClient from "../axios/axiosInstance"
 import { UserData } from '../auth/util';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 interface ConfirmationProps {
   user: UserData
@@ -19,6 +21,7 @@ const ConfirmationPopup: React.FC<ConfirmationProps> = ({ user, message, onConfi
   const [quantity, setQuantity] = useState(0);
   const originalQuantity = product.quantity
   const [saving, setSaving] = useState(false);
+  const loadingIcon = <FontAwesomeIcon className="spinner mx-1" icon={faSpinner} />;
 
   const updateProduct = async () => {
     try {
@@ -81,7 +84,7 @@ const ConfirmationPopup: React.FC<ConfirmationProps> = ({ user, message, onConfi
           ביטול
         </Button>
         <Button variant="primary" onClick={handleConfirm}>
-          אישור
+          אישור {saving && loadingIcon}
         </Button>
       </Modal.Footer>
     </Modal>
