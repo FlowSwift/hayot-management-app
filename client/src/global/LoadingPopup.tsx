@@ -8,10 +8,10 @@ interface Props {
 }
 
 const LoadingModal: FC<Props> = ({ show }) => {
-    const loadingIcon = <FontAwesomeIcon className="spinner mx-1" icon={faSpinner} />;
+    const loadingIcon = <FontAwesomeIcon size='2x' className="spinner mx-1" icon={faSpinner} />;
     return (
         <>
-            <Modal show={show} backdrop="static" keyboard={false} centered>
+            <Modal className="loading-modal" show={show} backdrop={false} keyboard={false} centered>
                 <Modal.Body>
                     {loadingIcon}
                 </Modal.Body>
