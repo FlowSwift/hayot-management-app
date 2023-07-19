@@ -1,6 +1,6 @@
 import { FC, useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faSpinner } from '@fortawesome/free-solid-svg-icons'
 import ProductTableRow from './ProductTableRow';
 import Table from 'react-bootstrap/Table';
 import { Product } from "../common/types";
@@ -25,6 +25,7 @@ const ProductTable: FC<Props> = ({ itemLim, user }) => {
   const addIcon = <FontAwesomeIcon icon={faPlus} />;
   const [showAddProductForm, setShowAddProductForm] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [searchLoading, setSearchLoading] = useState(false);
   const [products, setProducts] = useState<Product[]>();
   const [selectedEditProduct, setSelectedEditProduct] = useState<Product>();
   const [resultNumPages, setResultNumPages] = useState<number>();
@@ -34,11 +35,12 @@ const ProductTable: FC<Props> = ({ itemLim, user }) => {
   const addAction = "Add Product";
   const editAction = "Edit Product";
   const [actionType, setActionType] = useState(addAction)
-
+  const loadingIcon = <FontAwesomeIcon className="spinner mx-1" icon={faSpinner} />;
 
   const handleSearch = (search: string) => {
-    setSearchQuery(search)
-    setActiveNumPage(1)
+    setSearchLoading(true);
+    setSearchQuery(search);
+    setActiveNumPage(1);
   };
 
   const setAddProductForm = (makeChange: boolean) => {
@@ -92,6 +94,7 @@ const ProductTable: FC<Props> = ({ itemLim, user }) => {
         };
         const { data: response } = await axiosClient.get(pageRequestURL, config);
         setLoading(false);
+        setSearchLoading(false);
         setProducts(response);
 
         // Determine total number of results for pagination
@@ -104,6 +107,8 @@ const ProductTable: FC<Props> = ({ itemLim, user }) => {
         if (axios.isCancel(error)) {
           console.log({ canceled: error.message });
         } else {
+          setLoading(false);
+          setSearchLoading(false);
           setProducts(undefined)
           if (error instanceof Error) {
             console.log(error.message);
@@ -135,8 +140,9 @@ const ProductTable: FC<Props> = ({ itemLim, user }) => {
         </Col>
       </Row>
       {showAddProductForm && <ProductActions actionType={actionType} handleAddProduct={handleAddProduct} isShow={showAddProductForm} selectedProduct={selectedEditProduct} />}
-      {loading && <LoadingModal show={loading} />}
-      {true && (
+      {loading && !searchLoading && <LoadingModal show={loading} />}
+      {loading && searchLoading && loadingIcon}
+      {!searchLoading && (
         <>
           <Table striped size="sm" className="table-data">
             <thead>
