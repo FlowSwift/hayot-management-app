@@ -118,7 +118,7 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
       <Form>
         <Row className="align-items-center">
           <Col xs="auto">
-            <Modal show={isShow} onHide={handleClose}>
+            <Modal show={isShow} onHide={handleClose} backdrop={saving ? "static" : true} keyboard={!saving} centered>
               <Modal.Header closeButton>
                 <Modal.Title>{actionType}</Modal.Title>
               </Modal.Header>
@@ -164,10 +164,10 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
                 </Form>
               </Modal.Body>
               <Modal.Footer>
-                <Button type="reset" variant="secondary" onClick={handleClose}>
+                <Button type="reset" variant="secondary" onClick={handleClose} disabled={saving}>
                   Close
                 </Button>
-                <Button type="submit" variant="primary" onClick={handleSubmit}>
+                <Button type="submit" variant="primary" onClick={handleSubmit} disabled={saving}>
                   {actionType} {saving && loadingIcon}
                 </Button>
               </Modal.Footer>

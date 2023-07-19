@@ -50,7 +50,7 @@ const ConfirmationPopup: React.FC<ConfirmationProps> = ({ user, message, onConfi
   };
 
   return (
-    <Modal show={show} onHide={handleCancel} centered>
+    <Modal show={show} onHide={handleCancel} backdrop={saving ? "static" : true} keyboard={!saving} centered>
       <Modal.Body>
         <Form>
           <Row className="align-items-center">
@@ -80,10 +80,10 @@ const ConfirmationPopup: React.FC<ConfirmationProps> = ({ user, message, onConfi
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleCancel}>
+        <Button variant="secondary" onClick={handleCancel} disabled={saving}>
           ביטול
         </Button>
-        <Button variant="primary" onClick={handleConfirm}>
+        <Button variant="primary" onClick={handleConfirm} disabled={saving}>
           אישור {saving && loadingIcon}
         </Button>
       </Modal.Footer>
