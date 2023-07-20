@@ -24,7 +24,6 @@ services:
     ports:
       - 5000:5000
     volumes:
-      - /app/node_modules
       - ./inventory-manager/:/app
     environment:
       POSTGRES_HOST: products-db
@@ -48,7 +47,6 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - /app/node_modules
       - ./client/:/app
     networks:
       hayot-management:
