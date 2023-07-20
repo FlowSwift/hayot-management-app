@@ -11,6 +11,7 @@ import Modal from 'react-bootstrap/Modal';
 import { Brand, Category, Product } from "../common/types";
 import CategorySelect from "../categories/CategorySelect";
 import BrandSelect from '../brands/BrandSelect';
+import { Alert } from 'react-bootstrap';
 
 interface Props {
   actionType: string
@@ -34,6 +35,8 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
   const [isBrandsLoading, setIsBrandsLoading] = useState(false)
   const [isCategoriesLoading, setIsCategoriesLoading] = useState(false)
   const loadingIcon = <FontAwesomeIcon className="spinner mx-1" icon={faSpinner} />;
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [firstSubmit, setFirstSubmit] = useState(true);
 
   const handleOpen = () => null;
   const handleClose = () => {
@@ -41,11 +44,11 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
   }
   // Prevent page from redirecting when user hits Enter
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
-    e.preventDefault();
     if (saving) return;
     setSaving(true);
     await handleSave();
-    finishModal(true);
+    setFirstSubmit(false);
+    setSaving(false);
   }
 
   const finishModal = (makeChange: boolean) => {
@@ -73,6 +76,13 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
     }
   }, [selectedProduct]);
 
+  useEffect(() => {
+    if (submitSuccess) {
+      finishModal(true);
+      resetForm();
+    }
+  }, [submitSuccess])
+
   const resetForm = () => {
     setName("");
     setCategories(undefined);
@@ -82,6 +92,8 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
     setPrice(0);
     setWeight(0);
     setEan("");
+    setSubmitSuccess(false);
+    setFirstSubmit(true);
   }
 
   const handleSave = async () => {
@@ -105,13 +117,12 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
         const { data: response } = await axiosClient.put(axiosClient.defaults.baseURL + '/products/',
           prod);
       }
+      setSubmitSuccess(true);
     }
     catch (error) {
+      setSubmitSuccess(false);
       console.log("DATABASE ERROR: ");
       console.log(error);
-    } finally {
-      setSaving(false);
-      resetForm();
     }
   };
 
@@ -125,6 +136,12 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
                 <Modal.Title>{actionType}</Modal.Title>
               </Modal.Header>
               <Modal.Body>
+                {
+                  !firstSubmit && !submitSuccess &&
+                  <Alert variant={"danger"}>
+                    Error!
+                  </Alert>
+                }
                 <Form>
                   <Form.Group className="mb-3" controlId="formProductName">
                     <Form.Label>Name</Form.Label>
