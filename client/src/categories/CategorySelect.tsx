@@ -96,7 +96,7 @@ const CategorySelect: FC<Props> = ({ activeId, brandId, categories, stateChanger
         <div className='select-loading'>
           {loadingIcon}
         </div>}
-      <Form.Select>
+      <Form.Select disabled={loading}>
         {defaultOption}
       </Form.Select>
       </>
