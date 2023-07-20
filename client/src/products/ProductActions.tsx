@@ -37,16 +37,50 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
   const loadingIcon = <FontAwesomeIcon className="spinner mx-1" icon={faSpinner} />;
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [firstSubmit, setFirstSubmit] = useState(true);
+  const [nameError, setNameError] = useState("");
+  const [categoryError, setCategoryError] = useState("");
+  const [quantityError, setQuantityError] = useState("");
+  const [priceError, setPriceError] = useState("");
+  const [weightError, setWeightError] = useState("");
+  const [validationCheck, setValidationCheck] = useState(false);
 
   const handleOpen = () => null;
   const handleClose = () => {
     finishModal(false);
   }
-  // Prevent page from redirecting when user hits Enter
+
+  const handleValidation = () => {
+    let check = true;
+    if (name.trim() === "") {
+      setNameError("נא הכנס שם.");
+      check = false;
+    }
+    if (category_id === undefined || category_id <= 0) {
+      setCategoryError("Please enter a category");
+      check = false;
+    }
+    if (quantity <= 0) {
+      setQuantityError("Please enter a quantity higher than 0")
+      check = false;
+    }
+    if (price <= 0) {
+      setPriceError("Please enter a price higher than 0")
+      check = false;
+    }
+    if (weight <= 0) {
+      setWeightError("Please enter a weight higher than 0")
+      check = false;
+    }
+    return check;
+  }
+
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
     if (saving) return;
     setSaving(true);
-    await handleSave();
+    if (handleValidation()) {
+      await handleSave();
+      setFirstSubmit(false); // set after call to show popup only in case of error
+    }
     setFirstSubmit(false);
     setSaving(false);
   }
@@ -144,7 +178,7 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
                 }
                 <Form>
                   <Form.Group className="mb-3" controlId="formProductName">
-                    <Form.Label>Name</Form.Label>
+                    <Form.Label>שם:  {nameError && <Form.Text className="text-danger">{nameError}</Form.Text>}</Form.Label>
                     <Form.Control type="text" value={name} onChange={(e) => setName(e.target.value)} />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formProductBrand">
@@ -156,7 +190,7 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
                     />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formProductCategory">
-                    <Form.Label>Category</Form.Label>
+                    <Form.Label>Category  {categoryError && <Form.Text className="text-danger">{categoryError}</Form.Text>}</Form.Label>
                     <CategorySelect
                       activeId={category_id}
                       brandId={brand_id}
@@ -167,15 +201,15 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
                     />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formProductQuantity">
-                    <Form.Label>Quantity</Form.Label>
-                    <Form.Control type="text" inputMode="numeric" value={!quantity ? "" : quantity} placeholder={!quantity ? "0" : ""} onChange={(e) => setQuantity(checkfieldNan(parseFloat(e.target.value)))} />
+                    <Form.Label>Quantity  {quantityError && <Form.Text className="text-danger">{quantityError}</Form.Text>}</Form.Label>
+                    <Form.Control type="number" inputMode="numeric" value={!quantity ? "" : quantity} placeholder={!quantity ? "0" : ""} onChange={(e) => setQuantity(checkfieldNan(parseFloat(e.target.value)))} />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formProductPrice">
-                    <Form.Label>Price</Form.Label>
+                    <Form.Label>Price  {priceError && <Form.Text className="text-danger">{priceError}</Form.Text>}</Form.Label>
                     <Form.Control type="number" inputMode="decimal" value={!price ? "" : price} placeholder={!price ? "0" : ""} onChange={(e) => setPrice(checkfieldNan(parseFloat(e.target.value)))} />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formProductWeight">
-                    <Form.Label>Weight</Form.Label>
+                    <Form.Label>Weight {weightError && <Form.Text className="text-danger">{weightError}</Form.Text>}</Form.Label>
                     <Form.Control type="number" inputMode="decimal" value={!weight ? "" : weight} placeholder={!weight ? "0" : ""} onChange={(e) => setWeight(checkfieldNan(parseFloat(e.target.value)))} />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formProductEan">
