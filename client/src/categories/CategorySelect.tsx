@@ -35,7 +35,8 @@ const CategorySelect: FC<Props> = ({ activeId, brandId, categories, stateChanger
           }
         }
       } else {
-        listChanger(undefined)
+        listChanger(undefined);
+        stateChanger(0);
       }
       setLoading(false);
       setCategoriesLoading(false);
@@ -73,7 +74,7 @@ const CategorySelect: FC<Props> = ({ activeId, brandId, categories, stateChanger
       })
       return (
         <div>
-          <Form.Select value={activeId} onChange={(e) => stateChanger(parseInt(e.target.value))}
+          <Form.Select value={activeId} onChange={(e) => console.log(e.target.value)}
           // onChange={(e) => setActiveValue(parseInt(e.target.value))}
           >
             {defaultOption}

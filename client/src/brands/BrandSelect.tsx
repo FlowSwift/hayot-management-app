@@ -43,7 +43,7 @@ const BrandSelect: FC<Props> = ({ activeId, stateChanger, setBrandsLoading }) =>
       <p>Loading...</p>
     )
   } else {
-    const defaultOption = <option key="undefinedBrand" value="">---------</option>
+    const defaultOption = <option key="undefinedBrand" value={0}>---------</option>
     if (typeof (brands) !== 'undefined' && brands != null) {
       const options = brands.map((brand) => {
         return <option key={brand.id} value={brand.id}>{brand.name}</option>
