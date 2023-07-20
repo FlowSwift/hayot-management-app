@@ -31,6 +31,8 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
   const [ean, setEan] = useState("");
   const old_quantity = selectedProduct?.quantity
   const [saving, setSaving] = useState(false);
+  const [isBrandsLoading, setIsBrandsLoading] = useState(false)
+  const [isCategoriesLoading, setIsCategoriesLoading] = useState(false)
   const loadingIcon = <FontAwesomeIcon className="spinner mx-1" icon={faSpinner} />;
 
   const handleOpen = () => null;
@@ -133,6 +135,7 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
                     <BrandSelect
                       activeId={brand_id}
                       stateChanger={setBrandId}
+                      setBrandsLoading={setIsBrandsLoading}
                     />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formProductCategory">
@@ -143,6 +146,7 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
                       categories={categories}
                       stateChanger={setCategoryId}
                       listChanger={setCategories}
+                      setCategoriesLoading={setIsCategoriesLoading}
                     />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formProductQuantity">
@@ -167,7 +171,7 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
                 <Button type="reset" variant="secondary" onClick={handleClose} disabled={saving}>
                   Close
                 </Button>
-                <Button type="submit" variant="primary" onClick={handleSubmit} disabled={saving}>
+                <Button type="submit" variant="primary" onClick={handleSubmit} disabled={saving || isCategoriesLoading || isBrandsLoading}>
                   {actionType} {saving && loadingIcon}
                 </Button>
               </Modal.Footer>

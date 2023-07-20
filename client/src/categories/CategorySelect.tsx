@@ -9,9 +9,10 @@ interface Props {
   categories: undefined | Category[];
   stateChanger: Function;
   listChanger: Function;
+  setCategoriesLoading: Function;
 };
 
-const CategorySelect: FC<Props> = ({ activeId, brandId, categories, stateChanger, listChanger }) => {
+const CategorySelect: FC<Props> = ({ activeId, brandId, categories, stateChanger, listChanger, setCategoriesLoading }) => {
   const [loading, setLoading] = useState(true);
   // const [categories, setCategories] = useState<undefined | Category[]>();
   // const [activeValue, setActiveValue] = useState<number>()
@@ -19,6 +20,7 @@ const CategorySelect: FC<Props> = ({ activeId, brandId, categories, stateChanger
   const refreshData = () => {
     const fetchData = async () => {
       setLoading(true);
+      setCategoriesLoading(true);
       // setActiveValue(activeId);
       if (brandId != undefined && brandId != 0) {
         try {
@@ -36,6 +38,7 @@ const CategorySelect: FC<Props> = ({ activeId, brandId, categories, stateChanger
         listChanger(undefined)
       }
       setLoading(false);
+      setCategoriesLoading(false);
     }
 
     fetchData();

@@ -6,9 +6,10 @@ import Form from 'react-bootstrap/Form';
 interface Props {
   activeId: number | undefined; // New products
   stateChanger: Function;
+  setBrandsLoading: Function;
 };
 
-const BrandSelect: FC<Props> = ({ activeId, stateChanger }) => {
+const BrandSelect: FC<Props> = ({ activeId, stateChanger, setBrandsLoading }) => {
   const [loading, setLoading] = useState(true);
   const [brands, setBrands] = useState<undefined | Brand[]>();
 
@@ -17,6 +18,7 @@ const BrandSelect: FC<Props> = ({ activeId, stateChanger }) => {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
+      setBrandsLoading(true);
       try {
         const { data: response } = await axiosClient.get(axiosClient.defaults.baseURL + '/brands/');
         setBrands(response);
@@ -30,6 +32,7 @@ const BrandSelect: FC<Props> = ({ activeId, stateChanger }) => {
       // setActiveValue(activeId);
       // {this.props.handler}
       setLoading(false);
+      setBrandsLoading(false);
     }
 
     fetchData();
