@@ -4,7 +4,7 @@ export const SubnavbarContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
+  padding: 1rem 0;
   margin-bottom: 20px;
 `;
 
@@ -15,6 +15,12 @@ export const SubnavLinks = styled.ul`
   padding: 0;
   border-bottom: 1px solid var(--bs-border-color);
   width: 100%;
+  overflow-y: scroll;
+  -ms-overflow-style: none;  /* Internet 
+  
+  &::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+  }
 `;
 
 export const SubnavLink = styled.li`

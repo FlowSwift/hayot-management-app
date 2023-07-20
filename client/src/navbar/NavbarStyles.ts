@@ -5,9 +5,9 @@ export const NavbarContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 5px 1rem;
   background-color: var(--theme-primary);
   color: var(--theme-background);
+  flex-wrap: inherit;
 
   a {
     color: var(--theme-background);
@@ -15,6 +15,12 @@ export const NavbarContainer = styled.div`
 
     &:hover {
       color: var(--bs-white);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .dropdown-nav {
+      background-color: rgb(28, 63, 100);
     }
   }
 `;
@@ -27,6 +33,7 @@ export const NavTitle = styled.h1`
   justify-content: flex-start;
   align-items: center;
   flex-grow: 1;
+  padding: 5px 1rem;
 
   span {
     display: block;

@@ -5,6 +5,7 @@ import { NavbarContainer, NavTitle, NavLinks, NavLink } from "./NavbarStyles";
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { UserData } from '../auth/util';
+import NavDropdown from 'react-bootstrap/esm/NavDropdown';
 
 interface Props {
     loading: boolean
@@ -15,27 +16,25 @@ const GlobalNavbar: FC<Props> = ({ loading, user }) => {
     return (
         <Navbar variant="dark" expand="md" className="p-0">
             <NavbarContainer>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Toggle className="me-3" aria-controls="basic-navbar-nav" />
                 <NavTitle>
                     <img src="/assets/logo.png" alt="dog" /> <span>חיות במושבה</span>
                 </NavTitle>
-                <Navbar.Collapse id="basic-navbar-nav">
+                <Navbar.Collapse id="basic-navbar-nav" className="dropdown-nav py-2 px-3">
                     <Nav className="me-auto">
-                        <NavLinks>
-                            {!loading &&
-                                (user.isAuthenticated ?
-                                (< NavLink >
-                                    <Link to="/login">Logout</Link>
-                                </NavLink>)
-                                :
-                                (< NavLink >
-                                    <Link to="/login">Login</Link>
-                                </NavLink>))
-                            }
-                            <NavLink>
-                                <Link to="/dashboard">Dashboard</Link>
-                            </NavLink>
-                        </NavLinks>
+                        <Nav.Link> 
+                            <Link to="/dashboard">Dashboard</Link>
+                        </Nav.Link> 
+                        {!loading &&
+                            (user.isAuthenticated ?
+                            (<Nav.Link>
+                                <Link to="/login">Logout</Link>
+                            </Nav.Link>)
+                            :
+                            (<Nav.Link>
+                                <Link to="/login">Login</Link>
+                            </Nav.Link>))
+                        } 
                     </Nav>
                 </Navbar.Collapse>
             </NavbarContainer>
