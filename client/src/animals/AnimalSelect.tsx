@@ -38,31 +38,36 @@ const AnimalSelect: FC<Props> = ({ activeId, stateChanger }) => {
     fetchData();
   }, []);
 
-  if (loading) {
+
+  const defaultOption = <option key="undefinedAnimal" value="">---------</option>
+  if (typeof (animals) !== 'undefined' && animals != null) {
+    const options = animals.map((animal) => {
+      return <option key={animal.id} value={animal.id}>{animal.type}</option>
+    })
     return (
       <>
-        {loadingIcon}
-      </>
-    )
-  } else {
-    const defaultOption = <option key="undefinedAnimal" value="">---------</option>
-    if (typeof (animals) !== 'undefined' && animals != null) {
-      const options = animals.map((animal) => {
-        return <option key={animal.id} value={animal.id}>{animal.type}</option>
-      })
-      return (
+        {loading &&
+          <div className='select-loading'>
+            {loadingIcon}
+          </div>}
         <Form.Select value={activeId} onChange={(e) => stateChanger(parseInt(e.target.value))}>
           {defaultOption}
           {options}
         </Form.Select>
-      )
-    } else {
-      return (
+      </>
+    )
+  } else {
+    return (
+      <>
+        {loading &&
+          <div className='select-loading'>
+            {loadingIcon}
+          </div>}
         <Form.Select>
           {defaultOption}
         </Form.Select>
-      )
-    }
+      </>
+    )
   }
 }
 

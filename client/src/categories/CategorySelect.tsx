@@ -2,6 +2,8 @@ import { FC, useState, useEffect } from 'react';
 import axiosClient from "../axios/axiosInstance"
 import { Category } from "../common/types";
 import Form from 'react-bootstrap/Form';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
   activeId: number | undefined; // Active category ID
@@ -14,6 +16,7 @@ interface Props {
 
 const CategorySelect: FC<Props> = ({ activeId, brandId, categories, stateChanger, listChanger, setCategoriesLoading }) => {
   const [loading, setLoading] = useState(true);
+  const loadingIcon = <FontAwesomeIcon className="spinner mx-1" icon={faSpinner} />;
   // const [categories, setCategories] = useState<undefined | Category[]>();
   // const [activeValue, setActiveValue] = useState<number>()
 
@@ -62,34 +65,44 @@ const CategorySelect: FC<Props> = ({ activeId, brandId, categories, stateChanger
     refreshData();
   }, [brandId]);
 
-  if (loading) {
+  // if (loading) {
+  //   return (
+  //     loadingIcon
+  //   )
+  // } else {
+  const defaultOption = <option key="undefinedCategory" value="">---------</option>
+  if (typeof (categories) !== 'undefined' && categories != null) {
+    const options = categories.map((category) => {
+      return <option key={category.id} value={category.id}>{category.name} ({category.brand_name})</option>
+    })
     return (
-      <p>Loading...</p>
-    )
-  } else {
-    const defaultOption = <option key="undefinedCategory" value="">---------</option>
-    if (typeof (categories) !== 'undefined' && categories != null) {
-      const options = categories.map((category) => {
-        return <option key={category.id} value={category.id}>{category.name} ({category.brand_name})</option>
-      })
-      return (
+      <>
+      {loading && 
+        <div className='select-loading'>
+          {loadingIcon}
+        </div>}
         <div>
-          <Form.Select value={activeId} onChange={(e) => console.log(e.target.value)}
-          // onChange={(e) => setActiveValue(parseInt(e.target.value))}
-          >
+          <Form.Select disabled={loading} value={activeId} onChange={(e) => stateChanger(parseInt(e.target.value))}>
             {defaultOption}
             {options}
           </Form.Select>
         </div>
-      )
-    } else {
-      return (
-        <Form.Select>
-          {defaultOption}
-        </Form.Select>
-      )
-    }
+        </>
+    )
+  } else {
+    return (
+      <>
+      {loading && 
+        <div className='select-loading'>
+          {loadingIcon}
+        </div>}
+      <Form.Select>
+        {defaultOption}
+      </Form.Select>
+      </>
+    )
   }
 }
+// }
 
 export default CategorySelect;
