@@ -16,6 +16,7 @@ interface Props {
 
 const CategorySelect: FC<Props> = ({ activeId, brandId, categories, stateChanger, listChanger, setCategoriesLoading }) => {
   const [loading, setLoading] = useState(true);
+  const [firstLoad, setFirstLoad] = useState(true);
   const loadingIcon = <FontAwesomeIcon className="spinner mx-1" icon={faSpinner} />;
   // const [categories, setCategories] = useState<undefined | Category[]>();
   // const [activeValue, setActiveValue] = useState<number>()
@@ -29,8 +30,10 @@ const CategorySelect: FC<Props> = ({ activeId, brandId, categories, stateChanger
         try {
           const { data: response } = await axiosClient.get(axiosClient.defaults.baseURL + `/brands/${brandId}/categories/`);
           listChanger(response);
+          setFirstLoad(false);
         } catch (error) {
           listChanger(undefined)
+          stateChanger(0);
           if (error instanceof Error) {
             console.log(error.message);
           } else {
@@ -62,6 +65,7 @@ const CategorySelect: FC<Props> = ({ activeId, brandId, categories, stateChanger
   // }, [a, b]);
 
   useEffect(() => {
+    if (!firstLoad) stateChanger(0);
     refreshData();
   }, [brandId]);
 
