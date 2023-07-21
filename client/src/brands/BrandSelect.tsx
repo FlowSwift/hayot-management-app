@@ -48,10 +48,6 @@ const BrandSelect: FC<Props> = ({ activeId, stateChanger, setBrandsLoading }) =>
     })
     return (
       <>
-        {loading &&
-          <div className='select-loading'>
-            {loadingIcon}
-          </div>}
         <Form.Select disabled={loading} value={activeId} onChange={(e) => stateChanger(parseInt(e.target.value))}>
           {defaultOption}
           {options}
@@ -61,10 +57,6 @@ const BrandSelect: FC<Props> = ({ activeId, stateChanger, setBrandsLoading }) =>
   } else {
     return (
       <>
-        {loading &&
-          <div className='select-loading'>
-            {loadingIcon}
-          </div>}
         <Form.Select disabled={loading}>
           {defaultOption}
         </Form.Select>
