@@ -184,16 +184,18 @@ async function updateProductByID (product, user) {
     //set base query
     let query = "UPDATE products SET";
     let values = [];
+    console.log(product);
     [query, values] = util.updateItem(query, product);
+    const oldProduct = await getProductByID(product.id);
     let results = await db.queryDB(query, values);
     //error handling
-    if (results === undefined) {
+    if (results === undefined || oldProduct === undefined) {
         return undefined
     }
     if (results.rowCount == 0) {
         return null
     }
-    let logsResults = logsDB.updateQuantityAction(user, product);
+    let logsResults = logsDB.updateProductAction(user, product, oldProduct);
     return results.rows;
 }
 

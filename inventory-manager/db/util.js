@@ -41,7 +41,7 @@ function updateItem(query, item) {
     let i = 0
     let values = []
     for (var key in item) {
-        if (key !== "id" && key !== "old_quantity") {
+        if (["name", "price", "weight", "quantity", "ean", "category_id"].includes(key)) {
             query += " " + key.toLowerCase() + " = $" + (i+1) + ","
             values.push(item[key])
             i++
