@@ -15,12 +15,6 @@ export const SubnavLinks = styled.ul`
   padding: 0;
   border-bottom: 1px solid var(--bs-border-color);
   width: 100%;
-  overflow-y: scroll;
-  -ms-overflow-style: none;  /* Internet 
-  
-  &::-webkit-scrollbar { 
-    display: none;  /* Safari and Chrome */
-  }
 `;
 
 export const SubnavLink = styled.li`
