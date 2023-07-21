@@ -22,6 +22,7 @@ const ConfirmationPopup: React.FC<ConfirmationProps> = ({ user, message, onConfi
   const originalQuantity = product.quantity
   const [saving, setSaving] = useState(false);
   const loadingIcon = <FontAwesomeIcon className="spinner mx-1" icon={faSpinner} />;
+  const [errorMessage, setErrorMessage] = useState('');
 
   const updateProduct = async () => {
     try {
@@ -38,6 +39,10 @@ const ConfirmationPopup: React.FC<ConfirmationProps> = ({ user, message, onConfi
 
   const handleConfirm = async () => {
     if (saving) return;
+    if (!quantity) {
+      setErrorMessage("הכנס כמות שונה מאפס");
+      return;
+    }
     setSaving(true);
     await updateProduct();
     onConfirm();
@@ -55,7 +60,7 @@ const ConfirmationPopup: React.FC<ConfirmationProps> = ({ user, message, onConfi
         <Form>
           <Row>
             <Col>
-            כמות נוכחית, {product.quantity}
+              כמות נוכחית, {product.quantity}
             </Col>
           </Row>
           <Row className="align-items-center">
@@ -70,6 +75,7 @@ const ConfirmationPopup: React.FC<ConfirmationProps> = ({ user, message, onConfi
                 value={quantity}
                 onChange={(e) => setQuantity(parseInt(e.target.value))}
               />
+              {errorMessage && <div className="text-danger">{errorMessage}</div>}
             </Col>
           </Row>
           <Row>
