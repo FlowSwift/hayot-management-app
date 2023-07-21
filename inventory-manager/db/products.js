@@ -135,6 +135,7 @@ async function getProductByEAN(ean) {
  */
 async function getProductsByBrand(brand, limit, offset) {
     let query = baseQuery + " WHERE brands.id = $1";
+    query += " ORDER BY " + orderBy;
     query = util.addPagination(query, limit, offset);
     //query
     let results = await db.queryDB(query, [brand]);
@@ -150,6 +151,7 @@ async function getProductsByBrand(brand, limit, offset) {
 
 async function getProductsByCategory(category, limit, offset) {
     let query = baseQuery + " WHERE categories.id = $1";
+    query += " ORDER BY " + orderBy;
     query = util.addPagination(query, limit, offset);
     //query
     let results = await db.queryDB(query, [category]);
