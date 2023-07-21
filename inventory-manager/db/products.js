@@ -1,7 +1,7 @@
 "use strict";
 const db = require("../db/queries");
 const util = require("./util")
-const logsDB = require("./logs")
+const logsDB = require("./logs");
 const baseQuery = 
 `SELECT 
 products.id, 
@@ -60,7 +60,7 @@ async function getProductByID (id) {
  * @returns Array of results or undefined upon error/ null if no products were found
  */
 async function getProductByName(name) {
-    let query = baseQuery + " WHERE products.name = $1 ORDER BY" + orderBy;
+    let query = baseQuery + " WHERE products.name = $1 ORDER BY " + orderBy;
     let results = await db.queryDB(query, [name]);
     if (results === undefined) {
         return undefined
@@ -78,12 +78,27 @@ async function getProductByName(name) {
  * @param {*} offset offset of results
  * @returns Array of results or undefined upon error/ null if no products were found
  */
-async function getProductsBySubstring(substring, limit, offset) {
+async function getProductsBySubstring(substring, limit, offset, category_id, brand_id) {
     //add conditions to base query and match name to a substring with any prefix and suffix
-    let query = baseQuery + " WHERE products.name iLIKE REPLACE('%?%', '?', $1) ORDER BY " + orderBy;
+    let query = baseQuery + " WHERE products.name iLIKE REPLACE('%?%', '?', $1) ";
+    let filter = false;
+    if (category_id !== undefined) {
+        query += "AND categories.id = $2 ";
+        filter = category_id;
+    }
+    else if (brand_id !== undefined) {
+        query += "AND brands.id = $2 ";
+        filter = brand_id;
+    }
+    query += "ORDER BY " + orderBy;
     query = util.addPagination(query, limit, offset);
     //query
-    let results = await db.queryDB(query, [substring]);
+    let results;
+    if (filter) {
+        results = await db.queryDB(query, [substring, filter]);
+    } else {
+        results = await db.queryDB(query, [substring]);
+    }
     //error checking
     if (results === undefined) {
         return undefined
@@ -113,13 +128,13 @@ async function getProductByEAN(ean) {
 
 /**
  * 
- * @param {*} brand string of brand to query
+ * @param {*} brand id of brand to query
  * @param {*} limit maximum amount of results returned
  * @param {*} offset offset of results
  * @returns a list of products based on the given brand. returns undefined up error/ null for no results
  */
 async function getProductsByBrand(brand, limit, offset) {
-    let query = baseQuery + " WHERE brands.name = $1";
+    let query = baseQuery + " WHERE brands.id = $1";
     query = util.addPagination(query, limit, offset);
     //query
     let results = await db.queryDB(query, [brand]);
@@ -133,11 +148,11 @@ async function getProductsByBrand(brand, limit, offset) {
     return results.rows
 }
 
-async function getProductsByBrandCategory(brand, category, limit, offset) {
-    let query = baseQuery + " WHERE brands.name = $1 and categories.name = $2";
+async function getProductsByCategory(category, limit, offset) {
+    let query = baseQuery + " WHERE categories.id = $1";
     query = util.addPagination(query, limit, offset);
     //query
-    let results = await db.queryDB(query, [brand, category]);
+    let results = await db.queryDB(query, [category]);
     //error checking
     if (results === undefined) {
         return undefined
@@ -207,7 +222,7 @@ module.exports = {
     getProductsBySubstring,
     getProductByEAN,
     getProductsByBrand,
-    getProductsByBrandCategory,
+    getProductsByCategory,
     createProduct,
     updateProductByID
 }

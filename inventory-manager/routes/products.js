@@ -30,7 +30,7 @@ router.get('/products/:id', async (req, res) => {
     // request handling
     product = await productsQuery.getProductByID(id)
     // response handling
-    util.setStatus(res,product)
+    util.setStatus(res, product)
     if (res.statusCode != 200) {
         return util.sendStatusMessage(res)
     }
@@ -44,12 +44,13 @@ router.get('/products/:id', async (req, res) => {
  */
 router.get('/products/name/:name', async (req, res) => {
     // handle strict flag
-    let strict = false
-    let queryStrict = req.query.strict
+    let strict = false;
+    const queryStrict = req.query.strict;
+    const { brand_id, category_id } = req.query;
     if (queryStrict !== undefined) {
         switch (queryStrict) {
             case "true":
-                strict = true
+                strict = true;
                 break;
             case "false":
                 break;
@@ -63,7 +64,7 @@ router.get('/products/name/:name', async (req, res) => {
         results = await productsQuery.getProductByName(req.params.name)
     }
     else {
-        results = await productsQuery.getProductsBySubstring(req.params.name, req.query.limit, req.query.offset)
+        results = await productsQuery.getProductsBySubstring(req.params.name, req.query.limit, req.query.offset, category_id, brand_id)
     }
     //response handling
     util.setStatus(res, results)
@@ -104,12 +105,20 @@ router.get('/products/ean/:ean', async (req, res) => {
 router.get('/products/brand/:brand', async (req, res) => {
     // request handling
     let results
-    if (req.query.category) {
-        results = await productsQuery.getProductsByBrandCategory(req.params.brand, req.query.category, req.query.limit, req.query.offset)
+    results = await productsQuery.getProductsByBrand(req.params.brand, req.query.limit, req.query.offset)
+    //response handling
+    util.setStatus(res, results)
+    if (res.statusCode != 200) {
+        return util.sendStatusMessage(res)
     }
-    else {
-        results = await productsQuery.getProductsByBrand(req.params.brand, req.query.limit, req.query.offset)
-    }
+    return res.send(results)
+})
+
+// fetch list of products by brand
+router.get('/products/category/:category', async (req, res) => {
+    // request handling
+    let results
+    results = await productsQuery.getProductsByCategory(req.params.category, req.query.limit, req.query.offset)
     //response handling
     util.setStatus(res, results)
     if (res.statusCode != 200) {
