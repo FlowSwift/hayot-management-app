@@ -27,7 +27,7 @@ const ConfirmationPopup: React.FC<ConfirmationProps> = ({ user, message, onConfi
   const updateProduct = async () => {
     try {
       const { data: response } = await axiosClient.put(axiosClient.defaults.baseURL + '/products/',
-        { id: product.id, quantity: product.quantity + quantity, old_quantity: originalQuantity });
+        { ...product, quantity: product.quantity + quantity, old_quantity: originalQuantity });
     }
     catch (error) {
       console.log("DATABASE ERROR: ");

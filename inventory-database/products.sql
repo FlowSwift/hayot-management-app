@@ -36,8 +36,8 @@ CREATE TABLE "logs" (
     "user_id" integer NOT NULL,
     "product_id" integer NOT NULL,
     "action_type" text NOT NULL,
-    "old_quantity" integer DEFAULT 0,
-    "new_quantity" integer DEFAULT 0,
+    "old_value" text,
+    "new_value" text,
     "log_time" timestamp DEFAULT current_timestamp(5)
 );
 

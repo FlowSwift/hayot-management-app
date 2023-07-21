@@ -36,7 +36,7 @@ export interface Log {
   category_name: string;
   brand_name: string;
   action_type: string;
-  old_quantity: number,
-  new_quantity: number,
+  old_value: number,
+  new_value: number,
   log_time: string
 }

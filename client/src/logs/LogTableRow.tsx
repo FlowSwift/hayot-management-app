@@ -18,8 +18,8 @@ const LogTableRow: FC<Props> = ({log}) => {
             <td className="align-middle">{log.category_name}</td>
             <td className="align-middle">{log.product_name}</td>
             <td className="align-middle">{log.action_type}</td>
-            <td className="align-middle">{log.new_quantity}</td>
-            <td className="align-middle">{log.old_quantity}</td>
+            <td className="align-middle">{log.new_value}</td>
+            <td className="align-middle">{log.old_value}</td>
             <td className="align-middle">{timestamp.toLocaleString()}</td>
         </tr>
     )
