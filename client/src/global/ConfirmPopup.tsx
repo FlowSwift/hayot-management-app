@@ -50,31 +50,31 @@ const ConfirmationPopup: React.FC<ConfirmationProps> = ({ user, message, onConfi
   };
 
   return (
-    <Modal show={show} onHide={handleCancel} backdrop={saving ? "static" : true} keyboard={!saving} centered>
+    <Modal className="modal-small mx-auto" show={show} onHide={handleCancel} backdrop={saving ? "static" : true} keyboard={!saving} centered>
       <Modal.Body>
         <Form>
+          <Row>
+            <Col>
+            כמות נוכחית, {product.quantity}
+            </Col>
+          </Row>
           <Row className="align-items-center">
             <Col>
-              הכניסו כמות שתרצו להוסיף:
+              עדכן מלאי:
             </Col>
           </Row>
           <Row className='my-3'>
-            <Col>
+            <Col className='mx-5'>
               <Form.Control
                 type="number"
                 value={quantity}
                 onChange={(e) => setQuantity(parseInt(e.target.value))}
               />
             </Col>
-            <Col>
-              +
-              {product.quantity}
-            </Col>
           </Row>
           <Row>
             <Col>
-              {product.quantity + quantity}
-              =
+              מלאי עדכני = <strong>{product.quantity + quantity}</strong>
             </Col>
           </Row>
         </Form>

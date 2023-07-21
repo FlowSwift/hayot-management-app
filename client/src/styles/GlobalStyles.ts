@@ -152,6 +152,11 @@ float: left;
     border: 0;
     text-align: center;
   }
+
+  .modal-small {
+    --bs-modal-width: 350px;
+    text-align: center;
+  }
 `
 
 export default GlobalStyles;
