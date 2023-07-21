@@ -30,11 +30,14 @@ const ProductTable: FC<Props> = ({ itemLim, user }) => {
   const [selectedEditProduct, setSelectedEditProduct] = useState<Product>();
   const [resultNumPages, setResultNumPages] = useState<number>();
   const [activeNumPage, setActiveNumPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState("")
-  const [itemLimit, setItemLimit] = useState(itemLim | 15)
+  const [searchQuery, setSearchQuery] = useState("");
+  const [itemLimit, setItemLimit] = useState(itemLim | 15);
   const addAction = "Add Product";
   const editAction = "Edit Product";
-  const [actionType, setActionType] = useState(addAction)
+  const [actionType, setActionType] = useState(addAction);
+  const [brandFilterID, setBrandFilterID] = useState(0);
+  const [categoryFilterID, setCategoryFilterID] = useState(0);
+  const [isFilterLoading, setIsFilterLoading] = useState(true);
   const loadingIcon = <FontAwesomeIcon className="spinner mx-1" icon={faSpinner} />;
 
   const handleSearch = (search: string) => {
@@ -79,7 +82,12 @@ const ProductTable: FC<Props> = ({ itemLim, user }) => {
       setLoading(true);
       try {
         let pageRequestURL = axiosClient.defaults.baseURL + `/products/`;
-        if (searchQuery.trim() != "") {
+        let isSearch = searchQuery.trim() !== "";
+        if (!isSearch) {
+          if (categoryFilterID) pageRequestURL += `category/${categoryFilterID}`;
+          else if (brandFilterID) pageRequestURL += `brand/${brandFilterID}`;
+        }
+        else if (isSearch) {
           pageRequestURL += `name/${searchQuery}`
         }
         pageRequestURL += `?limit=${itemLimit}`;
@@ -87,6 +95,10 @@ const ProductTable: FC<Props> = ({ itemLim, user }) => {
           // Offset is page number * num per page
           pageRequestURL += `&offset=${itemLimit * (activeNumPage - 1)}`;
         }
+        if (isSearch && brandFilterID) {
+          pageRequestURL += `&brand_id=${brandFilterID}`;
+        }
+        console.log(pageRequestURL);
         const config = {
           headers: {
             'X-Cancel-Request': true,
@@ -125,13 +137,15 @@ const ProductTable: FC<Props> = ({ itemLim, user }) => {
   useEffect(() => {
     refreshData();
   }, [activeNumPage,
-    searchQuery
+    searchQuery,
+    brandFilterID,
+    categoryFilterID
   ]);
   return (
     <>
       <Row>
         <Col className="col-12 col-md-6 col-lg-3">
-          <Filters filterType={"products"} onSearch={handleSearch} />
+          <Filters filterType={"products"} onSearch={handleSearch} setBrandFilter={setBrandFilterID} setCategoryFilter={setCategoryFilterID} setFilterLoading={setIsFilterLoading} activeBrand={brandFilterID} activeCategory={categoryFilterID}/>
         </Col>
         <Col>
           <Button type="button" className="mb-2" onClick={openAddProduct}>
