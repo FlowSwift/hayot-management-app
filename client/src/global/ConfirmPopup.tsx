@@ -54,6 +54,13 @@ const ConfirmationPopup: React.FC<ConfirmationProps> = ({ user, message, onConfi
     setShow(false);
   };
 
+  const checkfieldNan = (value: number) => {
+    if (isNaN(value)) {
+      return 0;
+    }
+    return value;
+  }
+
   return (
     <Modal className="modal-small mx-auto" show={show} onHide={handleCancel} backdrop={saving ? "static" : true} keyboard={!saving} centered>
       <Modal.Body>
@@ -72,8 +79,9 @@ const ConfirmationPopup: React.FC<ConfirmationProps> = ({ user, message, onConfi
             <Col className='mx-5'>
               <Form.Control
                 type="number"
-                value={quantity}
-                onChange={(e) => setQuantity(parseInt(e.target.value))}
+                value={!quantity ? "" : quantity}
+                placeholder={!quantity ? "0" : ""}
+                onChange={(e) => setQuantity(checkfieldNan(parseInt(e.target.value)))}
               />
               {errorMessage && <div className="text-danger">{errorMessage}</div>}
             </Col>
