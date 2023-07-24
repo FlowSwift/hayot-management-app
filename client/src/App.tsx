@@ -38,7 +38,7 @@ const App: React.FC = () => {
         <Route path="signup" element={<SignUpPage />} />
         <Route path="login" element={<LoginPage user={user} />} />
         <Route path="/" element={<Navigate to="/dashboard/products" />} />
-        <Route path="*" element={<Navigate to="/aa" />} />
+        <Route path="*" element={<Navigate to="/login" />} />
         {/* Other routes */}
       </Routes>
     )
