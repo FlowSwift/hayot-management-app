@@ -5,11 +5,13 @@ import { Log } from "../common/types";
 import TablePagination from "../pagination/TablePagination";
 import Filters from '../filters/Filters';
 import Button from 'react-bootstrap/esm/Button';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import LogTableRow from './LogTableRow';
+import axios from 'axios';
+import LoadingModal from '../global/LoadingPopup';
 
 interface Props {
   itemLim: number
@@ -23,10 +25,13 @@ const LogTable: FC<Props> = ({ itemLim }) => {
   const [activeNumPage, setActiveNumPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("")
   const [itemLimit, setItemLimit] = useState(itemLim | 15)
+  const [searchLoading, setSearchLoading] = useState(false);
+  const loadingIcon = <FontAwesomeIcon size='4x' className="spinner mx-1 icon-muted" icon={faSpinner} />;
 
   const handleSearch = (search: string) => {
-    setSearchQuery(search)
-    setActiveNumPage(1)
+    setSearchLoading(true);
+    setSearchQuery(search);
+    setActiveNumPage(1);
   };
 
   const refreshData = () => {
@@ -42,8 +47,15 @@ const LogTable: FC<Props> = ({ itemLim }) => {
           // Offset is page number * num per page
           pageRequestURL += `&offset=${itemLimit * (activeNumPage - 1)}`;
         }
+        const config = {
+          headers: {
+            'X-Cancel-Request': true,
+          },
+        };
         const { data: response } = await axiosClient.get(pageRequestURL);
         setLogs(response);
+        setLoading(false);
+        setSearchLoading(false);
 
         // Determine total number of results for pagination
         let resCount = 0;
@@ -52,14 +64,19 @@ const LogTable: FC<Props> = ({ itemLim }) => {
         }
         setResultNumPages(Math.ceil(resCount / itemLimit));
       } catch (error) {
-        setLogs(undefined)
-        if (error instanceof Error) {
-          console.log(error.message);
+        if (axios.isCancel(error)) {
+          console.log({ canceled: error.message });
         } else {
-          console.log('Unexpected error', error);
+          setLoading(false);
+          setSearchLoading(false);
+          setLogs(undefined)
+          if (error instanceof Error) {
+            console.log(error.message);
+          } else {
+            console.log('Unexpected error', error);
+          }
         }
       }
-      setLoading(false);
     }
 
     fetchData();
@@ -77,8 +94,9 @@ const LogTable: FC<Props> = ({ itemLim }) => {
           <Filters filterType={"logs"} onSearch={handleSearch} />
         </Col>
       </Row>
-      {loading && (<p>Loading...</p>)}
-      {!loading && typeof logs !== "undefined" && (
+      {loading && !searchLoading && <LoadingModal show={loading} />}
+      {loading && searchLoading && loadingIcon}
+      {!searchLoading && (
         <>
           <Table striped size="sm" className="table-data">
             <thead>
@@ -99,11 +117,11 @@ const LogTable: FC<Props> = ({ itemLim }) => {
               }
             </tbody>
           </Table>
-          <TablePagination
+          {typeof logs !== "undefined" && <TablePagination
             active={activeNumPage}
             totalPages={resultNumPages}
             setActiveNumPage={setActiveNumPage}
-          />
+          />}
         </>)}
       {!loading && typeof logs === "undefined" && (
         <p>No results found! :(</p>

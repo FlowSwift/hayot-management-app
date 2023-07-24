@@ -157,6 +157,14 @@ float: left;
     --bs-modal-width: 350px;
     text-align: center;
   }
+
+  .log-new {
+    color: var(--bs-success) !important;
+  }
+
+  .log-old {
+    color: var(--bs-danger) !important;
+  }
 `
 
 export default GlobalStyles;

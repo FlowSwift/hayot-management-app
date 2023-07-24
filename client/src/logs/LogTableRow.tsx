@@ -17,8 +17,8 @@ const LogTableRow: FC<Props> = ({log}) => {
                 <span className="text-muted">#{log.id}</span> {log.brand_name} - {log.category_name} - {log.product_name}
             </td>
             <td className="align-middle">{log.action_type}</td>
-            <td className="align-middle">{log.new_value}</td>
-            <td className="align-middle">{log.old_value}</td>
+            <td className="align-middle log-new">{log.new_value}</td>
+            <td className="align-middle log-old">{log.old_value}</td>
             <td className="align-middle">{timestamp.toLocaleString()}</td>
         </tr>
     )
