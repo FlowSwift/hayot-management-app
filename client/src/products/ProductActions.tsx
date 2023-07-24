@@ -111,6 +111,7 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
 
   useEffect(() => {
     if (submitSuccess) {
+      console.log("A");
       finishModal(true);
       resetForm();
     }
@@ -151,13 +152,14 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
           prod);
       }
       setSubmitSuccess(true);
+      console.log("yes");
     }
     catch (error) {
       setSubmitSuccess(false);
+      console.log("no");
       console.log("DATABASE ERROR: ");
       console.log(error);
     }
-    resetForm();
   };
 
   return (
