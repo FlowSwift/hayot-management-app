@@ -154,11 +154,11 @@ const BrandTable: FC<Props> = ({ itemLim }) => {
               }
             </tbody>
           </Table>
-          <TablePagination
+          {typeof brands !== "undefined" && <TablePagination
             active={activeNumPage}
             totalPages={resultNumPages}
             setActiveNumPage={setActiveNumPage}
-          />
+          />}
         </>)}
       {!loading && typeof brands === "undefined" && (
         <p>No results found! :(</p>

@@ -181,11 +181,11 @@ const ProductTable: FC<Props> = ({ itemLim, user }) => {
               }
             </tbody>
           </Table>
-          <TablePagination
+          {typeof products !== "undefined" && <TablePagination
             active={activeNumPage}
             totalPages={resultNumPages}
             setActiveNumPage={setActiveNumPage}
-          />
+          />}
         </>)}
       {!loading && typeof products === "undefined" && (
         <p>No results found! :(</p>

@@ -156,11 +156,11 @@ const CategoryTable: FC<Props> = ({ itemLim }) => {
               }
             </tbody>
           </Table>
-          <TablePagination
+          {typeof categories !== "undefined" && <TablePagination
             active={activeNumPage}
             totalPages={resultNumPages}
             setActiveNumPage={setActiveNumPage}
-          />
+          />}
         </>)}
       {!loading && typeof categories === "undefined" && (
         <p>No results found! :(</p>
