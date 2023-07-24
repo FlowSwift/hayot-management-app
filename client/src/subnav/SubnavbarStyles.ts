@@ -6,6 +6,7 @@ export const SubnavbarContainer = styled.div`
   align-items: center;
   padding: 1rem 0;
   margin-bottom: 20px;
+  overflow-x: scroll;
 `;
 
 export const SubnavLinks = styled.ul`
