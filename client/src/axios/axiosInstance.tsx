@@ -14,10 +14,10 @@ apiClient.interceptors.request.use((config) => {
     if (cancelTokenSource) {
       cancelTokenSource.cancel('Request canceled by the user');
     }
+    cancelTokenSource = axios.CancelToken.source();
+    config.cancelToken = cancelTokenSource.token;
   }
 
-  cancelTokenSource = axios.CancelToken.source();
-  config.cancelToken = cancelTokenSource.token;
 
   const token = Cookies.get('token');
 
