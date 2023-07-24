@@ -23,12 +23,28 @@ docker run -it --entrypoint /bin/bash testimage -s
 
 `docker system prune`
 
+## Production
+
+### Set up cron tab
+
+For auto backups, add <0 1 * * * /inventory-database/auto_backup.sh> using `crontab -e`
+
 ## Environmental variables
 
-Set up .env in root:
+Set up `.env` in inventory-manager:
 
 - run `node inventory-manager/authKeyGen.js`
-- copy key to .env in root, replacing "key" with generated code `JWT_SECRET='key'`
+- copy key to .env in root, replacing "key" with generated code
+
+```sh
+JWT_SECRET='key'
+```
+
+Set up `.env` in client:
+
+```sh
+REACT_APP_BASE_URL=http://localhost:5000
+```
 
 ## Database
 
@@ -53,18 +69,18 @@ Options
 - ✓ Pagination
 - ✓ Update product quantity by ID
 - Delete or archive products
-- Show Log out if logged in
+- ✓ Show Log out if logged in
 
 FED:
 - ✓ Search
 - ✓ Add product modal
 - ✓ Add brand modal
 - ✓ Add category modal
-- Debug numeric inputs with decimals
+- ✓ Debug numeric inputs with decimals
 - ✓ Dynamic brand / category selectboxes
 - ✓ Quantity save
 - ✓ Edits brands / categories
-- Styling mobile menu
-- Remove count input
+- ✓ Styling mobile menu
+- ✓ Remove count input
 - Pagination RTL
 - Mobile table: Brand - category - name
