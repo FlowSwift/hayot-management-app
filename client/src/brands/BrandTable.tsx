@@ -11,6 +11,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import BrandActions from './BrandActions';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
+import LoadingModal from '../global/LoadingPopup';
 
 interface Props {
   itemLim: number
@@ -21,7 +24,8 @@ const BrandTable: FC<Props> = ({ itemLim }) => {
   const [showAddBrandForm, setShowAddBrandForm] = useState(false);
   const [selectedEditBrand, setSelectedEditBrand] = useState<Brand>();
   const [loading, setLoading] = useState(true);
-  const [brands, setBrands] = useState<undefined | Brand[]>();
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [brands, setBrands] = useState<Brand[]>();
   const [resultNumPages, setResultNumPages] = useState<number>();
   const [activeNumPage, setActiveNumPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("")
@@ -29,32 +33,40 @@ const BrandTable: FC<Props> = ({ itemLim }) => {
   const addAction = "Add Brand";
   const editAction = "Edit Brand";
   const [actionType, setActionType] = useState(addAction)
+  const loadingIcon = <FontAwesomeIcon size='4x' className="spinner mx-1 icon-muted" icon={faSpinner} />;
 
   const handleSearch = (search: string) => {
-    setSearchQuery(search)
-    setActiveNumPage(1)
+    setSearchLoading(true);
+    setSearchQuery(search);
+    setActiveNumPage(1);
   };
 
-  const setAddBrandForm = () => {
+  const setAddBrandForm = (makeChange: boolean) => {
     if (showAddBrandForm) {
-      refreshData();
+      if (makeChange) {
+        refreshData();
+      }
       setShowAddBrandForm(false);
-      setSelectedEditBrand(undefined)
+      setSelectedEditBrand(undefined);
     } else {
       setShowAddBrandForm(true);
     }
   }
 
-  const handleAddBrand = () => {
-    setActionType(addAction)
-    setAddBrandForm()
+  const handleAddBrand = (makeChange: boolean) => {
+    setActionType(addAction);
+    setAddBrandForm(makeChange);
 
   };
 
-  const handleEditBrand = (brand: Brand) => {
-    setActionType(editAction)
-    setAddBrandForm()
-    setSelectedEditBrand(brand)
+  const openAddBrand = () => {
+    handleAddBrand(false);
+  }
+
+  const handleEditBrand = (brand: Brand, makeChange: boolean) => {
+    setActionType(editAction);
+    setAddBrandForm(makeChange);
+    setSelectedEditBrand(brand);
   }
 
   const refreshData = () => {
@@ -70,8 +82,15 @@ const BrandTable: FC<Props> = ({ itemLim }) => {
           // Offset is page number * num per page
           pageRequestURL += `&offset=${itemLimit * (activeNumPage - 1)}`;
         }
-        const { data: response } = await axiosClient.get(pageRequestURL);
+        const config = {
+          headers: {
+            'X-Cancel-Request': true,
+          },
+        };
+        const { data: response } = await axiosClient.get(pageRequestURL, config);
         setBrands(response);
+        setLoading(false);
+        setSearchLoading(false);
 
         // Determine total number of results for pagination
         let resCount = 0;
@@ -80,14 +99,19 @@ const BrandTable: FC<Props> = ({ itemLim }) => {
         }
         setResultNumPages(Math.ceil(resCount / itemLimit));
       } catch (error) {
-        setBrands(undefined)
-        if (error instanceof Error) {
-          console.log(error.message);
+        if (axios.isCancel(error)) {
+          console.log({ canceled: error.message });
         } else {
-          console.log('Unexpected error', error);
+          setLoading(false);
+          setSearchLoading(false);
+          setBrands(undefined)
+          if (error instanceof Error) {
+            console.log(error.message);
+          } else {
+            console.log('Unexpected error', error);
+          }
         }
       }
-      setLoading(false);
     }
 
     fetchData();
@@ -105,14 +129,16 @@ const BrandTable: FC<Props> = ({ itemLim }) => {
           <Filters filterType={"brands"} onSearch={handleSearch} />
         </Col>
         <Col>
-          <Button type="button" className="mb-2" onClick={handleAddBrand}>
-            {addIcon} {actionType}
+          <Button type="button" className="mb-2" onClick={openAddBrand}>
+            {addIcon} Add Brand
           </Button>
         </Col>
       </Row>
+
       {showAddBrandForm && <BrandActions actionType={actionType} handleAddBrand={handleAddBrand} isShow={showAddBrandForm} selectedBrand={selectedEditBrand} />}
-      {loading && (<p>Loading...</p>)}
-      {!loading && typeof brands !== "undefined" && (
+      {loading && !searchLoading && <LoadingModal show={loading} />}
+      {loading && searchLoading && loadingIcon}
+      {!searchLoading && (
         <>
           <Table striped size="sm" className="table-data">
             <thead>

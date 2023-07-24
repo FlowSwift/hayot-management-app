@@ -6,9 +6,9 @@ interface Props {
     brand: Brand,
     handleEditBrand: Function
 };
-const BrandTableRow: FC<Props> = ({ brand, handleEditBrand}) => {
+const BrandTableRow: FC<Props> = ({ brand, handleEditBrand }) => {
     const handleOpen = () => handleEditBrand(brand);
-    
+
 
     return (
         <tr>
