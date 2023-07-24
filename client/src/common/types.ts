@@ -31,7 +31,8 @@ export interface Animal {
 }
 
 export interface Log {
-  id: string
+  id: string;
+  user_username: string;
   product_name: string;
   category_name: string;
   brand_name: string;

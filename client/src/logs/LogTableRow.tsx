@@ -12,11 +12,10 @@ const LogTableRow: FC<Props> = ({log}) => {
 
     return (
         <tr>
+            <td className="align-middle">{log.user_username}</td>
             <td className="align-middle">
-                <span className="text-muted">#{log.id}</span> {log.brand_name}
+                <span className="text-muted">#{log.id}</span> {log.brand_name} - {log.category_name} - {log.product_name}
             </td>
-            <td className="align-middle">{log.category_name}</td>
-            <td className="align-middle">{log.product_name}</td>
             <td className="align-middle">{log.action_type}</td>
             <td className="align-middle">{log.new_value}</td>
             <td className="align-middle">{log.old_value}</td>

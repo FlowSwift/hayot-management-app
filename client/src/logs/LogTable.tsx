@@ -83,9 +83,8 @@ const LogTable: FC<Props> = ({ itemLim }) => {
           <Table striped size="sm" className="table-data">
             <thead>
               <tr>
-                <th>Brand</th>
-                <th>Category</th>
-                <th>Product</th>
+                <th>משתמש</th>
+                <th>מוצר</th>
                 <th>Action</th>
                 <th>New</th>
                 <th>Old</th>
