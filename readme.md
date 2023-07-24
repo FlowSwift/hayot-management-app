@@ -29,6 +29,11 @@ docker run -it --entrypoint /bin/bash testimage -s
 
 For auto backups, add <0 1 * * * /inventory-database/auto_backup.sh> using `crontab -e`
 
+### Set up env vars
+
+- env vars for db connection in docker compose
+- add env vars as defined below
+
 ## Environmental variables
 
 Set up `.env` in inventory-manager:
