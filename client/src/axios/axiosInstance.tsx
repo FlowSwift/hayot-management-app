@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 let cancelTokenSource = axios.CancelToken.source();
 
 const apiClient = axios.create({
-  baseURL: 'http://localhost:5000', // Set your API base URL
+  baseURL: process.env.REACT_APP_BASE_URL, // Set your API base URL
 });
 
 apiClient.interceptors.request.use((config) => {
