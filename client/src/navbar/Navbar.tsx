@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Link } from "react-router-dom";
-import { NavbarContainer, NavTitle, NavLinks, NavLink } from "./NavbarStyles";
+import { NavbarContainer, NavTitle, NavLink } from "./NavbarStyles";
 
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -22,18 +22,18 @@ const GlobalNavbar: FC<Props> = ({ loading, user }) => {
                 </NavTitle>
                 <Navbar.Collapse id="basic-navbar-nav" className="dropdown-nav py-2 px-3">
                     <Nav className="me-auto">
-                        <Nav.Link> 
+                        <NavLink> 
                             <Link to="/dashboard">Dashboard</Link>
-                        </Nav.Link> 
+                        </NavLink> 
                         {!loading &&
                             (user.isAuthenticated ?
-                            (<Nav.Link>
+                            (<NavLink>
                                 <Link to="/login">Logout</Link>
-                            </Nav.Link>)
+                            </NavLink>)
                             :
-                            (<Nav.Link>
+                            (<NavLink>
                                 <Link to="/login">Login</Link>
-                            </Nav.Link>))
+                            </NavLink>))
                         } 
                     </Nav>
                 </Navbar.Collapse>
