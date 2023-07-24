@@ -25,7 +25,7 @@ const CategoryTable: FC<Props> = ({ itemLim }) => {
   const [selectedEditCategory, setSelectedEditCategory] = useState<Category>();
   const [loading, setLoading] = useState(true);
   const [searchLoading, setSearchLoading] = useState(false);
-  const [categories, setCategories] = useState<undefined | Category[]>();
+  const [categories, setCategories] = useState<Category[]>();
   const [resultNumPages, setResultNumPages] = useState<number>();
   const [activeNumPage, setActiveNumPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("")
@@ -112,7 +112,6 @@ const CategoryTable: FC<Props> = ({ itemLim }) => {
           }
         }
       }
-      setLoading(false);
     }
 
     fetchData();
