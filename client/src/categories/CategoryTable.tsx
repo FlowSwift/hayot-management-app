@@ -12,6 +12,8 @@ import CategoryActions from './CategoryActions';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
+import LoadingModal from '../global/LoadingPopup';
 
 interface Props {
   itemLim: number
@@ -22,6 +24,7 @@ const CategoryTable: FC<Props> = ({ itemLim }) => {
   const [showAddCategoryForm, setShowAddCategoryForm] = useState(false);
   const [selectedEditCategory, setSelectedEditCategory] = useState<Category>();
   const [loading, setLoading] = useState(true);
+  const [searchLoading, setSearchLoading] = useState(false);
   const [categories, setCategories] = useState<undefined | Category[]>();
   const [resultNumPages, setResultNumPages] = useState<number>();
   const [activeNumPage, setActiveNumPage] = useState(1);
@@ -33,29 +36,36 @@ const CategoryTable: FC<Props> = ({ itemLim }) => {
   const loadingIcon = <FontAwesomeIcon size='4x' className="spinner mx-1 icon-muted" icon={faSpinner} />;
 
   const handleSearch = (search: string) => {
-    setSearchQuery(search)
-    setActiveNumPage(1)
+    setSearchLoading(true);
+    setSearchQuery(search);
+    setActiveNumPage(1);
   };
 
-  const setAddCategoryForm = () => {
+  const setAddCategoryForm = (makeChange: boolean) => {
     if (showAddCategoryForm) {
-      refreshData();
+      if (makeChange) {
+        refreshData();
+      }
       setShowAddCategoryForm(false);
-      setSelectedEditCategory(undefined)
+      setSelectedEditCategory(undefined);
     } else {
       setShowAddCategoryForm(true);
     }
   }
 
-  const handleAddCategory = () => {
-    setActionType(addAction)
-    setAddCategoryForm()
+  const handleAddCategory = (makeChange: boolean) => {
+    setActionType(addAction);
+    setAddCategoryForm(makeChange);
 
   };
 
-  const handleEditCategory = (category: Category) => {
+  const openAddCategory = () => {
+    handleAddCategory(false);
+  }
+
+  const handleEditCategory = (category: Category, makeChange: boolean) => {
     setActionType(editAction)
-    setAddCategoryForm()
+    setAddCategoryForm(makeChange)
     setSelectedEditCategory(category)
   }
 
@@ -72,8 +82,15 @@ const CategoryTable: FC<Props> = ({ itemLim }) => {
           // Offset is page number * num per page
           pageRequestURL += `&offset=${itemLimit * (activeNumPage - 1)}`;
         }
-        const { data: response } = await axiosClient.get(pageRequestURL);
+        const config = {
+          headers: {
+            'X-Cancel-Request': true,
+          },
+        };
+        const { data: response } = await axiosClient.get(pageRequestURL, config);
         setCategories(response);
+        setLoading(false);
+        setSearchLoading(false);
 
         // Determine total number of results for pagination
         let resCount = 0;
@@ -82,11 +99,17 @@ const CategoryTable: FC<Props> = ({ itemLim }) => {
         }
         setResultNumPages(Math.ceil(resCount / itemLimit));
       } catch (error) {
-        setCategories(undefined)
-        if (error instanceof Error) {
-          console.log(error.message);
+        if (axios.isCancel(error)) {
+          console.log({ canceled: error.message });
         } else {
-          console.log('Unexpected error', error);
+          setLoading(false);
+          setSearchLoading(false);
+          setCategories(undefined)
+          if (error instanceof Error) {
+            console.log(error.message);
+          } else {
+            console.log('Unexpected error', error);
+          }
         }
       }
       setLoading(false);
@@ -107,15 +130,16 @@ const CategoryTable: FC<Props> = ({ itemLim }) => {
           <Filters filterType={"categories"} onSearch={handleSearch} />
         </Col>
         <Col>
-          <Button type="button" className="mb-2" onClick={handleAddCategory}>
-            {addIcon} {actionType}
+          <Button type="button" className="mb-2" onClick={openAddCategory}>
+            {addIcon} Add Category
           </Button>
         </Col>
       </Row>
 
       {showAddCategoryForm && <CategoryActions actionType={actionType} handleAddCategory={handleAddCategory} isShow={showAddCategoryForm} selectedCategory={selectedEditCategory} />}
-      {loading && (<div className="m-5 text-center">{loadingIcon}</div>)}
-      {!loading && typeof categories !== "undefined" && (
+      {loading && !searchLoading && <LoadingModal show={loading} />}
+      {loading && searchLoading && loadingIcon}
+      {!searchLoading && (
         <>
           <Table striped size="sm" className="table-data">
             <thead>

@@ -98,7 +98,6 @@ const ProductTable: FC<Props> = ({ itemLim, user }) => {
         if (isSearch && brandFilterID) {
           pageRequestURL += `&brand_id=${brandFilterID}`;
         }
-        console.log(pageRequestURL);
         const config = {
           headers: {
             'X-Cancel-Request': true,

@@ -1,9 +1,11 @@
 import { FC, useEffect, useState } from "react"
 import { Category } from "../common/types"
 import axiosClient from "../axios/axiosInstance"
-import { Row, Col, Modal, Button, Form } from "react-bootstrap"
+import { Row, Col, Modal, Button, Form, Alert } from "react-bootstrap"
 import BrandSelect from "../brands/BrandSelect"
 import AnimalSelect from "../animals/AnimalSelect"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faSpinner } from "@fortawesome/free-solid-svg-icons"
 
 interface Props {
   actionType: string
@@ -16,15 +18,42 @@ const CategoryActions: FC<Props> = ({ actionType, handleAddCategory, isShow, sel
   const [name, setName] = useState("");
   const [brand_id, setBrandId] = useState(0);
   const [animal_id, setAnimalId] = useState(0);
+  const [nameError, setNameError] = useState("");
+  const [firstSubmit, setFirstSubmit] = useState(true);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [isBrandsLoading, setIsBrandsLoading] = useState(false)
+  const [isAnimalsLoading, setIsAnimalsLoading] = useState(false)
+  const loadingIcon = <FontAwesomeIcon className="spinner mx-1" icon={faSpinner} />;
 
   const handleClose = () => {
     handleAddCategory(false);
+    finishModal(false);
   }
+
+  const handleValidation = () => {
+    let check = true;
+    if (name.trim() === "") {
+      setNameError("נא הכנס שם.");
+      check = false;
+    }
+    return check;
+  }
+
   // Prevent page from redirecting when user hits Enter
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
-    e.preventDefault();
-    await handleSave();
-    handleClose();
+    if (saving) return;
+    setSaving(true);
+    if (handleValidation()) {
+      await handleSave();
+      setFirstSubmit(false); // set after call to show popup only in case of error
+    }
+    setFirstSubmit(false);
+    setSaving(false);
+  }
+
+  const finishModal = (makeChange: boolean) => {
+    handleAddCategory(makeChange);
   }
 
   useEffect(() => {
@@ -36,6 +65,13 @@ const CategoryActions: FC<Props> = ({ actionType, handleAddCategory, isShow, sel
       resetForm();
     }
   }, [selectedCategory]);
+
+  useEffect(() => {
+    if (submitSuccess) {
+      finishModal(true);
+      resetForm();
+    }
+  }, [submitSuccess])
 
   const resetForm = () => {
     setName("");
@@ -60,26 +96,34 @@ const CategoryActions: FC<Props> = ({ actionType, handleAddCategory, isShow, sel
         const { data: response } = await axiosClient.put(axiosClient.defaults.baseURL + '/categories/',
           category);
       }
+      setSubmitSuccess(true);
     }
     catch (error) {
+      setSubmitSuccess(false);
       console.log("DATABASE ERROR: ")
       console.log(error)
     }
-    resetForm()
+    resetForm();
   };
   return (
     <div>
       <Form>
         <Row className="align-items-center">
           <Col xs="auto">
-            <Modal show={isShow} onHide={handleClose}>
+            <Modal show={isShow} onHide={handleClose} backdrop={saving ? "static" : true} keyboard={!saving} centered>
               <Modal.Header closeButton>
                 <Modal.Title>{actionType}</Modal.Title>
               </Modal.Header>
               <Modal.Body>
+                {
+                  !firstSubmit && !submitSuccess &&
+                  <Alert variant={"danger"}>
+                    Error!
+                  </Alert>
+                }
                 <Form>
                   <Form.Group className="mb-3" controlId="formProductName">
-                    <Form.Label>Name</Form.Label>
+                    <Form.Label>Name{nameError && <Form.Text className="text-danger">{nameError}</Form.Text>}</Form.Label>
                     <Form.Control type="text" value={name} onChange={(e) => setName(e.target.value)} />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formProductBrand">
@@ -87,6 +131,7 @@ const CategoryActions: FC<Props> = ({ actionType, handleAddCategory, isShow, sel
                     <BrandSelect
                       activeId={brand_id}
                       stateChanger={setBrandId}
+                      setBrandsLoading={setIsBrandsLoading}
                     />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formProductBrand">
@@ -94,16 +139,17 @@ const CategoryActions: FC<Props> = ({ actionType, handleAddCategory, isShow, sel
                     <AnimalSelect
                       activeId={animal_id}
                       stateChanger={setAnimalId}
+                      setAnimalsLoading={setIsAnimalsLoading}
                     />
                   </Form.Group>
                 </Form>
               </Modal.Body>
               <Modal.Footer>
-                <Button type="reset" variant="secondary" onClick={handleClose}>
+                <Button type="reset" variant="secondary" onClick={handleClose} disabled={saving}>
                   Close
                 </Button>
-                <Button type="submit" variant="primary" onClick={handleSubmit}>
-                  {actionType}
+                <Button type="submit" variant="primary" onClick={handleSubmit} disabled={saving || isBrandsLoading || isAnimalsLoading}>
+                  {actionType} {saving && loadingIcon}
                 </Button>
               </Modal.Footer>
             </Modal>

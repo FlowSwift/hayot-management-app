@@ -42,7 +42,6 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
   const [quantityError, setQuantityError] = useState("");
   const [priceError, setPriceError] = useState("");
   const [weightError, setWeightError] = useState("");
-  const [validationCheck, setValidationCheck] = useState(false);
 
   const handleOpen = () => null;
   const handleClose = () => {
@@ -158,6 +157,7 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
       console.log("DATABASE ERROR: ");
       console.log(error);
     }
+    resetForm();
   };
 
   return (

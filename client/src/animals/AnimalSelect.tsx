@@ -8,9 +8,10 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 interface Props {
   activeId: number | undefined; // New products
   stateChanger: Function;
+  setAnimalsLoading: Function;
 };
 
-const AnimalSelect: FC<Props> = ({ activeId, stateChanger }) => {
+const AnimalSelect: FC<Props> = ({ activeId, stateChanger, setAnimalsLoading }) => {
   const [loading, setLoading] = useState(true);
   const [animals, setAnimals] = useState<undefined | Animal[]>();
   const loadingIcon = <FontAwesomeIcon className="spinner mx-1" icon={faSpinner} />;
@@ -20,6 +21,7 @@ const AnimalSelect: FC<Props> = ({ activeId, stateChanger }) => {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
+      setAnimalsLoading(true);
       try {
         const { data: response } = await axiosClient.get(axiosClient.defaults.baseURL + '/animals/');
         setAnimals(response);
@@ -33,6 +35,7 @@ const AnimalSelect: FC<Props> = ({ activeId, stateChanger }) => {
       // setActiveValue(activeId);
       // {this.props.handler}
       setLoading(false);
+      setAnimalsLoading(false);
     }
 
     fetchData();
