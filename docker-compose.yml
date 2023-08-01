@@ -48,6 +48,7 @@ services:
       - 3000:3000
     volumes:
       - ./client/:/app
+      - /etc/letsencrypt:/etc/letsencrypt
     networks:
       hayot-management:
     command: npm run start
