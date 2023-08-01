@@ -11,14 +11,14 @@ services:
       hayot-management:
         aliases:
           - products-db
-    build: 
+    build:
       context: ./inventory-database
       dockerfile: Dockerfile
 
   inventory-manager:
     image: inventory-manager
     container_name: inventory-manager
-    build: 
+    build:
       context: ./inventory-manager
       dockerfile: Dockerfile
     ports:
@@ -36,12 +36,12 @@ services:
         aliases:
           - inventory-manager-api
     command: npm run dev
-#    command: tail -f #debugging option to keep container running
+  #    command: tail -f #debugging option to keep container running
 
   client:
     image: client
     container_name: client
-    build: 
+    build:
       context: ./client
       dockerfile: Dockerfile
     ports:
@@ -51,13 +51,12 @@ services:
     networks:
       hayot-management:
     command: npm run start
+#    command: node server.js
 #    command: tail -f #debugging option to keep container running
 
 networks:
   hayot-management:
     name: hayot-management
-
-
 
 volumes:
   products-db:
