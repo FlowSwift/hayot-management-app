@@ -5,8 +5,8 @@ services:
     volumes:
       - products-db:/var/lib/postgresql/data
     environment:
-      POSTGRES_PASSWORD: docker
-      POSTGRES_DB: products
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     networks:
       hayot-management:
         aliases:
@@ -28,8 +28,8 @@ services:
     environment:
       POSTGRES_HOST: products-db
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: docker
-      POSTGRES_DB: products
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_PORT: 5432
     networks:
       hayot-management:
