@@ -25,12 +25,12 @@ const SignUpPage: FC = () => {
     <div>
       {user ? (
         <div>
-          <p>Welcome, {user.username}!</p>
+          <p>ברוך הבא, {user.username}!</p>
           <button onClick={handleLogout}>Logout</button>
         </div>
       ) : (
         <div>
-          <h1>Sign Up</h1>
+          <h1>הירשם</h1>
           <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
           <SignUpForm onSubmit={handleSignUp} />
         </div>

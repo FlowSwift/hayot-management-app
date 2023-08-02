@@ -18,37 +18,37 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ onSubmit }) => {
   return (
     <Form onSubmit={handleSubmit}>
       <Form.Group className="mb-3" controlId="formBasicName">
-        <Form.Label>Name</Form.Label>
+        <Form.Label>שם</Form.Label>
         <Form.Control
           type="text"
-          placeholder="Enter name"
+          placeholder="שם"
           value={name}
           onChange={(event) => setName(event.target.value)}
         />
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Email</Form.Label>
+        <Form.Label>אימייל</Form.Label>
         <Form.Control
           type="email"
-          placeholder="Enter email"
+          placeholder="אימייל"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
         />
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Label>Password</Form.Label>
+        <Form.Label>סיסמא</Form.Label>
         <Form.Control
           type="password"
-          placeholder="Password"
+          placeholder="סיסמא"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
         />
       </Form.Group>
 
       <Button variant="primary" type="submit">
-        Submit
+        הירשם
       </Button>
     </Form>
   );

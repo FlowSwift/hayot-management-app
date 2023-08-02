@@ -32,8 +32,8 @@ const ProductTable: FC<Props> = ({ itemLim, user }) => {
   const [activeNumPage, setActiveNumPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [itemLimit, setItemLimit] = useState(itemLim | 15);
-  const addAction = "Add Product";
-  const editAction = "Edit Product";
+  const addAction = "הוסף מוצר";
+  const editAction = "ערוך מוצר";
   const [actionType, setActionType] = useState(addAction);
   const [brandFilterID, setBrandFilterID] = useState(0);
   const [categoryFilterID, setCategoryFilterID] = useState(0);
@@ -148,7 +148,7 @@ const ProductTable: FC<Props> = ({ itemLim, user }) => {
         </Col>
         <Col>
           <Button type="button" className="mb-2" onClick={openAddProduct}>
-            {addIcon} Add Product
+            {addIcon} הוסף מוצר
           </Button>
         </Col>
       </Row>
@@ -160,11 +160,11 @@ const ProductTable: FC<Props> = ({ itemLim, user }) => {
           <Table striped size="sm" className="table-data">
             <thead>
               <tr>
-                <th>Brand</th>
-                <th>Category</th>
-                <th>Name</th>
-                <th>weight</th>
-                <th>Quantity</th>
+                <th>חברה</th>
+                <th>קטגוריה</th>
+                <th>שם</th>
+                <th>משקל</th>
+                <th>כמות</th>
               </tr>
             </thead>
             <tbody>
@@ -188,7 +188,7 @@ const ProductTable: FC<Props> = ({ itemLim, user }) => {
           />}
         </>)}
       {!loading && typeof products === "undefined" && (
-        <p>No results found! :(</p>
+        <p>לא נמצאו תוצאות :(</p>
       )}
     </>)
 }

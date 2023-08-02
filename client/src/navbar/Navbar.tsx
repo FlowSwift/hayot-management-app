@@ -23,16 +23,16 @@ const GlobalNavbar: FC<Props> = ({ loading, user }) => {
                 <Navbar.Collapse id="basic-navbar-nav" className="dropdown-nav py-2 px-3 justify-content-md-end">
                     <Nav>
                         <NavLink> 
-                            <Link to="/dashboard">Dashboard</Link>
+                            <Link to="/dashboard">מלאי</Link>
                         </NavLink> 
                         {!loading &&
                             (user.isAuthenticated ?
                             (<NavLink>
-                                <Link to="/login">Logout</Link>
+                                <Link to="/login">התנתק</Link>
                             </NavLink>)
                             :
                             (<NavLink>
-                                <Link to="/login">Login</Link>
+                                <Link to="/login">התחבר</Link>
                             </NavLink>))
                         } 
                     </Nav>

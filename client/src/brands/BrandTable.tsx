@@ -30,8 +30,8 @@ const BrandTable: FC<Props> = ({ itemLim }) => {
   const [activeNumPage, setActiveNumPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("")
   const [itemLimit, setItemLimit] = useState(itemLim | 15)
-  const addAction = "Add Brand";
-  const editAction = "Edit Brand";
+  const addAction = "הוסף חברה";
+  const editAction = "ערוך חברה";
   const [actionType, setActionType] = useState(addAction)
   const loadingIcon = <FontAwesomeIcon size='4x' className="spinner mx-1 icon-muted" icon={faSpinner} />;
 
@@ -130,7 +130,7 @@ const BrandTable: FC<Props> = ({ itemLim }) => {
         </Col>
         <Col>
           <Button type="button" className="mb-2" onClick={openAddBrand}>
-            {addIcon} Add Brand
+            {addIcon} הוסף חברה
           </Button>
         </Col>
       </Row>
@@ -143,7 +143,7 @@ const BrandTable: FC<Props> = ({ itemLim }) => {
           <Table striped size="sm" className="table-data">
             <thead>
               <tr>
-                <th>Brand Name</th>
+                <th>שם חברה</th>
               </tr>
             </thead>
             <tbody>
@@ -161,7 +161,7 @@ const BrandTable: FC<Props> = ({ itemLim }) => {
           />}
         </>)}
       {!loading && typeof brands === "undefined" && (
-        <p>No results found! :(</p>
+        <p>לא נמצאו תוצאות :(</p>
       )}
     </>)
 }

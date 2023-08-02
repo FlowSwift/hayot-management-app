@@ -30,8 +30,8 @@ const CategoryTable: FC<Props> = ({ itemLim }) => {
   const [activeNumPage, setActiveNumPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("")
   const [itemLimit, setItemLimit] = useState(itemLim | 15)
-  const addAction = "Add Category";
-  const editAction = "Edit Category";
+  const addAction = "הוסף קטגוריה";
+  const editAction = "ערוך קטגוריה";
   const [actionType, setActionType] = useState(addAction)
   const loadingIcon = <FontAwesomeIcon size='4x' className="spinner mx-1 icon-muted" icon={faSpinner} />;
 
@@ -130,7 +130,7 @@ const CategoryTable: FC<Props> = ({ itemLim }) => {
         </Col>
         <Col>
           <Button type="button" className="mb-2" onClick={openAddCategory}>
-            {addIcon} Add Category
+            {addIcon} הוסף קטגוריה
           </Button>
         </Col>
       </Row>
@@ -143,9 +143,9 @@ const CategoryTable: FC<Props> = ({ itemLim }) => {
           <Table striped size="sm" className="table-data">
             <thead>
               <tr>
-                <th>Category Name</th>
-                <th>Brand</th>
-                <th>Animal</th>
+                <th>הקטגוריה</th>
+                <th>חברה</th>
+                <th>חיה</th>
               </tr>
             </thead>
             <tbody>
@@ -163,7 +163,7 @@ const CategoryTable: FC<Props> = ({ itemLim }) => {
           />}
         </>)}
       {!loading && typeof categories === "undefined" && (
-        <p>No results found! :(</p>
+        <p>לא נמצאו תוצאות :(</p>
       )}
     </>)
 }

@@ -103,10 +103,10 @@ const LogTable: FC<Props> = ({ itemLim }) => {
               <tr>
                 <th>משתמש</th>
                 <th>מוצר</th>
-                <th>Action</th>
-                <th>New</th>
-                <th>Old</th>
-                <th>Time</th>
+                <th>פעולה</th>
+                <th>חדש</th>
+                <th>ישן</th>
+                <th>זמן</th>
               </tr>
             </thead>
             <tbody>
@@ -124,7 +124,7 @@ const LogTable: FC<Props> = ({ itemLim }) => {
           />}
         </>)}
       {!loading && typeof logs === "undefined" && (
-        <p>No results found! :(</p>
+        <p>לא נמצאו תוצאות :'(</p>
       )}
     </>)
 }

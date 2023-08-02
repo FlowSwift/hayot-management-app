@@ -118,16 +118,16 @@ const CategoryActions: FC<Props> = ({ actionType, handleAddCategory, isShow, sel
                 {
                   !firstSubmit && !submitSuccess &&
                   <Alert variant={"danger"}>
-                    Error!
+                    שגיאה!
                   </Alert>
                 }
                 <Form>
                   <Form.Group className="mb-3" controlId="formProductName">
-                    <Form.Label>Name{nameError && <Form.Text className="text-danger">{nameError}</Form.Text>}</Form.Label>
+                    <Form.Label>שם{nameError && <Form.Text className="text-danger">{nameError}</Form.Text>}</Form.Label>
                     <Form.Control type="text" value={name} onChange={(e) => setName(e.target.value)} />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formProductBrand">
-                    <Form.Label>Brand</Form.Label>
+                    <Form.Label>חברה</Form.Label>
                     <BrandSelect
                       activeId={brand_id}
                       stateChanger={setBrandId}
@@ -135,7 +135,7 @@ const CategoryActions: FC<Props> = ({ actionType, handleAddCategory, isShow, sel
                     />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formProductBrand">
-                    <Form.Label>Animal</Form.Label>
+                    <Form.Label>חיה</Form.Label>
                     <AnimalSelect
                       activeId={animal_id}
                       stateChanger={setAnimalId}
@@ -146,7 +146,7 @@ const CategoryActions: FC<Props> = ({ actionType, handleAddCategory, isShow, sel
               </Modal.Body>
               <Modal.Footer>
                 <Button type="reset" variant="secondary" onClick={handleClose} disabled={saving}>
-                  Close
+                  סגור
                 </Button>
                 <Button type="submit" variant="primary" onClick={handleSubmit} disabled={saving || isBrandsLoading || isAnimalsLoading}>
                   {actionType} {saving && loadingIcon}

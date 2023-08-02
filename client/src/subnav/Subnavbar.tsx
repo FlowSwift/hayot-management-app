@@ -10,28 +10,28 @@ const Subnavbar: FC = () => {
                     <NavLink
                         to="/dashboard/products"
                         className={({ isActive }) => (isActive ? 'active' : 'inactive')}>
-                        Products
+                        מוצרים
                     </NavLink>
                 </SubnavLink>
                 <SubnavLink>
                     <NavLink
                         to="/dashboard/categories"
                         className={({ isActive }) => (isActive ? 'active' : 'inactive')}>
-                        Categories
+                        קטגוריות
                     </NavLink>
                 </SubnavLink>
                 <SubnavLink>
                     <NavLink
                         to="/dashboard/brands"
                         className={({ isActive }) => (isActive ? 'active' : 'inactive')}>
-                        Brands
+                        חברות
                     </NavLink>
                 </SubnavLink>
                 <SubnavLink>
                     <NavLink
                         to="/dashboard/logs"
                         className={({ isActive }) => (isActive ? 'active' : 'inactive')}>
-                        Logs
+                        לוגים
                     </NavLink>
                 </SubnavLink>
             </SubnavLinks>

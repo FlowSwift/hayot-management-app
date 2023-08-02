@@ -15,12 +15,12 @@ const SearchBar: FC<Props> = ({ onSearch }) => {
   return (
     <div>
       <Form.Label htmlFor="inlineFormInput" visuallyHidden>
-        Search
+        חיפוש
       </Form.Label>
       <Form.Control
         className="mb-2"
         id="inlineFormInput"
-        placeholder="Search"
+        placeholder="חיפוש"
         onChange={handleChange}
         type="search"
       />
