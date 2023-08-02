@@ -56,8 +56,8 @@ ALTER TABLE "logs" ADD CONSTRAINT "fk_product" FOREIGN KEY ("product_id") REFERE
 
 -- Random content for testing
 INSERT INTO "animals" ("type") VALUES
-('Dog'),
-('Cat');
+('כלב'),
+('חתול');
 
 INSERT INTO "brands" ("name") VALUES
 ('Doggylicious'),
