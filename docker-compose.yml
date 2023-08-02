@@ -36,6 +36,7 @@ services:
         aliases:
           - inventory-manager-api
     command: npm run dev
+#    command: npm run prod
   #    command: tail -f #debugging option to keep container running
 
   client:
@@ -51,8 +52,8 @@ services:
       - /etc/letsencrypt:/etc/letsencrypt
     networks:
       hayot-management:
-    command: npm run start
-#    command: node server.js
+#    command: npm run start
+    command: node server.js
 #    command: tail -f #debugging option to keep container running
 
 networks:

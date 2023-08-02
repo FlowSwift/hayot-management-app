@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js",
+    "prod": "node httpsindex.js",
     "start": "node index.js"
   },
   "author": "",
