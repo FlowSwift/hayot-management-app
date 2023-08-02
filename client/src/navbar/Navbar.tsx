@@ -20,8 +20,8 @@ const GlobalNavbar: FC<Props> = ({ loading, user }) => {
                 <NavTitle>
                     <img src="/assets/logo.png" alt="dog" /> <span>חיות במושבה</span>
                 </NavTitle>
-                <Navbar.Collapse id="basic-navbar-nav" className="dropdown-nav py-2 px-3">
-                    <Nav className="me-auto">
+                <Navbar.Collapse id="basic-navbar-nav" className="dropdown-nav py-2 px-3 justify-content-md-end">
+                    <Nav>
                         <NavLink> 
                             <Link to="/dashboard">Dashboard</Link>
                         </NavLink> 

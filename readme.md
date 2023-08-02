@@ -39,16 +39,25 @@ For auto backups, add <0 1 * * * /inventory-database/auto_backup.sh> using `cron
 Set up `.env` in inventory-manager:
 
 - run `node inventory-manager/authKeyGen.js`
-- copy key to .env in root, replacing "key" with generated code
+- copy key to .env in inventory-manager, replacing "key" with generated code
+
+Set up `.env` in inventory-manager:
 
 ```sh
-JWT_SECRET='key'
+JWT_SECRET=key
 ```
 
 Set up `.env` in client:
 
 ```sh
 REACT_APP_BASE_URL=http://localhost:5000
+```
+
+Set up `.env` in root:
+
+```sh
+POSTGRES_PASSWORD=password
+POSTGRES_DB=database
 ```
 
 ## Database
