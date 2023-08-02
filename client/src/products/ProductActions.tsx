@@ -26,7 +26,7 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
   const [categories, setCategories] = useState<undefined | Category[]>();
   const [category_id, setCategoryId] = useState(0);
   const [brand_id, setBrandId] = useState(0);
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState<number | false>(false);
   const [price, setPrice] = useState(0);
   const [weight, setWeight] = useState(0);
   const [ean, setEan] = useState("");
@@ -95,6 +95,13 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
     return value;
   }
 
+  const checkfieldQuantityNan = (value: number | false) => {
+    if (value === false || isNaN(value)) {
+      return false;
+    }
+    return value;
+  }
+
   useEffect(() => {
     if (selectedProduct) {
       setName(selectedProduct.name);
@@ -122,7 +129,7 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
     setCategories(undefined);
     setCategoryId(0);
     setBrandId(0);
-    setQuantity(0);
+    setQuantity(false);
     setPrice(0);
     setWeight(0);
     setEan("");
@@ -204,7 +211,7 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formProductQuantity">
                     <Form.Label>כמות  {quantityError && <Form.Text className="text-danger">{quantityError}</Form.Text>}</Form.Label>
-                    <Form.Control type="number" inputMode="numeric" value={!quantity ? "" : quantity} placeholder={!quantity ? "0" : ""} onChange={(e) => setQuantity(checkfieldNan(parseFloat(e.target.value)))} />
+                    <Form.Control type="number" inputMode="numeric" value={quantity === false ? "" : quantity} placeholder={quantity === false ? "0" : ""} onChange={(e) => setQuantity(checkfieldQuantityNan(parseFloat(e.target.value)))} />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formProductPrice">
                     <Form.Label>מחיר  {priceError && <Form.Text className="text-danger">{priceError}</Form.Text>}</Form.Label>
