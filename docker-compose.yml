@@ -25,6 +25,7 @@ services:
       - 5000:5000
     volumes:
       - ./inventory-manager/:/app
+      - /etc/letsencrypt:/etc/letsencrypt
     environment:
       POSTGRES_HOST: products-db
       POSTGRES_USER: postgres
@@ -52,8 +53,8 @@ services:
       - /etc/letsencrypt:/etc/letsencrypt
     networks:
       hayot-management:
-#    command: npm run start
-    command: node server.js
+    command: npm run start
+#    command: node server.js
 #    command: tail -f #debugging option to keep container running
 
 networks:
