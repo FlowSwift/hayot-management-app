@@ -85,10 +85,10 @@ const BrandActions: FC<Props> = ({ actionType, handleAddBrand, isShow, selectedB
     console.log(brand);
 
     try {
-      if (actionType === "Add Brand") {
+      if (actionType === "הוסף חברה") {
         const { data: response } = await axiosClient.post(axiosClient.defaults.baseURL + '/brands/',
           brand);
-      } else if (actionType === "Edit Brand") {
+      } else if (actionType === "ערוך חברה") {
         const { data: response } = await axiosClient.put(axiosClient.defaults.baseURL + '/brands/',
           brand);
       }

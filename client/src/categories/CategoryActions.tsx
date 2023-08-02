@@ -89,10 +89,10 @@ const CategoryActions: FC<Props> = ({ actionType, handleAddCategory, isShow, sel
     console.log(category);
 
     try {
-      if (actionType === "Add Category") {
+      if (actionType === "הוסף קטגוריה") {
         const { data: response } = await axiosClient.post(axiosClient.defaults.baseURL + '/categories/',
           category);
-      } else if (actionType === "Edit Category") {
+      } else if (actionType === "ערוך קטגוריה") {
         const { data: response } = await axiosClient.put(axiosClient.defaults.baseURL + '/categories/',
           category);
       }

@@ -62,11 +62,11 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
       setQuantityError("נא הכנס מספר")
       check = false;
     }
-    if (price != 0) {
+    if (price == 0) {
       setPriceError("נא הכנס מספר שונה מ- 0")
       check = false;
     }
-    if (weight != 0) {
+    if (weight == 0) {
       setWeightError("נא הכנס משקל שונה מ- 0")
       check = false;
     }
@@ -144,10 +144,10 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
     console.log(prod);
 
     try {
-      if (actionType === "Add Product") {
+      if (actionType === "הוסף מוצר") {
         const { data: response } = await axiosClient.post(axiosClient.defaults.baseURL + '/products/',
           prod);
-      } else if (actionType === "Edit Product") {
+      } else if (actionType === "ערוך מוצר") {
         const { data: response } = await axiosClient.put(axiosClient.defaults.baseURL + '/products/',
           prod);
       }
