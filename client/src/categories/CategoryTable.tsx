@@ -124,12 +124,13 @@ const CategoryTable: FC<Props> = ({ itemLim }) => {
   ]);
   return (
     <>
-      <Row>
-        <Col className="col-12 col-md-6 col-lg-3">
+
+      <Row className="flex-column flex-sm-row">
+        <Col className="flex-sm-grow-1">
           <Filters filterType={"categories"} onSearch={handleSearch} />
         </Col>
-        <Col>
-          <Button type="button" className="mb-2" onClick={openAddCategory}>
+        <Col className="flex-sm-grow-0">
+        <Button type="button" className="mt-2 mt-sm-0 mb-4 mb-sm-2 text-nowrap" onClick={openAddCategory}>
             {addIcon} הוסף קטגוריה
           </Button>
         </Col>
@@ -140,7 +141,7 @@ const CategoryTable: FC<Props> = ({ itemLim }) => {
       {loading && searchLoading && loadingIcon}
       {!searchLoading && (
         <>
-          <Table striped size="sm" className="table-data">
+          <Table striped className="table-data">
             <thead>
               <tr>
                 <th>הקטגוריה</th>

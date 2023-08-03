@@ -89,16 +89,17 @@ const LogTable: FC<Props> = ({ itemLim }) => {
   ]);
   return (
     <>
-      <Row>
-        <Col className="col-12 col-md-6 col-lg-3">
+      <Row className="flex-column flex-sm-row">
+        <Col className="flex-sm-grow-1">
           <Filters filterType={"logs"} onSearch={handleSearch} />
         </Col>
       </Row>
+
       {loading && !searchLoading && <LoadingModal show={loading} />}
       {loading && searchLoading && loadingIcon}
       {!searchLoading && (
         <>
-          <Table striped size="sm" className="table-data">
+          <Table striped className="table-data">
             <thead>
               <tr>
                 <th>משתמש</th>

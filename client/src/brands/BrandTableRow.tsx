@@ -13,7 +13,7 @@ const BrandTableRow: FC<Props> = ({ brand, handleEditBrand }) => {
     return (
         <tr>
             <td className="align-middle">
-                <span className="text-muted">#{brand.id}</span> <Button variant="link" onClick={handleOpen}>{brand.name}</Button>
+                <span className="text-muted">#{brand.id}</span> <Button variant="link" className="p-0" onClick={handleOpen}>{brand.name}</Button>
             </td>
         </tr>
     )

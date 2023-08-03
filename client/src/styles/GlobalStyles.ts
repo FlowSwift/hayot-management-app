@@ -73,36 +73,28 @@ const GlobalStyles = createGlobalStyle`
     white-space: nowrap !important;            /* 3 */
   }
 
+  .searchbox input {
+    max-width: 400px;
+  }
+
   @media (max-width: 767px) {
     .table-data tr {
       display: flex;
-      flex-direction: column;
-
-      
+      flex-direction: column;      
     }
 
-    .table-dat2a tr {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      grid-template-rows: auto;
-      grid-column-gap: 0px;
-      grid-row-gap: 0px;
+    .table-data tr td {
+      padding-top: 5px;
+      padding-bottom: 5px;
     }
- 
-    .table-data2 tr td:nth-of-type(5n + 1) { grid-area: fit-content(300px) fit-content(300px) 1fr; }
-.table-data2 tr td:nth-of-type(5n + 2) { grid-area: fit-content(300px) fit-content(300px) 1fr;; }
-.table-data2 tr td:nth-of-type(5n + 3) { grid-area: 2 / 1 / 3 / 6; }
-.table-data2 tr td:nth-of-type(5n + 4) { grid-area: 3 / 1 / 4 / 2; }
-.table-data2 tr td:nth-of-type(5n + 5) { grid-area: 3 / 2 / 4 / 6; } 
-      
-.table-data2 tr td:nth-of-type(5n + 4),
-.table-data2 tr td:nth-of-type(5n + 5) {
-  white-space: nowrap;
-}
+    
+    .table-data tr td:first-child {
+      padding-top: 20px;
+    }
 
-.table-data tr td:nth-of-type(5n + 5) button {
-float: left;
-}
+    .table-data tr td:last-child {
+      padding-bottom: 20px;
+    }
 
     .table-data thead {
       border: 3px solid #f00;
@@ -164,6 +156,15 @@ float: left;
 
   .log-old {
     color: var(--bs-danger) !important;
+  }
+
+  .edit-row {
+    position: relative;
+  }
+
+  .btn-edit {
+    position: absolute;
+    top: -2.5px;
   }
 `
 

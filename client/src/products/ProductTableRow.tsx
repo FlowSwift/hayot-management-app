@@ -38,15 +38,15 @@ const ProductTableRow: FC<Props> = ({ product, handleEditProduct, handleEditQuan
             <td>{product.brand_name}</td>
             <td>{product.category_name}</td>
             <td>
-                <Button variant="link" onClick={handleOpen}>{product.name} <span className="text-muted">({product.id})</span> </Button>
+                <Button variant="link" className="p-0" onClick={handleOpen}>{product.name} <span className="text-muted">({product.id})</span> </Button>
             </td>
-            <td>{weightIcon} {product.weight}kg</td>
+            <td className="text-nowrap">{weightIcon} {product.weight}kg</td>
             <td>
                 <Form>
-                    <Row className="align-items-center">
-                        <Col xs="auto">
+                    <Row className="align-items-top text-nowrap">
+                        <Col xs="auto" className="edit-row pe-5">
                         {quantityIcon} {product.quantity}
-                            <Button className="mx-1" variant="outline-primary" size="sm" onClick={() => setShowConfirmation(true)}>
+                            <Button className="btn-edit mx-2" variant="outline-primary" size="sm" onClick={() => setShowConfirmation(true)}>
                                 {editIcon}
                             </Button>
                         </Col>

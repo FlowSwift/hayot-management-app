@@ -65,7 +65,7 @@ const FilterCategorySelect: FC<Props> = ({ activeId, brandId, stateChanger, setC
     return (
       <>
         <div>
-          <Form.Select disabled={loading} value={activeId} onChange={(e) => stateChanger(parseInt(e.target.value))}>
+          <Form.Select className="mt-2 mb-2" disabled={loading} value={activeId} onChange={(e) => stateChanger(parseInt(e.target.value))}>
             {defaultOption}
             {options}
           </Form.Select>
@@ -75,7 +75,7 @@ const FilterCategorySelect: FC<Props> = ({ activeId, brandId, stateChanger, setC
   } else {
     return (
       <>
-      <Form.Select disabled={loading}>
+      <Form.Select className="mt-2 mb-2" disabled={loading}>
         {defaultOption}
       </Form.Select>
       </>

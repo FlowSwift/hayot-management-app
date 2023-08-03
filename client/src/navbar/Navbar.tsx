@@ -16,7 +16,7 @@ const GlobalNavbar: FC<Props> = ({ loading, user }) => {
     return (
         <Navbar variant="dark" expand="md" className="p-0">
             <NavbarContainer>
-                <Navbar.Toggle className="me-3" aria-controls="basic-navbar-nav" />
+                <Navbar.Toggle className="ms-3" aria-controls="basic-navbar-nav" />
                 <NavTitle>
                     <img src="/assets/logo.png" alt="dog" /> <span>חיות במושבה</span>
                 </NavTitle>

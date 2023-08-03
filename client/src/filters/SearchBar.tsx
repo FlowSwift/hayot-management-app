@@ -13,7 +13,7 @@ const SearchBar: FC<Props> = ({ onSearch }) => {
   };
 
   return (
-    <div>
+    <div className="searchbox">
       <Form.Label htmlFor="inlineFormInput" visuallyHidden>
         חיפוש
       </Form.Label>

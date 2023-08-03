@@ -14,7 +14,7 @@ const CategoryTableRow: FC<Props> = ({ category, handleEditCategory}) => {
     return (
         <tr>
             <td className="align-middle">
-                <span className="text-muted">#{category.id}</span> <Button variant="link" onClick={handleOpen}>{category.name}</Button>
+                <span className="text-muted">#{category.id}</span> <Button variant="link" className="p-0" onClick={handleOpen}>{category.name}</Button>
             </td>
             <td className="align-middle">{category.brand_name}</td>
             <td className="align-middle">{category.animal_type}</td>

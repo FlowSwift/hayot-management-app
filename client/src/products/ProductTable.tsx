@@ -142,12 +142,12 @@ const ProductTable: FC<Props> = ({ itemLim, user }) => {
   ]);
   return (
     <>
-      <Row>
-        <Col className="col-12 col-md-6 col-lg-3">
+      <Row className="flex-column flex-sm-row">
+        <Col className="flex-sm-grow-1">
           <Filters filterType={"products"} onSearch={handleSearch} setBrandFilter={setBrandFilterID} setCategoryFilter={setCategoryFilterID} setFilterLoading={setIsFilterLoading} activeBrand={brandFilterID} activeCategory={categoryFilterID}/>
         </Col>
-        <Col>
-          <Button type="button" className="mb-2" onClick={openAddProduct}>
+        <Col className="flex-sm-grow-0">
+          <Button type="button" className="mt-2 mt-sm-0 mb-4 mb-sm-2 text-nowrap" onClick={openAddProduct}>
             {addIcon} הוסף מוצר
           </Button>
         </Col>
@@ -157,7 +157,7 @@ const ProductTable: FC<Props> = ({ itemLim, user }) => {
       {loading && searchLoading && loadingIcon}
       {!searchLoading && (
         <>
-          <Table striped size="sm" className="table-data">
+          <Table striped className="table-data">
             <thead>
               <tr>
                 <th>חברה</th>
