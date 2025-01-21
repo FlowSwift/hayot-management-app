@@ -24,7 +24,7 @@ const LogTable: FC<Props> = ({ itemLim }) => {
   const [resultNumPages, setResultNumPages] = useState<number>();
   const [activeNumPage, setActiveNumPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("")
-  const [itemLimit, setItemLimit] = useState(itemLim | 15)
+  const [itemLimit, setItemLimit] = useState(itemLim)
   const [searchLoading, setSearchLoading] = useState(false);
   const loadingIcon = <FontAwesomeIcon size='4x' className="spinner mx-1 icon-muted" icon={faSpinner} />;
 

@@ -31,7 +31,7 @@ const ProductTable: FC<Props> = ({ itemLim, user }) => {
   const [resultNumPages, setResultNumPages] = useState<number>();
   const [activeNumPage, setActiveNumPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
-  const [itemLimit, setItemLimit] = useState(itemLim | 15);
+  const [itemLimit, setItemLimit] = useState(itemLim);
   const addAction = "הוסף מוצר";
   const editAction = "ערוך מוצר";
   const [actionType, setActionType] = useState(addAction);

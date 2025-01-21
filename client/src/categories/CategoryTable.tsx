@@ -29,7 +29,7 @@ const CategoryTable: FC<Props> = ({ itemLim }) => {
   const [resultNumPages, setResultNumPages] = useState<number>();
   const [activeNumPage, setActiveNumPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("")
-  const [itemLimit, setItemLimit] = useState(itemLim | 15)
+  const [itemLimit, setItemLimit] = useState(itemLim)
   const addAction = "הוסף קטגוריה";
   const editAction = "ערוך קטגוריה";
   const [actionType, setActionType] = useState(addAction)
