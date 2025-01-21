@@ -24,11 +24,7 @@ router.get('/auth', authMiddleware, async (req, res) => {
 });
 
 // user registration route
-router.post('/register', authMiddleware, async (req, res) => {
-  const token = req.headers.authorization || null;
-  if (token !== procces.env.registerToken) {
-    return res.status(500).json({ error: 'nono' });
-  }
+router.post('/register', async (req, res) => {
 
   try {
     const { username, password } = req.body;

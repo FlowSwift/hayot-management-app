@@ -211,7 +211,7 @@ const ProductActions: FC<Props> = ({ actionType, handleAddProduct, isShow, selec
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formProductQuantity">
                     <Form.Label>כמות  {quantityError && <Form.Text className="text-danger">{quantityError}</Form.Text>}</Form.Label>
-                    <Form.Control type="number" inputMode="numeric" value={quantity === false ? "" : quantity} placeholder={quantity === false ? "0" : ""} onChange={(e) => setQuantity(checkfieldQuantityNan(parseFloat(e.target.value)))} />
+                    <Form.Control type="number" inputMode="tel" value={quantity === false ? "" : quantity} placeholder={quantity === false ? "0" : ""} onChange={(e) => setQuantity(checkfieldQuantityNan(parseFloat(e.target.value)))} />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formProductPrice">
                     <Form.Label>מחיר  {priceError && <Form.Text className="text-danger">{priceError}</Form.Text>}</Form.Label>
